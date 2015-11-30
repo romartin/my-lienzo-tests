@@ -26,7 +26,8 @@ public class LienzoTests implements EntryPoint {
     }
     
     private void drawIt() {
-        layer.add(new Rectangle(100, 100).setFillColor(ColorName.BLACK));
+        WiresTests wiresTests = new WiresTests(layer);
+        wiresTests.testWires();
     }
     
 }
