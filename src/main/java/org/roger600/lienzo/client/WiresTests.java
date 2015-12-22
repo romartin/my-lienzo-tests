@@ -4,6 +4,10 @@ import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.wires.event.context.ActionContext;
+import com.ait.lienzo.client.core.shape.wires.event.context.DragContext;
+import com.ait.lienzo.client.core.shape.wires.types.ActionType;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -139,13 +143,6 @@ public class WiresTests extends FlowPanel {
         wires_manager.createMagnets(task2NodeShape);
         wires_manager.createMagnets(endEventShape);
 
-        // Add shapes into wires layer.
-        WiresLayer wiresLayer = wires_manager.getLayer();
-        wiresLayer.add(startEventShape);
-        wiresLayer.add(taskNodeShape);
-        wiresLayer.add(task2NodeShape);
-        wiresLayer.add(endEventShape);
-
         // Connector from blue start event to green task node.
         connect(layer, startEventShape.getMagnets(), 3, taskNodeShape.getMagnets(), 7, wires_manager, true, false);
         // Connector from green task node to red end event 
@@ -153,11 +150,46 @@ public class WiresTests extends FlowPanel {
         // Connector from blue start event to yellow task node.
         connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager, true, false);
 
-        wires_manager.addToIndex(startEventShape);
-        wires_manager.addToIndex(taskNodeShape);
-        wires_manager.addToIndex(task2NodeShape);
-        wires_manager.addToIndex(endEventShape);
+        wires_manager.addActionStartHandler(new ActionStartHandler<ActionContext>() {
+            @Override
+            public void onActionStart(final ActionStartEvent startEvent) {
+                if ( ActionType.DRAG.equals(startEvent.getActionType()) ) {
+                    final DragContext context = (DragContext) startEvent.getContext();
+                    final WiresShape shape = context.getShape();
+                    final double dx = context.getEventX();
+                    final double dy = context.getEventY();
+                    GWT.log("ActionStartEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
+                }
+            }
+        });
+        
+        wires_manager.addActionStepHandler(new ActionStepHandler() {
+            @Override
+            public void onAction(final ActionStepEvent actionEvent) {
+                if ( ActionType.DRAG.equals(actionEvent.getActionType()) ) {
+                    final DragContext context = (DragContext) actionEvent.getContext();
+                    final WiresShape shape = context.getShape();
+                    final double dx = context.getEventX();
+                    final double dy = context.getEventY();
+                    GWT.log("ActionStepEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
+                }
+            }
+        });
 
+        wires_manager.addActionEndHandler(new ActionEndHandler() {
+            @Override
+            public void onActionEnd(final ActionEndEvent endEvent) {
+                if ( ActionType.DRAG.equals(endEvent.getActionType()) ) {
+                    final DragContext context = (DragContext) endEvent.getContext();
+                    final WiresShape shape = context.getShape();
+                    final double dx = context.getEventX();
+                    final double dy = context.getEventY();
+                    GWT.log("ActionEndEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
+                }
+            }
+        });
+        
+        
     }
 
     private void connect(Layer layer, MagnetManager.Magnets headMagnets, int headMagnetsIndex, MagnetManager.Magnets tailMagnets, int tailMagnetsIndex, WiresManager wires_manager,
