@@ -5,9 +5,6 @@ import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.shape.wires.event.*;
-import com.ait.lienzo.client.core.shape.wires.event.context.ActionContext;
-import com.ait.lienzo.client.core.shape.wires.event.context.DragContext;
-import com.ait.lienzo.client.core.shape.wires.types.ActionType;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -150,45 +147,36 @@ public class WiresTests extends FlowPanel {
         // Connector from blue start event to yellow task node.
         connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager, true, false);
 
-        wires_manager.addActionStartHandler(new ActionStartHandler<ActionContext>() {
+
+        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG_START, new DragStartHandler() {
             @Override
-            public void onActionStart(final ActionStartEvent startEvent) {
-                if ( ActionType.DRAG.equals(startEvent.getActionType()) ) {
-                    final DragContext context = (DragContext) startEvent.getContext();
-                    final WiresShape shape = context.getShape();
-                    final double dx = context.getEventX();
-                    final double dy = context.getEventY();
-                    GWT.log("ActionStartEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
-                }
-            }
-        });
-        
-        wires_manager.addActionStepHandler(new ActionStepHandler() {
-            @Override
-            public void onAction(final ActionStepEvent actionEvent) {
-                if ( ActionType.DRAG.equals(actionEvent.getActionType()) ) {
-                    final DragContext context = (DragContext) actionEvent.getContext();
-                    final WiresShape shape = context.getShape();
-                    final double dx = context.getEventX();
-                    final double dy = context.getEventY();
-                    GWT.log("ActionStepEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
-                }
+            public void onDragStart(final DragStartEvent dragEvent) {
+                final WiresShape shape = dragEvent.getShape();
+                final double dx = dragEvent.getX();
+                final double dy = dragEvent.getY();
+                GWT.log("DragStartHandler#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
             }
         });
 
-        wires_manager.addActionEndHandler(new ActionEndHandler() {
+        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG_MOVE, new DragMoveHandler() {
             @Override
-            public void onActionEnd(final ActionEndEvent endEvent) {
-                if ( ActionType.DRAG.equals(endEvent.getActionType()) ) {
-                    final DragContext context = (DragContext) endEvent.getContext();
-                    final WiresShape shape = context.getShape();
-                    final double dx = context.getEventX();
-                    final double dy = context.getEventY();
-                    GWT.log("ActionEndEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
-                }
+            public void onDragMove(final DragMoveEvent moveEvent) {
+                final WiresShape shape = moveEvent.getShape();
+                final double dx = moveEvent.getX();
+                final double dy = moveEvent.getY();
+                GWT.log("DragMoveHandler#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
             }
         });
         
+        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG_END, new DragEndHandler() {
+            @Override
+            public void onDragEnd(DragEndEvent endEvent) {
+                final WiresShape shape = endEvent.getShape();
+                final double dx = endEvent.getX();
+                final double dy = endEvent.getY();
+                GWT.log("DragEndEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
+            }
+        });
         
     }
 
