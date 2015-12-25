@@ -32,13 +32,13 @@ public class ResizeTests extends FlowPanel {
         circleShape = wires_manager.createShape(startEventMultiPath);
         circleShape.getGroup().setX(startX).setY(startY).setUserData("event");
         circle = new Circle(25).setX(25).setY(25).setFillColor("#0000CC").setDraggable(false);
-        circleShape.setResizable(true).addChild(circle, WiresPrimitivesContainer.Layout.TOP);
+        circleShape.setResizable(true).addChild(circle, WiresPrimitivesContainer.Layout.BOTTOM);
 
         // Rectangle.
         rectangleShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h));
         rectangleShape.getGroup().setX(startX + 200).setY(startY).setUserData("task");
         rectangle = new Rectangle(50, 50).setFillColor("#0000CC").setDraggable(false);
-        rectangleShape.setResizable(true).addChild(rectangle, WiresPrimitivesContainer.Layout.CENTER);
+        rectangleShape.setResizable(true).addChild(rectangle, WiresPrimitivesContainer.Layout.RIGHT);
         
         // Create shapes' magnets.
         wires_manager.createMagnets(circleShape);
