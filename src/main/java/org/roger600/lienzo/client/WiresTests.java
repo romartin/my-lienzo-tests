@@ -6,15 +6,17 @@ import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.shape.wires.event.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import java.util.Map;
 
 public class WiresTests extends FlowPanel {
     
     private Layer layer;
     private IControlHandleList m_ctrls;
+    private WiresShape startEventShape;
+    private Circle startEventCircle;
 
     public WiresTests(Layer layer) {
         this.layer = layer;
@@ -78,7 +80,7 @@ public class WiresTests extends FlowPanel {
 
             private boolean accept(final Group head, final Group tail)
             {
-                GWT.log("Accept [head=" + head.getUserData() + "] [tail=" + tail.getUserData() + "]");
+                log("Accept [head=" + head.getUserData() + "] [tail=" + tail.getUserData() + "]");
                 final String headData = (String) head.getUserData();
                 final String tailData = (String) tail.getUserData();
                 if ( "event".equals(headData) && "event".equals(tailData) )
@@ -116,10 +118,12 @@ public class WiresTests extends FlowPanel {
 
         // Blue start event.
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
-        WiresShape startEventShape = wires_manager.createShape(startEventMultiPath);
-        startEventShape.getGroup().setX(startX).setY(startY).add(new Circle(radius).setX(50).setY(50).setFillColor("#0000CC").setDraggable(true));
-        startEventShape.getGroup().setUserData("event");
-        addResizeControls(layer, startEventMultiPath);
+        startEventShape = wires_manager.createShape(startEventMultiPath);
+        startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
+        startEventShape.getGroup().setX(startX).setY(startY).setUserData("event");
+        startEventShape.addChild(startEventCircle, WiresPrimitivesContainer.Layout.TOP);
+        // startEventShape.addChild(new Rectangle(50, 50).setX(0).setY(0).setFillColor(ColorName.BLACK), WiresPrimitivesContainer.Layout.LEFT);
+        // ( (WiresLayoutContainer) startEventShape.getGroup()).add(startEventCircle, WiresLayoutContainer.Layout.CENTER);
 
         // Green task node.
         WiresShape taskNodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
@@ -131,7 +135,7 @@ public class WiresTests extends FlowPanel {
 
         // Red end event.
         WiresShape endEventShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
-        endEventShape.getGroup().setX(startX + 400).setY(startY).add(new Circle(radius).setX(50).setY(50).setFillColor("#CC0000").setDraggable(true));
+        endEventShape.getGroup().setX(startX + 400).setY(startY).add(new Circle(radius).setX(50).setY(50).setFillColor("#CC0000").setDraggable(false));
         endEventShape.getGroup().setUserData("event");
 
         // Create shapes' magnets.
@@ -147,37 +151,120 @@ public class WiresTests extends FlowPanel {
         // Connector from blue start event to yellow task node.
         connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager, true, false);
 
-
-        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG_START, new DragStartHandler() {
+        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG, new DragHandler() {
             @Override
-            public void onDragStart(final DragStartEvent dragEvent) {
+            public void onDragStart(DragEvent dragEvent) {
                 final WiresShape shape = dragEvent.getShape();
                 final double dx = dragEvent.getX();
                 final double dy = dragEvent.getY();
-                GWT.log("DragStartHandler#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
+                log("onDragStart#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy + "]");
+            }
+
+            @Override
+            public void onDragMove(DragEvent dragEvent) {
+                final WiresShape shape = dragEvent.getShape();
+                final double dx = dragEvent.getX();
+                final double dy = dragEvent.getY();
+                log("onDragMove#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy + "]");
+            }
+
+            @Override
+            public void onDragEnd(DragEvent dragEvent) {
+                final WiresShape shape = dragEvent.getShape();
+                final double dx = dragEvent.getX();
+                final double dy = dragEvent.getY();
+                log("onDragEnd#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy + "]");
             }
         });
 
-        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG_MOVE, new DragMoveHandler() {
+        startEventShape.setResizable(true).addWiresHandler(AbstractWiresEvent.RESIZE, new ResizeHandler() {
+
+            private int sx;
+            private double sr;
+            
             @Override
-            public void onDragMove(final DragMoveEvent moveEvent) {
-                final WiresShape shape = moveEvent.getShape();
-                final double dx = moveEvent.getX();
-                final double dy = moveEvent.getY();
-                GWT.log("DragMoveHandler#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
+            public void onResizeStart(final ResizeEvent resizeEvent) {
+                final WiresShape shape = resizeEvent.getShape();
+                final int index = resizeEvent.getControlIndex();
+                final IPrimitive<?> control = shape.getControls().getHandle(index).getControl();
+                final int rx = resizeEvent.getX();
+                final int ry = resizeEvent.getY();
+                this.sx = rx;
+                this.sr = startEventCircle.getRadius();
+                log("onResizeStart#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
+            }
+
+            @Override
+            public void onResizeStep(final ResizeEvent resizeEvent) {
+                final WiresShape shape = resizeEvent.getShape();
+                final int index = resizeEvent.getControlIndex();
+                final IPrimitive<?> control = shape.getControls().getHandle(index).getControl();
+                final int rx = resizeEvent.getX();
+                final int ry = resizeEvent.getY();
+                /*final double radius = ( sr * rx ) / sx;
+                log("Circle RADIUS="+radius);
+                startEventCircle.setRadius(radius);*/
+                log("onResizeStep#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
+            }
+
+            @Override
+            public void onResizeEnd(final ResizeEvent resizeEvent) {
+                final WiresShape shape = resizeEvent.getShape();
+                final int index = resizeEvent.getControlIndex();
+                final IPrimitive<?> control = shape.getControls().getHandle(index).getControl();
+                final double rx = resizeEvent.getX();
+                final double ry = resizeEvent.getY();
+                log("onResizeEnd#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
             }
         });
-        
-        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG_END, new DragEndHandler() {
+
+        addButton(layer);
+        addButton2(layer);
+    }
+    
+    private double getCircleRadius() {
+        final double w = startEventShape.getGroup().getBoundingBox().getWidth();
+        return w / 2;
+    }
+    
+    private Rectangle button;
+    
+    private void addButton(final Layer layer) {
+        button = new Rectangle(50, 50).setFillColor(ColorName.BLACK);
+        button.addNodeMouseClickHandler(new NodeMouseClickHandler() {
             @Override
-            public void onDragEnd(DragEndEvent endEvent) {
-                final WiresShape shape = endEvent.getShape();
-                final double dx = endEvent.getX();
-                final double dy = endEvent.getY();
-                GWT.log("DragEndEvent#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy+ "]");
+            public void onNodeMouseClick(NodeMouseClickEvent event) {
+                
+                // startEventShape.getGroup().setX(100).setY(100);
+                
+                logButton(button);
+                button.setScale(2, 2);
+                layer.batch();
+                logButton(button);
+                button.setX(100);
+                button.setY(100);
             }
         });
-        
+        layer.add(button);
+    }
+
+    private void addButton2(final Layer layer) {
+        final Rectangle button2 = new Rectangle(50, 50).setX(0).setY(600).setFillColor(ColorName.BLACK);
+        button2.addNodeMouseClickHandler(new NodeMouseClickHandler() {
+            @Override
+            public void onNodeMouseClick(NodeMouseClickEvent event) {
+                logButton(button);
+                button.setWidth(button.getWidth() + 1);
+                button.setHeight(button.getHeight() + 1);
+                logButton(button);
+            }
+        });
+        layer.add(button2);
+    }
+    
+    private void logButton(Rectangle button) {
+        GWT.log("Button [x=" + button.getX() + ", y=" + button.getY() 
+        + ", w=" + button.getWidth() + ", h=" + button.getHeight() + "]");
     }
 
     private void connect(Layer layer, MagnetManager.Magnets headMagnets, int headMagnetsIndex, MagnetManager.Magnets tailMagnets, int tailMagnetsIndex, WiresManager wires_manager,
@@ -204,60 +291,13 @@ public class WiresTests extends FlowPanel {
         connector.getDecoratableLine().setStrokeWidth(5).setStrokeColor("#0000CC");
     }
 
-    private void addResizeControls(final Layer layer, final MultiPath m_multi)
-    {
-        m_multi.addNodeMouseClickHandler(new NodeMouseClickHandler()
-        {
-            @Override
-            public void onNodeMouseClick(NodeMouseClickEvent event)
-            {
-                if (event.isShiftKeyDown())
-                {
-                    if (null != m_ctrls)
-                    {
-                        m_ctrls.destroy();
-
-                        m_ctrls = null;
-                    }
-                    Map<IControlHandle.ControlHandleType, IControlHandleList> hmap = m_multi.getControlHandles(IControlHandle.ControlHandleStandardType.RESIZE);
-
-                    if (null != hmap)
-                    {
-                        m_ctrls = hmap.get(IControlHandle.ControlHandleStandardType.RESIZE);
-
-                        if ((null != m_ctrls) && (m_ctrls.isActive()))
-                        {
-                            m_ctrls.show(layer);
-                        }
-                    }
-                }
-                else if (event.isAltKeyDown())
-                {
-                    if (null != m_ctrls)
-                    {
-                        m_ctrls.destroy();
-
-                        m_ctrls = null;
-                    }
-                    Map<IControlHandle.ControlHandleType, IControlHandleList> hmap = m_multi.getControlHandles(IControlHandle.ControlHandleStandardType.POINT);
-
-                    if (null != hmap)
-                    {
-                        m_ctrls = hmap.get(IControlHandle.ControlHandleStandardType.POINT);
-
-                        if ((null != m_ctrls) && (m_ctrls.isActive()))
-                        {
-                            m_ctrls.show(layer);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
     private final OrthogonalPolyLine createLine(final double... points)
     {
         return new OrthogonalPolyLine(Point2DArray.fromArrayOfDouble(points)).setCornerRadius(5).setDraggable(true);
+    }
+    
+    private void log(String message) {
+        // GWT.log(message);
     }
 
 }

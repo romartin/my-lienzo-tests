@@ -21,12 +21,17 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        drawIt();
+        resizeTests();
         layer.draw();
     }
     
-    private void drawIt() {
+    private void wiresTests() {
         WiresTests wiresTests = new WiresTests(layer);
+        wiresTests.testWires();
+    }
+
+    private void resizeTests() {
+        ResizeTests wiresTests = new ResizeTests(layer);
         wiresTests.testWires();
     }
     
