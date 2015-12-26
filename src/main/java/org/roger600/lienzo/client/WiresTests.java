@@ -121,7 +121,7 @@ public class WiresTests extends FlowPanel {
         startEventShape = wires_manager.createShape(startEventMultiPath);
         startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
         startEventShape.getGroup().setX(startX).setY(startY).setUserData("event");
-        startEventShape.addChild(startEventCircle, WiresPrimitivesContainer.Layout.TOP);
+        startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
         // startEventShape.addChild(new Rectangle(50, 50).setX(0).setY(0).setFillColor(ColorName.BLACK), WiresPrimitivesContainer.Layout.LEFT);
         // ( (WiresLayoutContainer) startEventShape.getGroup()).add(startEventCircle, WiresLayoutContainer.Layout.CENTER);
 

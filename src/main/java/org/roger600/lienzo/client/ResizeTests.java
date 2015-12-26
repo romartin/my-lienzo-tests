@@ -4,7 +4,6 @@ import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.shape.wires.event.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -34,14 +33,14 @@ public class ResizeTests extends FlowPanel {
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
         circleShape = wires_manager.createShape(startEventMultiPath);
         circleShape.getGroup().setX(startX).setY(startY).setUserData("event");
-        circle = new Circle(25).setX(25).setY(25).setFillColor("#0000CC").setDraggable(false);
-        circleShape.setResizable(true).addChild(circle, WiresPrimitivesContainer.Layout.CENTER);
+        circle = new Circle(25).setFillColor("#0000CC").setDraggable(false);
+        circleShape.setResizable(true).addChild(circle, WiresLayoutContainer.Layout.CENTER, 25, 25);
 
         // Rectangle.
         rectangleShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h));
         rectangleShape.getGroup().setX(startX + 200).setY(startY).setUserData("task");
         rectangle = new Rectangle(50, 50).setFillColor("#0000CC").setDraggable(false);
-        rectangleShape.setResizable(true).addChild(rectangle, WiresPrimitivesContainer.Layout.RIGHT);
+        rectangleShape.setResizable(true).addChild(rectangle, WiresLayoutContainer.Layout.RIGHT);
         
         // Create shapes' magnets.
         wires_manager.createMagnets(circleShape);
@@ -128,7 +127,8 @@ public class ResizeTests extends FlowPanel {
         button.addNodeMouseClickHandler(new NodeMouseClickHandler() {
             @Override
             public void onNodeMouseClick(NodeMouseClickEvent event) {
-                circle.setRadius(40);
+                circle.setRadius(50);
+                    circleShape.moveChild(circle.getID(), 50, 50);
                 layer.batch();
             }
         });
