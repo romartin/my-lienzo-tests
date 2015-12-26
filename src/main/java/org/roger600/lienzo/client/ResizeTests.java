@@ -1,9 +1,12 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
+import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.shape.wires.event.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
@@ -32,7 +35,7 @@ public class ResizeTests extends FlowPanel {
         circleShape = wires_manager.createShape(startEventMultiPath);
         circleShape.getGroup().setX(startX).setY(startY).setUserData("event");
         circle = new Circle(25).setX(25).setY(25).setFillColor("#0000CC").setDraggable(false);
-        circleShape.setResizable(true).addChild(circle, WiresPrimitivesContainer.Layout.BOTTOM);
+        circleShape.setResizable(true).addChild(circle, WiresPrimitivesContainer.Layout.CENTER);
 
         // Rectangle.
         rectangleShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h));
@@ -47,7 +50,7 @@ public class ResizeTests extends FlowPanel {
         // Connector from blue start event to green task node.
         connect(layer, circleShape.getMagnets(), 3, rectangleShape.getMagnets(), 7, wires_manager, true, false);
 
-        /*circleShape.addWiresHandler(AbstractWiresEvent.DRAG, new DragHandler() {
+        /*circleShape.setDraggable(true).addWiresHandler(AbstractWiresEvent.DRAG, new DragHandler() {
             @Override
             public void onDragStart(DragEvent dragEvent) {
                 final WiresShape shape = dragEvent.getShape();
@@ -73,7 +76,7 @@ public class ResizeTests extends FlowPanel {
             }
         });
 
-        circleShape.addWiresHandler(AbstractWiresEvent.RESIZE, new ResizeHandler() {
+        circleShape.setResizable(true).addWiresHandler(AbstractWiresEvent.RESIZE, new ResizeHandler() {
 
             private int sx;
             private double sr;
@@ -114,6 +117,22 @@ public class ResizeTests extends FlowPanel {
             }
         });*/
 
+        addButton(layer);
+        
+    }
+
+    private Rectangle button;
+
+    private void addButton(final Layer layer) {
+        button = new Rectangle(50, 50).setFillColor(ColorName.BLACK);
+        button.addNodeMouseClickHandler(new NodeMouseClickHandler() {
+            @Override
+            public void onNodeMouseClick(NodeMouseClickEvent event) {
+                circle.setRadius(40);
+                layer.batch();
+            }
+        });
+        layer.add(button);
     }
     
     private void connect(Layer layer, MagnetManager.Magnets headMagnets, int headMagnetsIndex, MagnetManager.Magnets tailMagnets, int tailMagnetsIndex, WiresManager wires_manager,

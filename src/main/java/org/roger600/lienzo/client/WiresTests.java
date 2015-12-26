@@ -151,7 +151,7 @@ public class WiresTests extends FlowPanel {
         // Connector from blue start event to yellow task node.
         connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager, true, false);
 
-        startEventShape.addWiresHandler(AbstractWiresEvent.DRAG, new DragHandler() {
+        startEventShape.setDraggable(true).addWiresHandler(AbstractWiresEvent.DRAG, new DragHandler() {
             @Override
             public void onDragStart(DragEvent dragEvent) {
                 final WiresShape shape = dragEvent.getShape();
