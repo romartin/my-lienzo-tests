@@ -138,12 +138,6 @@ public class WiresTests extends FlowPanel {
         endEventShape.getGroup().setX(startX + 400).setY(startY).add(new Circle(radius).setX(50).setY(50).setFillColor("#CC0000").setDraggable(false));
         endEventShape.getGroup().setUserData("event");
 
-        // Create shapes' magnets.
-        wires_manager.createMagnets(startEventShape);
-        wires_manager.createMagnets(taskNodeShape);
-        wires_manager.createMagnets(task2NodeShape);
-        wires_manager.createMagnets(endEventShape);
-
         // Connector from blue start event to green task node.
         connect(layer, startEventShape.getMagnets(), 3, taskNodeShape.getMagnets(), 7, wires_manager, true, false);
         // Connector from green task node to red end event 

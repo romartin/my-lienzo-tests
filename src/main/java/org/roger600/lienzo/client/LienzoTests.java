@@ -21,7 +21,7 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        resizeTests();
+        wiresTests();
         layer.draw();
     }
     
@@ -34,5 +34,19 @@ public class LienzoTests implements EntryPoint {
         ResizeTests wiresTests = new ResizeTests(layer);
         wiresTests.testWires();
     }
-    
+
+    private void containerTests() {
+        ContainerTests wiresTests = new ContainerTests(layer);
+        wiresTests.testWires();
+    }
+
+    private void svgTests() {
+        SVGTests wiresTests = new SVGTests(layer);
+        wiresTests.testSVG();
+    }
+
+    private void circleResizeTests() {
+        CircleResizeTests circleResizeTests = new CircleResizeTests(layer);
+        circleResizeTests.test();
+    }
 }
