@@ -24,8 +24,9 @@ public class BPMNShapesTests extends FlowPanel {
         
         WiresManager wiresManager = WiresManager.get(layer);
         
-        WiresShape taskShape = task(wiresManager);
+        // WiresShape taskShape = task(wiresManager);
         
+        WiresShape shape = parallelGateway(wiresManager);
         
     }
     
@@ -96,13 +97,87 @@ public class BPMNShapesTests extends FlowPanel {
         
         double radius = 50;
 
-        String startColor = "#dfeff8";
+        String startColor = "#3eb870";
         String endColor = "#FFFFFF";
-        final RadialGradient radialGradient = new RadialGradient(0, 0, 0, 0, 0, 40);
-        radialGradient.addColorStop(1.0, endColor);
-        radialGradient.addColorStop(0.0, startColor);
+        final LinearGradient linearGradient = new LinearGradient(0, radius, 0, - radius );
+        linearGradient.addColorStop(1, endColor );
+        linearGradient.addColorStop(0, startColor );
         
-        return null;
+        MultiPath path = new MultiPath().rect(0, 0, radius * 2, radius * 2);
+        path.setFillAlpha(0);
+        path.setStrokeAlpha(0);
+
+        Circle circle = new Circle(radius).setX(radius).setY(radius).setRadius(radius);
+        circle.setStrokeWidth(0.5);
+        circle.setFillGradient(linearGradient);
+
+        WiresShape eventShape = wiresManager.createShape(path);
+        eventShape.addChild(circle, WiresLayoutContainer.Layout.CENTER);
+        eventShape.moveChild(circle.getID(), radius, radius);
+        return eventShape;
+    }
+
+    private WiresShape endNoneEvent(WiresManager wiresManager) {
+
+        double radius = 50;
+
+        String startColor = "#ff0000";
+        String endColor = "#FFFFFF";
+        final LinearGradient linearGradient = new LinearGradient(0, radius, 0, - radius );
+        linearGradient.addColorStop(1, endColor );
+        linearGradient.addColorStop(0, startColor );
+
+        MultiPath path = new MultiPath().rect(0, 0, radius * 2, radius * 2);
+        path.setFillAlpha(0);
+        path.setStrokeAlpha(0);
+
+        Circle circle = new Circle(radius).setX(radius).setY(radius).setRadius(radius);
+        circle.setStrokeWidth(0.5);
+        circle.setFillGradient(linearGradient);
+
+        WiresShape eventShape = wiresManager.createShape(path);
+        eventShape.addChild(circle, WiresLayoutContainer.Layout.CENTER);
+        eventShape.moveChild(circle.getID(), radius, radius);
+        return eventShape;
+    }
+
+    private WiresShape parallelGateway(WiresManager wiresManager) {
+
+        double radius = 50;
+
+        String startColor = "#f0e68c";
+        String endColor = "#FFFFFF";
+        final LinearGradient linearGradient = new LinearGradient(0, radius, 0, - radius );
+        linearGradient.addColorStop(1, endColor );
+        linearGradient.addColorStop(0, startColor );
+
+        MultiPath path = new MultiPath().rect(0, 0, radius * 2, radius * 2);
+        path.setFillAlpha(0);
+        path.setStrokeAlpha(0);
+
+        WiresShape eventShape = wiresManager.createShape(path);
+
+        RegularPolygon polygon = new RegularPolygon(4, radius)
+                .setX(radius)
+                .setY(radius)
+                .setStrokeWidth(0.5)
+                .setFillGradient(linearGradient)
+                .setFillAlpha(0.50)
+                .setStrokeColor(ColorName.BLACK);
+        eventShape.addChild(polygon, WiresLayoutContainer.Layout.CENTER);
+        eventShape.moveChild(polygon.getID(), radius, radius);
+        
+        final double lineSize = radius / 2;
+        
+        Line hLine = new Line(0, 0, lineSize, 0);
+        hLine.setStrokeWidth(5);
+        eventShape.addChild(hLine, WiresLayoutContainer.Layout.CENTER);
+
+        Line vLine = new Line(0, 0, 0, lineSize);
+        vLine.setStrokeWidth(5);
+        eventShape.addChild(vLine, WiresLayoutContainer.Layout.CENTER);
+        
+        return eventShape;
     }
     
     private void addText(WiresShape shape, String _text) {
