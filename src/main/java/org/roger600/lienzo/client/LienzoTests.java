@@ -21,7 +21,7 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        BPMNShapesTests tests = new BPMNShapesTests(layer);
+        WiresArrowsTests tests = new WiresArrowsTests(layer);
         tests.testWires();
         layer.draw();
     }

@@ -44,13 +44,13 @@ public class ContainerTests extends FlowPanel {
         // Circle.
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, 50, 50).setStrokeColor("#000000");
         circleShape = wires_manager.createShape(startEventMultiPath);
-        circleShape.getGroup().setX(startX).setY(startY).setUserData("circle");
+        circleShape.setX(startX).setY(startY).getContainer().setUserData("circle");
         circle = new Circle(25).setFillColor("#0000CC").setDraggable(false);
         circleShape.setResizable(true).addChild(circle, WiresLayoutContainer.Layout.CENTER, 25, 25);
 
         // Rectangle.
         rectangleShape = wires_manager.createShape(new MultiPath().rect(0, 0, 100, 100));
-        rectangleShape.getGroup().setX(startX + 200).setY(startY).setUserData("rectangle");
+        rectangleShape.setX(startX + 200).setY(startY).getContainer().setUserData("rectangle");
         rectangle = new Rectangle(100, 100).setFillColor("#FFFFFF").setDraggable(false);
         rectangleShape.setResizable(true).addChild(rectangle, WiresLayoutContainer.Layout.RIGHT);
         

@@ -62,7 +62,7 @@ public class WiresTests extends FlowPanel {
                     return true;
                 }
 
-                return accept(shape.getGroup(), tail.getMagnet().getMagnets().getGroup());
+                return accept(shape.getContainer(), tail.getMagnet().getMagnets().getGroup());
             }
 
             @Override
@@ -75,10 +75,10 @@ public class WiresTests extends FlowPanel {
                 {
                     return true;
                 }
-                return accept(head.getMagnet().getMagnets().getGroup(), shape.getGroup());
+                return accept(head.getMagnet().getMagnets().getGroup(), shape.getContainer());
             }
 
-            private boolean accept(final Group head, final Group tail)
+            private boolean accept(final IContainer head, final IContainer tail)
             {
                 log("Accept [head=" + head.getUserData() + "] [tail=" + tail.getUserData() + "]");
                 final String headData = (String) head.getUserData();
@@ -106,7 +106,7 @@ public class WiresTests extends FlowPanel {
                 {
                     return true;
                 }
-                return !parent.getContainer().getUserData().equals(child.getGroup().getUserData());
+                return !parent.getContainer().getUserData().equals(child.getContainer().getUserData());
             }
         });
 
@@ -120,23 +120,23 @@ public class WiresTests extends FlowPanel {
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
         startEventShape = wires_manager.createShape(startEventMultiPath);
         startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
-        startEventShape.getGroup().setX(startX).setY(startY).setUserData("event");
+        startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
         // startEventShape.addChild(new Rectangle(50, 50).setX(0).setY(0).setFillColor(ColorName.BLACK), WiresPrimitivesContainer.Layout.LEFT);
         // ( (WiresLayoutContainer) startEventShape.getGroup()).add(startEventCircle, WiresLayoutContainer.Layout.CENTER);
 
         // Green task node.
         WiresShape taskNodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
-        taskNodeShape.getGroup().setX(startX + 200).setY(startY).setUserData("task");
+        taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
 
         // Yellow task node.
         WiresShape task2NodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
-        task2NodeShape.getGroup().setX(startX + 200).setY(startY + 300).setUserData("task");
+        task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
 
         // Red end event.
         WiresShape endEventShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
-        endEventShape.getGroup().setX(startX + 400).setY(startY).add(new Circle(radius).setX(50).setY(50).setFillColor("#CC0000").setDraggable(false));
-        endEventShape.getGroup().setUserData("event");
+        endEventShape.setX(startX + 400).setY(startY);
+        endEventShape.getContainer().setUserData("event");
 
         // Connector from blue start event to green task node.
         connect(layer, startEventShape.getMagnets(), 3, taskNodeShape.getMagnets(), 7, wires_manager, true, false);
@@ -217,7 +217,7 @@ public class WiresTests extends FlowPanel {
     }
     
     private double getCircleRadius() {
-        final double w = startEventShape.getGroup().getBoundingBox().getWidth();
+        final double w = startEventShape.getContainer().getBoundingBox().getWidth();
         return w / 2;
     }
     

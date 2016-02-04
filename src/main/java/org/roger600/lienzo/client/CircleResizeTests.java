@@ -32,7 +32,7 @@ public class CircleResizeTests extends FlowPanel {
         WiresShape endEventShape = wires_manager.createShape(new MultiPath().circle(100)
                 .setX(100).setY(100)
                 .setStrokeColor("#FFFFFF").setFillColor("#CC0000"));
-        endEventShape.getGroup().setUserData("event");
+        endEventShape.getContainer().setUserData("event");
 
         endEventShape.setResizable(true).addWiresHandler(AbstractWiresEvent.RESIZE, new ResizeHandler() {
 
