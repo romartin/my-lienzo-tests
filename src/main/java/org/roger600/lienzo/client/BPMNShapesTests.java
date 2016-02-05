@@ -113,7 +113,7 @@ public class BPMNShapesTests extends FlowPanel {
 
         WiresShape eventShape = wiresManager.createShape(path);
         eventShape.addChild(circle, WiresLayoutContainer.Layout.CENTER);
-        eventShape.moveChild(circle.getID(), radius, radius);
+        eventShape.moveChild(circle, radius, radius);
         return eventShape;
     }
 
@@ -137,7 +137,7 @@ public class BPMNShapesTests extends FlowPanel {
 
         WiresShape eventShape = wiresManager.createShape(path);
         eventShape.addChild(circle, WiresLayoutContainer.Layout.CENTER);
-        eventShape.moveChild(circle.getID(), radius, radius);
+        eventShape.moveChild(circle, radius, radius);
         return eventShape;
     }
 
@@ -165,7 +165,7 @@ public class BPMNShapesTests extends FlowPanel {
                 .setFillAlpha(0.50)
                 .setStrokeColor(ColorName.BLACK);
         eventShape.addChild(polygon, WiresLayoutContainer.Layout.CENTER);
-        eventShape.moveChild(polygon.getID(), radius, radius);
+        eventShape.moveChild(polygon, radius, radius);
         
         final double lineSize = radius / 2;
         

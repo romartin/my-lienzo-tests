@@ -9,6 +9,8 @@ import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.CENTER;
+
 
 public class WiresArrowsTests extends FlowPanel {
     
@@ -110,36 +112,42 @@ public class WiresArrowsTests extends FlowPanel {
             }
         });
         
-        final WiresShape wiresShape0 = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#CC0000"));
-        wiresShape0.setX(400).setY(400).setDraggable(true);
+        WiresShape wiresShape0 = wires_manager
+                .createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#CC0000"))
+                .setX(400)
+                .setY(400)
+                .setDraggable(true);
         wiresShape0.getContainer().setUserData("A");
-        wiresShape0.addChild(new Circle(30), WiresLayoutContainer.Layout.CENTER);
+        wiresShape0.addChild(new Circle(30), CENTER);
         
-        WiresShape wiresShape1 = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#00CC00"));
-        wiresShape1.setX(50).setY(50).setDraggable(true);
+        WiresShape wiresShape1 = wires_manager
+                .createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#00CC00"))
+                .setX(50)
+                .setY(50)
+                .setDraggable(true);
         wiresShape1.getContainer().setUserData("A");
-        // wiresShape1.addChild(new Star(5, 15, 40), WiresLayoutContainer.Layout.CENTER);
-        wiresShape1.addChild(new Rectangle(50, 50), WiresLayoutContainer.Layout.CENTER, -25, -25);
+        wiresShape1.addChild(new Star(5, 15, 40), CENTER);
         
-        WiresShape wiresShape2 = wires_manager.createShape(new MultiPath().rect(0, 0, 300, 200).setStrokeColor("#0000CC"));
-        wiresShape2.setX(50).setY(100).setDraggable(true);
+        WiresShape wiresShape2 = wires_manager
+                .createShape(new MultiPath().rect(0, 0, 300, 200).setStrokeColor("#0000CC"))
+                .setX(50)
+                .setY(100)
+                .setDraggable(true);
         wiresShape2.getContainer().setUserData("B");
 
         // bolt
         String svg = "M 0 100 L 65 115 L 65 105 L 120 125 L 120 115 L 200 180 L 140 160 L 140 170 L 85 150 L 85 160 L 0 140 Z";
-        WiresShape wiresShape3 = wires_manager.createShape(new MultiPath(svg).setStrokeColor("#0000CC"));
-        wiresShape3.setX(50).setY(300).setDraggable(true);
+        WiresShape wiresShape3 = wires_manager
+                .createShape(new MultiPath(svg).setStrokeColor("#0000CC"))
+                .setX(50)
+                .setY(300)
+                .setDraggable(true);
         wiresShape3.getContainer().setUserData("B");
 
         wires_manager.createMagnets(wiresShape0);
         wires_manager.createMagnets(wiresShape1);
         wires_manager.createMagnets(wiresShape2);
         wires_manager.createMagnets(wiresShape3);
-
-        wires_manager.registerShape(wiresShape0);
-        wires_manager.registerShape(wiresShape2);
-        wires_manager.registerShape(wiresShape1);
-        wires_manager.registerShape(wiresShape3);
 
         connect(layer, wiresShape1.getMagnets(), 3, wiresShape0.getMagnets(), 7, wires_manager);
         

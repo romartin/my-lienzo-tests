@@ -128,7 +128,7 @@ public class ResizeTests extends FlowPanel {
             @Override
             public void onNodeMouseClick(NodeMouseClickEvent event) {
                 circle.setRadius(50);
-                    circleShape.moveChild(circle.getID(), 50, 50);
+                    circleShape.moveChild(circle, 50, 50);
                 layer.batch();
             }
         });

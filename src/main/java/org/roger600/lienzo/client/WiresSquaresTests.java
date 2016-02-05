@@ -13,6 +13,8 @@ import com.ait.tooling.nativetools.client.util.Console;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.*;
+
 
 public class WiresSquaresTests extends FlowPanel {
     
@@ -28,26 +30,43 @@ public class WiresSquaresTests extends FlowPanel {
         double w = 100;
 
         double h = 100;
+        
+        double radius = 25;
 
-        WiresShape wiresShape0 = wires_manager.createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#CC0000")));
+        WiresShape wiresShape0 = wires_manager
+                .createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#CC0000")))
+                .setX(400)
+                .setY(400)
+                .setDraggable(true)
+                .addChild(new Circle(radius), CENTER);
 
-        wiresShape0.setX(400).setY(400).setDraggable(true);
+        WiresShape wiresShape1 = wires_manager
+                .createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#00CC00")))
+                .setX(400)
+                .setY(50)
+                .setDraggable(true)
+                .addChild(new Circle(radius), TOP);
 
-        WiresShape wiresShape1 = wires_manager.createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#00CC00")));
+        WiresShape wiresShape2 = wires_manager
+                .createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#0000CC")))
+                .setX(750)
+                .setY(400)
+                .setDraggable(true)
+                .addChild(new Circle(radius), RIGHT);
 
-        wiresShape1.setX(400).setY(50).setDraggable(true);
+        WiresShape wiresShape3 = wires_manager
+                .createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#CCCC00")))
+                .setX(400)
+                .setY(700)
+                .setDraggable(true)
+                .addChild(new Circle(radius), BOTTOM);
 
-        WiresShape wiresShape2 = wires_manager.createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#0000CC")));
-
-        wiresShape2.setX(750).setY(400).setDraggable(true);
-
-        WiresShape wiresShape3 = wires_manager.createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#CCCC00")));
-
-        wiresShape3.setX(400).setY(700).setDraggable(true);
-
-        WiresShape wiresShape4 = wires_manager.createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#CC00CC")));
-
-        wiresShape4.setX(50).setY(400).setDraggable(true);
+        WiresShape wiresShape4 = wires_manager
+                .createShape(click(new MultiPath().rect(0, 0, w, h).setStrokeWidth(5).setStrokeColor("#CC00CC")))
+                .setX(50)
+                .setY(400)
+                .setDraggable(true)
+                .addChild(new Circle(radius), LEFT);
 
         wires_manager.createMagnets(wiresShape0);
 
@@ -58,16 +77,6 @@ public class WiresSquaresTests extends FlowPanel {
         wires_manager.createMagnets(wiresShape3);
 
         wires_manager.createMagnets(wiresShape4);
-
-        wires_manager.registerShape(wiresShape0);
-
-        wires_manager.registerShape(wiresShape1);
-
-        wires_manager.registerShape(wiresShape2);
-
-        wires_manager.registerShape(wiresShape3);
-
-        wires_manager.registerShape(wiresShape4);
         
         connect(layer, wiresShape1, 4, 5, 6, wiresShape0, 2, 1, 8, wires_manager);
 
