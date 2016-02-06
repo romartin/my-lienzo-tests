@@ -4,6 +4,9 @@ import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.wires.event.AbstractWiresEvent;
+import com.ait.lienzo.client.core.shape.wires.event.ResizeEvent;
+import com.ait.lienzo.client.core.shape.wires.event.ResizeHandler;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -16,7 +19,7 @@ public class ResizeTests extends FlowPanel {
     private Circle circle;
     private WiresShape rectangleShape;
     private Rectangle rectangle;
-
+    
     public ResizeTests(Layer layer) {
         this.layer = layer;
     }
@@ -34,7 +37,8 @@ public class ResizeTests extends FlowPanel {
         circleShape = wires_manager.createShape(startEventMultiPath);
         circleShape.setX(startX).setY(startY).getContainer().setUserData("event");
         circle = new Circle(25).setFillColor("#0000CC").setDraggable(false);
-        circleShape.setResizable(true).addChild(circle, WiresLayoutContainer.Layout.CENTER, 25, 25);
+        circleShape.setResizable(true).addChild(circle, WiresLayoutContainer.Layout.CENTER);
+
 
         // Rectangle.
         rectangleShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h));
@@ -46,9 +50,9 @@ public class ResizeTests extends FlowPanel {
         wires_manager.createMagnets(circleShape);
         wires_manager.createMagnets(rectangleShape);
 
-        // Connector from blue start event to green task node.
-        connect(layer, circleShape.getMagnets(), 3, rectangleShape.getMagnets(), 7, wires_manager, true, false);
-
+        circleShape.setDraggable(true);
+        rectangleShape.setDraggable(true);
+        
         /*circleShape.setDraggable(true).addWiresHandler(AbstractWiresEvent.DRAG, new DragHandler() {
             @Override
             public void onDragStart(DragEvent dragEvent) {
@@ -73,8 +77,11 @@ public class ResizeTests extends FlowPanel {
                 final double dy = dragEvent.getY();
                 log("onDragEnd#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy + "]");
             }
-        });
+        });;*/
 
+
+        rectangleShape.setResizable(true);
+        
         circleShape.setResizable(true).addWiresHandler(AbstractWiresEvent.RESIZE, new ResizeHandler() {
 
             private int sx;
@@ -99,9 +106,9 @@ public class ResizeTests extends FlowPanel {
                 final IPrimitive<?> control = shape.getControls().getHandle(index).getControl();
                 final int rx = resizeEvent.getX();
                 final int ry = resizeEvent.getY();
-                *//*final double radius = ( sr * rx ) / sx;
+                final double radius = ( sr * rx ) / sx;
                 log("Circle RADIUS="+radius);
-                circle.setRadius(radius);*//*
+                // circle.setRadius(radius);
                 log("onResizeStep#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
             }
 
@@ -114,9 +121,9 @@ public class ResizeTests extends FlowPanel {
                 final double ry = resizeEvent.getY();
                 log("onResizeEnd#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
             }
-        });*/
+        });
 
-        addButton(layer);
+        // addButton(layer);
         
     }
 

@@ -21,8 +21,8 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        ConnectorTests tests = new ConnectorTests(layer);
-        tests.test();
+        ConnectorToolboxTests tests = new ConnectorToolboxTests(layer);
+        tests.testWires();
         layer.draw();
     }
     
