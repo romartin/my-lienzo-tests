@@ -9,6 +9,7 @@ import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.shape.wires.event.AbstractWiresEvent;
 import com.ait.lienzo.client.core.shape.wires.event.ResizeEvent;
 import com.ait.lienzo.client.core.shape.wires.event.ResizeHandler;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.ait.tooling.nativetools.client.event.HandlerRegistrationManager;
@@ -20,6 +21,8 @@ public class ConnectorToolboxTests extends FlowPanel {
     
     private Layer layer;
     private Rectangle button;
+    private OrthogonalPolyLine line;
+    private Point2D lineStart;
     private final HandlerRegistrationManager h_manager         = new HandlerRegistrationManager();
 
     public ConnectorToolboxTests(Layer layer) {
@@ -34,7 +37,9 @@ public class ConnectorToolboxTests extends FlowPanel {
         button.addNodeMouseClickHandler(new NodeMouseClickHandler() {
             @Override
             public void onNodeMouseClick(NodeMouseClickEvent event) {
-                createDragConnector();
+                int x = event.getX();
+                int y = event.getY();
+                createDragConnector(x, y);
             }
         });
         
@@ -55,15 +60,23 @@ public class ConnectorToolboxTests extends FlowPanel {
 
     }
     
-    private void createDragConnector() {
+    private void createDragConnector(int x, int y) {
         GWT.log("Creating connector...");
 
+
+        lineStart = new Point2D(x, y);
+        line = createLineEnd2End(x, y,  x + 1, y + 1);
+        layer.add(line);
+        
         h_manager.register(layer.addNodeMouseMoveHandler(new NodeMouseMoveHandler() {
             @Override
             public void onNodeMouseMove(NodeMouseMoveEvent event) {
                 int x = event.getX();
                 int y = event.getY();
                 GWT.log("Moving to [" + x + ", " + y + "]");
+                Point2D p = new Point2D(x, y);
+                line.setPoint2DArray(new Point2DArray(lineStart, p));
+                layer.batch();
             }
         }));
 
@@ -74,6 +87,9 @@ public class ConnectorToolboxTests extends FlowPanel {
                 int y = event.getY();
                 GWT.log("Click at [" + x + ", " + y + "]");
                 h_manager.removeHandler();
+                lineStart = null;
+                layer.remove(line);
+                layer.batch();
             }
         }));
         
@@ -95,13 +111,18 @@ public class ConnectorToolboxTests extends FlowPanel {
 
         double y1 = m1_1.getControl().getY();
 
-        OrthogonalPolyLine line = createLine(x0, y0, (x0 + ((x1 - x0) / 2)), (y0 + ((y1 - y0) / 2)), x1, y1);
+        OrthogonalPolyLine line = createLineEnd2End(x0, y0,  x1, y1);
 
         WiresConnector connector = wires_manager.createConnector(m0_1, m1_1, line,
                 headArrow ? new SimpleArrow(20, 0.75) : null,
                 tailArrow ? new SimpleArrow(20, 0.75) : null);
 
         connector.getDecoratableLine().setStrokeWidth(5).setStrokeColor("#0000CC");
+    }
+
+    private final OrthogonalPolyLine createLineEnd2End(final double x0, final double y0, final double x1, final double y1)
+    {
+        return createLine(x0, y0, (x0 + ((x1 - x0) / 2)), (y0 + ((y1 - y0) / 2)), x1, y1);
     }
 
     private final OrthogonalPolyLine createLine(final double... points)
