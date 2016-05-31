@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class LienzoTests implements EntryPoint {
 
     private FlowPanel mainPanel = new FlowPanel();
-    private LienzoPanel panel = new LienzoPanel(600, 600);
+    private LienzoPanel panel = new LienzoPanel(1200, 900);
     private Layer layer = new Layer();
     
     public void onModuleLoad()
@@ -19,7 +19,7 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        DockingTests tests = new DockingTests(layer);
+        BPMNIconsTests tests = new BPMNIconsTests(layer);
         tests.test();
         layer.draw();
     }
