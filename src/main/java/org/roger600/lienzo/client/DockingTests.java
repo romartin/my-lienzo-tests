@@ -3,6 +3,7 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -46,15 +47,32 @@ public class DockingTests extends FlowPanel {
 
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#000000");
         final WiresShape parentShape = wires_manager.createShape(parentMultiPath);
-        parentShape.setDraggable(true).setX(0).setY(0);
+        parentShape.setDraggable(true).setX(200).setY(200);
         wires_manager.createMagnets(parentShape);
 
         MultiPath childMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#CC0000");
         final WiresShape childShape = wires_manager.createShape(childMultiPath);
-        childShape.setDraggable(true).setX(500).setY(0);
+        childShape.setDraggable(true).setX(600).setY(200);
         wires_manager.createMagnets(childShape);
 
+        doDock( parentShape, childShape );
+        
+    }
+    
+    private void doDock( WiresShape parentShape , WiresShape child ) {
 
+        child.removeFromParent();
+        
+        // Point2D absLoc = child.getGroup().getAbsoluteLocation();
+        // Point2D trgAbsOffset = parentShape.getContainer().getAbsoluteLocation();
+        // child.getGroup().setX(absLoc.getX() - trgAbsOffset.getX()).setY(absLoc.getY() - trgAbsOffset.getY());
+        
+        child.getGroup().setX( -50 ).setY( 50 );
+        
+        parentShape.add(child);
+
+        child.setDockedTo(parentShape);
+        
     }
 
 }
