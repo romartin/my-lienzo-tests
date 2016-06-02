@@ -22,12 +22,12 @@ public class DockingTests extends FlowPanel {
 
             @Override
             public boolean containmentAllowed(WiresContainer parent, WiresShape child) {
-                return true;
+                return false;
             }
 
             @Override
             public boolean acceptContainment(WiresContainer parent, WiresShape child) {
-                return true;
+                return false;
             }
         });
         
