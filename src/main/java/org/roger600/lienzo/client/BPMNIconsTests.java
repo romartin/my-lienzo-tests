@@ -13,10 +13,10 @@ public class BPMNIconsTests extends FlowPanel {
     public BPMNIconsTests(Layer layer) {
         this.layer = layer;
     }
-    
+
     public void test() {
 
-        final Group user = user();
+        /*final Group user = user();
 
         layer.add( user
                 .setX( 100 )
@@ -32,6 +32,12 @@ public class BPMNIconsTests extends FlowPanel {
 
         layer.add( br
                 .setX( 300 )
+                .setY( 350 ) );*/
+
+        final Group intermediateTimerEvent = intermediateTimerEvent();
+
+        layer.add( intermediateTimerEvent
+                .setX( 400 )
                 .setY( 350 ) );
 
     }
@@ -54,7 +60,7 @@ public class BPMNIconsTests extends FlowPanel {
                 .setY(4)
                 .setFillAlpha( 1 )
                 .setStrokeColor( ColorName.BLACK )
-                .setStrokeAlpha( 1 );
+                .setStrokeAlpha(1);
         group.add( r2 );
 
         final SVGPath path3 = createSVGPath("M 0 10 L 22 10", null, 1, BLACK);
@@ -74,7 +80,7 @@ public class BPMNIconsTests extends FlowPanel {
                 "083-4.167,5.083H0.235c0,0,5-2.667,5-5s-4.583-6.75-4.583-9.25S6.402,0.5,6.402,0.5z", null, 1, BLACK );
         group.add( path1 );
 
-        final SVGPath path2 = createSVGPath( "M 3.5 4.5 L 13.5 4.5", null, 1, BLACK )
+        final SVGPath path2 = createSVGPath("M 3.5 4.5 L 13.5 4.5", null, 1, BLACK)
                 .setStrokeWidth(1.5);
         group.add(path2);
 
@@ -87,7 +93,7 @@ public class BPMNIconsTests extends FlowPanel {
         group.add( path4 );
 
         final SVGPath path5 = createSVGPath( "M 6.5 16.5 L 16.5 16.5", null, 1, BLACK )
-                .setStrokeWidth( 1.5 );
+                .setStrokeWidth(1.5);
         group.add( path5 );
 
         return group;
@@ -101,17 +107,17 @@ public class BPMNIconsTests extends FlowPanel {
                 "\t\t\tc-4.417,1.333-7.833,5.75-7.833,5.75L0.585,24.167z", "#F4F6F7", 1, BLACK );
         group.add( path1 );
 
-        final SVGPath path2 = createSVGPath( "M 6 20 L 6 24", null, 1, BLACK );
+        final SVGPath path2 = createSVGPath("M 6 20 L 6 24", null, 1, BLACK);
         group.add(path2);
 
-        final SVGPath path3 = createSVGPath( "M 20 20 L 20 24", null, 1, BLACK );
+        final SVGPath path3 = createSVGPath("M 20 20 L 20 24", null, 1, BLACK);
         group.add( path3 );
 
         final Circle circle =
                 new Circle(5.417)
                         .setX(13.002)
                         .setY(5.916)
-                        .setFillColor( ColorName.BLACK )
+                        .setFillColor(ColorName.BLACK)
                         .setStrokeColor(ColorName.BLACK);
         group.add( circle );
 
@@ -119,6 +125,75 @@ public class BPMNIconsTests extends FlowPanel {
                 "\t\t\tc0.25,1.688,0.042,3.75-1.458,5.584c0,0,1.083,0.75,1.083,1.5s0.125,1.875-1,3s-5.5,1.25-6.75,0S8.668,12.834,8.668,12\n" +
                 "\t\t\ts0.583-1.25,1.25-1.917C8.835,9.5,7.419,7.708,8.043,7.083z", "#F0EFF0", 1, BLACK);
         group.add( path4 );
+
+        return group;
+    }
+
+    private Group intermediateTimerEvent() {
+
+        final Group group = new Group();
+
+        final Circle circle1 =
+                new Circle(  15 )
+                        .setX(16)
+                        .setY(16)
+                        .setFillColor( ColorName.WHITE )
+                        // TODO: Stroke dash...
+                        .setStrokeColor(ColorName.BLACK)
+                        .setStrokeWidth(1);
+        group.add( circle1 );
+
+
+        final Circle circle2 =
+                new Circle(  12 )
+                        .setX(16)
+                        .setY(16)
+                        // TODO: Stroke dash...
+                        .setStrokeColor(ColorName.BLACK)
+                        .setStrokeWidth(1);
+        group.add( circle2 );
+
+        final Circle circle3 =
+                new Circle(  15 )
+                        .setX(16)
+                        .setY(16)
+                        // TODO: Stroke dash...
+                        .setStrokeColor(ColorName.BLACK)
+                        .setStrokeWidth(1);
+        group.add( circle3 );
+
+        final Circle circle4 =
+                new Circle(  12 )
+                        .setX(16)
+                        .setY(16)
+                        // TODO: Stroke dash...
+                        .setStrokeColor(ColorName.BLACK)
+                        .setStrokeWidth(1);
+        group.add( circle4 );
+
+        final Circle circle5 =
+                new Circle(  10 )
+                        .setX(16)
+                        .setY(16)
+                        // TODO: Stroke dash...
+                        .setStrokeColor(ColorName.BLACK)
+                        .setStrokeWidth(1);
+        group.add( circle5 );
+
+        final SVGPath path1 = createSVGPath( "M 16 6 L 16 9" +
+                "   M 21 7 L 19.5 10" +
+                "   M 25 11 L 22 12.5" +
+                "   M 26 16 L 23 16" +
+                "   M 25 21 L 22 19.5" +
+                "   M 21 25 L 19.5 22" +
+                "   M 16 26 L 16 23" +
+                "   M 11 25 L 12.5 22" +
+                "   M 7 21 L 10 19.5" +
+                "   M 6 16 L 9 16" +
+                "   M 7 11 L 10 12.5" +
+                "   M 11 7 L 12.5 10" +
+                "   M 18 9 L 16 16 L 20 16", null, 1, BLACK );
+        group.add( path1 );
 
         return group;
     }
