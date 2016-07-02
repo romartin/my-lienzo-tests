@@ -19,7 +19,7 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        MediatorsTests2 tests = new MediatorsTests2(layer);
+        ContainerTests tests = new ContainerTests(layer);
         tests.test();
         layer.draw();
     }
