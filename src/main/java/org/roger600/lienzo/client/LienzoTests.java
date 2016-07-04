@@ -6,7 +6,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class LienzoTests implements EntryPoint {
+public class LienzoTests /*implements EntryPoint */ {
 
     private FlowPanel mainPanel = new FlowPanel();
     private LienzoPanel panel = new LienzoPanel(1200, 900);
