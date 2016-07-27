@@ -7,13 +7,12 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.widget.LienzoPanel;
 import com.ait.lienzo.shared.core.types.ColorName;
-import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class LayerReplicationTests implements EntryPoint {
+public class LayerReplicationTests /* implements EntryPoint */ {
 
     private VerticalPanel mainPanel = new VerticalPanel();
     private LienzoPanel panel = new LienzoPanel(600, 600);

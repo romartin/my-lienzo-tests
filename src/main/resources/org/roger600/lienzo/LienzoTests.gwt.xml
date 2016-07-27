@@ -21,8 +21,8 @@
   
   <inherits name="com.ait.lienzo.Lienzo" />
   
-  <!--<entry-point class="org.roger600.lienzo.client.LienzoTests" />-->
-  <entry-point class="org.roger600.lienzo.client.LayerReplicationTests" />
+  <entry-point class="org.roger600.lienzo.client.LienzoTests" />
+  <!--<entry-point class="org.roger600.lienzo.client.LayerReplicationTests" />-->
 
   <set-property name="user.agent" value="gecko1_8,safari"/>
   <set-property name="locale" value="default"/>
