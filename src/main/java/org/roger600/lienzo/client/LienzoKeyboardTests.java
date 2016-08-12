@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import org.roger600.lienzo.client.panel.FocusableLienzoPanelView;
 
-public class LienzoKeyboardTests implements EntryPoint {
+public class LienzoKeyboardTests /*implements EntryPoint*/ {
 
     private FocusableLienzoPanelView panel = new FocusableLienzoPanelView( 1200,900 );
     //private LienzoPanel panel = new LienzoPanel(1200, 900);
