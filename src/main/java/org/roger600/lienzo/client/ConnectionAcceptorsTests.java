@@ -43,16 +43,19 @@ public class ConnectionAcceptorsTests extends FlowPanel {
 
         // Green task node.
         WiresShape taskNodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
+        taskNodeShape.setDraggable( true ).setResizable( true );
         taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
         wires_manager.createMagnets(taskNodeShape);
 
         // Yellow task node.
         WiresShape task2NodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
+        task2NodeShape.setDraggable( true ).setResizable( true );
         task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
         wires_manager.createMagnets(task2NodeShape);
 
         // Red end event.
         WiresShape endEventShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
+        endEventShape.setDraggable( true ).setResizable( true );
         endEventShape.setX(startX + 400).setY(startY);
         endEventShape.getContainer().setUserData("event");
         wires_manager.createMagnets(endEventShape);

@@ -16,7 +16,9 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
-        ConnectionAcceptorsTests tests = new ConnectionAcceptorsTests(layer);
+        //ConnectionAcceptorsTests tests = new ConnectionAcceptorsTests(layer);
+        CircleResizeTests tests = new CircleResizeTests(layer);
+        // ResizeFromKSTests tests = new ResizeFromKSTests(layer);
         tests.test();
         layer.draw();
 
