@@ -3,20 +3,15 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class DockingTests extends FlowPanel {
+public class DockingTests extends FlowPanel implements MyLienzoTest {
 
     private Layer layer;
 
-    public DockingTests(Layer layer) {
+    public void test(Layer layer) {
         this.layer = layer;
-    }
-
-    public void test() {
-
         final WiresManager wires_manager = WiresManager.get(layer);
 
         wires_manager.setContainmentAcceptor(new IContainmentAcceptor() {

@@ -10,19 +10,14 @@ import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
-public class MediatorsTests2 extends FlowPanel {
+public class MediatorsTests2 extends FlowPanel implements MyLienzoTest {
 
     private Layer layer;
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
-
-    public MediatorsTests2(Layer layer) {
+    public void test(Layer layer) {
         this.layer = layer;
-    }
-
-    public void test() {
-
         WiresManager wires_manager = WiresManager.get(layer);
 
         final double startX = 0;

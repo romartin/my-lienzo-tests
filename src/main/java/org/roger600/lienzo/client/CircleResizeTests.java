@@ -1,30 +1,24 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.SVGPath;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.AbstractWiresEvent;
 import com.ait.lienzo.client.core.shape.wires.event.ResizeEvent;
 import com.ait.lienzo.client.core.shape.wires.event.ResizeHandler;
-import com.ait.lienzo.shared.core.types.ColorName;
-import com.ait.lienzo.shared.core.types.DragMode;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class CircleResizeTests extends FlowPanel {
+public class CircleResizeTests extends FlowPanel implements MyLienzoTest {
 
     private Layer layer;
     private IControlHandleList m_ctrls;
 
-    public CircleResizeTests( Layer layer ) {
-        this.layer = layer;
-    }
+    public void test(Layer layer) {
 
-    public void test() {
+        this.layer = layer;
 
         WiresManager wires_manager = WiresManager.get( layer );
 

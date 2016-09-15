@@ -3,20 +3,14 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
-import com.ait.lienzo.shared.core.types.ColorName;
-import com.ait.lienzo.shared.core.types.DragMode;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class MarkConnectorTests extends FlowPanel {
+public class MarkConnectorTests extends FlowPanel implements MyLienzoTest {
 
     private Layer layer;
 
-    public MarkConnectorTests(Layer layer) {
+    public void test(Layer layer) {
         this.layer = layer;
-    }
-    
-    public void test() {
-
         WiresManager wires_manager = WiresManager.get(layer);
 
         final double startX = 300;

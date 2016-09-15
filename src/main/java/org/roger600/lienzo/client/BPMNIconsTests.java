@@ -4,17 +4,14 @@ import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class BPMNIconsTests extends FlowPanel {
+public class BPMNIconsTests extends FlowPanel implements MyLienzoTest {
 
     private static final String BLACK = ColorName.BLACK.getColorString();
 
     private Layer layer;
 
-    public BPMNIconsTests(Layer layer) {
+    public void test(Layer layer) {
         this.layer = layer;
-    }
-
-    public void test() {
 
         /*final Group user = user();
 

@@ -11,18 +11,15 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
-public class WiresTests extends FlowPanel {
+public class WiresTests extends FlowPanel implements MyLienzoTest {
 
     private Layer layer;
     private IControlHandleList m_ctrls;
     private WiresShape startEventShape;
     private Circle startEventCircle;
 
-    public WiresTests(Layer layer) {
+    public void test(Layer layer) {
         this.layer = layer;
-    }
-
-    public void testWires() {
         WiresManager wires_manager = WiresManager.get(layer);
 
         wires_manager.setConnectionAcceptor(new IConnectionAcceptor() {

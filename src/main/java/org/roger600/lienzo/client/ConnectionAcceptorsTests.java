@@ -1,28 +1,21 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
-import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.shape.wires.event.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
-import com.ait.lienzo.shared.core.types.ColorName;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
-public class ConnectionAcceptorsTests extends FlowPanel {
+public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest {
 
     private Layer layer;
     private IControlHandleList m_ctrls;
     private WiresShape startEventShape;
     private Circle startEventCircle;
 
-    public ConnectionAcceptorsTests( Layer layer) {
-        this.layer = layer;
-    }
+    public void test(Layer layer) {
 
-    public void test() {
+        this.layer = layer;
 
         WiresManager wires_manager = WiresManager.get(layer);
 

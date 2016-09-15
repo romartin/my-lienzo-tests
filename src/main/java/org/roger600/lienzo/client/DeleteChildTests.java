@@ -2,26 +2,21 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
-import com.ait.lienzo.client.core.shape.*;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
 import com.ait.lienzo.client.core.shape.wires.WiresContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.shared.core.types.ColorName;
-import com.ait.lienzo.shared.core.types.DragMode;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class DeleteChildTests extends FlowPanel {
+public class DeleteChildTests extends FlowPanel implements MyLienzoTest {
 
-    private Layer layer;
-
-    public DeleteChildTests(Layer layer) {
-        this.layer = layer;
-    }
-    
-    public void test() {
-
+    public void test(Layer _layer) {
+        final Layer layer = _layer;
         final WiresManager wires_manager = WiresManager.get(layer);
 
         wires_manager.setContainmentAcceptor(new IContainmentAcceptor() {
