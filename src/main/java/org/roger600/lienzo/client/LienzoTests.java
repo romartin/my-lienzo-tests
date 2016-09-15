@@ -7,11 +7,13 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
+import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
+import org.roger600.lienzo.client.ks.WiresArrowsTests;
+import org.roger600.lienzo.client.ks.WiresResizeTests;
 
 /*
     TODO:
         - Add cont / conn / docking acceptor tests
-        - replicate wires examples from KS as tests here
  */
 public class LienzoTests implements EntryPoint {
 
@@ -24,11 +26,17 @@ public class LienzoTests implements EntryPoint {
             new MarkConnectorTests(),
             new MediatorsTests(),
             new MediatorsTests2(),
-            new WiresTests()
+            new WiresTests(),
+            new WiresAlignDistroTests(),
+            new WiresResizeTests(),
+            new WiresArrowsTests()
     };
 
+    private static final int MAX_BUTTONS_ROW = 7;
     private VerticalPanel mainPanel = new VerticalPanel();
-    private HorizontalPanel buttonsPanel = new HorizontalPanel();
+    private VerticalPanel buttonsPanel = new VerticalPanel();
+    private HorizontalPanel buttonsRowPanel;
+    private int buttonsPanelSize = 0;
     private FlowPanel testsPanel = new FlowPanel();
 
     public void onModuleLoad()
@@ -49,7 +57,7 @@ public class LienzoTests implements EntryPoint {
                 }
             } );
 
-            buttonsPanel.add( button );
+            addButton( button );
 
         }
 
@@ -76,6 +84,24 @@ public class LienzoTests implements EntryPoint {
         test.test( layer );
         layer.draw();
 
+    }
+
+    private void addButton( final Button button ) {
+
+        if ( buttonsPanelSize >= MAX_BUTTONS_ROW ) {
+
+            buttonsPanelSize = 0;
+            buttonsRowPanel = null;
+        }
+
+
+        if ( null == buttonsRowPanel ) {
+            buttonsRowPanel = new HorizontalPanel();
+            buttonsPanel.add( buttonsRowPanel );
+        }
+
+        buttonsRowPanel.add( button );
+        buttonsPanelSize++;
     }
 
 }

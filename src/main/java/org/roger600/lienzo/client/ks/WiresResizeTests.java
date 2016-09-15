@@ -1,4 +1,4 @@
-package org.roger600.lienzo.client;
+package org.roger600.lienzo.client.ks;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
@@ -7,20 +7,16 @@ import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.wires.IControlHandle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.google.gwt.user.client.ui.FlowPanel;
+import org.roger600.lienzo.client.MyLienzoTest;
 
 import java.util.Map;
 
-public class ResizeFromKSTests extends FlowPanel {
+public class WiresResizeTests extends FlowPanel implements MyLienzoTest {
 
-    private Layer layer;
     private IControlHandleList m_ctrls;
     private MultiPath    m_multi;
 
-    public ResizeFromKSTests( Layer layer) {
-        this.layer = layer;
-    }
-    
-    public void test() {
+    public void test( final Layer layer ) {
 
         m_multi = new MultiPath();
 

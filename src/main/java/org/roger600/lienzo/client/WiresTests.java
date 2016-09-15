@@ -119,21 +119,25 @@ public class WiresTests extends FlowPanel implements MyLienzoTest {
         startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
         startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
+        wires_manager.createMagnets( startEventShape );
         // startEventShape.addChild(new Rectangle(50, 50).setX(0).setY(0).setFillColor(ColorName.BLACK), WiresPrimitivesContainer.Layout.LEFT);
         // ( (WiresLayoutContainer) startEventShape.getGroup()).add(startEventCircle, WiresLayoutContainer.Layout.CENTER);
 
         // Green task node.
         WiresShape taskNodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
         taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
+        wires_manager.createMagnets( taskNodeShape );
 
         // Yellow task node.
         WiresShape task2NodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
         task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
+        wires_manager.createMagnets( task2NodeShape );
 
         // Red end event.
         WiresShape endEventShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
         endEventShape.setX(startX + 400).setY(startY);
         endEventShape.getContainer().setUserData("event");
+        wires_manager.createMagnets( endEventShape );
 
         // Connector from blue start event to green task node.
         connect(layer, startEventShape.getMagnets(), 3, taskNodeShape.getMagnets(), 7, wires_manager, true, false);
