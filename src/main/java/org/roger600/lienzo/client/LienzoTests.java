@@ -23,6 +23,8 @@ public class LienzoTests implements EntryPoint {
             new MediatorsTests(),
             new MediatorsTests2(),
             new WiresTests(),
+            new MultiPathAttributesChangedTests(),
+            // From Lienzo KS
             new WiresAlignDistroTests(),
             new WiresResizeTests(),
             new WiresArrowsTests()
