@@ -11,15 +11,11 @@ import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
 import org.roger600.lienzo.client.ks.WiresArrowsTests;
 import org.roger600.lienzo.client.ks.WiresResizeTests;
 
-/*
-    TODO:
-        - Add cont / conn / docking acceptor tests
- */
 public class LienzoTests implements EntryPoint {
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
-        new BPMNIconsTests(),
-        new CircleResizeTests(),
+            new BPMNIconsTests(),
+            new CircleResizeTests(),
             new ConnectionAcceptorsTests(),
             new DeleteChildTests(),
             new DockingTests(),
@@ -51,9 +47,7 @@ public class LienzoTests implements EntryPoint {
             button.addClickHandler( new ClickHandler() {
                 @Override
                 public void onClick( ClickEvent clickEvent ) {
-
                     createPanelForTest( test );
-
                 }
             } );
 
