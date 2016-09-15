@@ -8,6 +8,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
 
+/*
+    TODO:
+        - Add cont / conn / docking acceptor tests
+        - replicate wires examples from KS as tests here
+ */
 public class LienzoTests implements EntryPoint {
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
