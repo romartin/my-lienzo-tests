@@ -34,6 +34,7 @@ public class LienzoTests implements EntryPoint {
     private static final int MAX_BUTTONS_ROW = 7;
     private VerticalPanel mainPanel = new VerticalPanel();
     private VerticalPanel buttonsPanel = new VerticalPanel();
+    private HorizontalPanel screenButtonsPanel = new HorizontalPanel();
     private HorizontalPanel buttonsRowPanel;
     private int buttonsPanelSize = 0;
     private FlowPanel testsPanel = new FlowPanel();
@@ -59,12 +60,14 @@ public class LienzoTests implements EntryPoint {
         }
 
         mainPanel.add( buttonsPanel );
+        mainPanel.add( screenButtonsPanel );
         mainPanel.add( testsPanel );
 
     }
 
     private void createPanelForTest( MyLienzoTest test ) {
 
+        screenButtonsPanel.clear();
         testsPanel.clear();
         testsPanel.getElement().getStyle().setMargin( 10, Style.Unit.PX );
         testsPanel.getElement().getStyle().setBorderWidth( 1, Style.Unit.PX );
@@ -78,6 +81,9 @@ public class LienzoTests implements EntryPoint {
         layer.setTransformable(true);
         panel.add(layer);
 
+        if ( test instanceof HasButtons ) {
+            ( ( HasButtons ) test ).setButtonsPanel( screenButtonsPanel );
+        }
         test.test( layer );
         layer.draw();
 
