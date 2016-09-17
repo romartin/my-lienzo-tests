@@ -25,33 +25,66 @@ public class CircleResizeTests extends FlowPanel implements MyLienzoTest {
 
         WiresManager wires_manager = WiresManager.get( layer );
 
-        // Circle DOES NOT WORK!
-        final WiresShape endEventShape = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+        final WiresShape shape1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 100 ).setY( 100 );
 
-        wires_manager.createMagnets( endEventShape );
+        wires_manager.createMagnets( shape1 );
 
-        endEventShape
+        shape1.setDraggable( true );
+        shape1.setResizable( true )
+            .addWiresResizeHandler( new ResizeHandler() {
+                @Override
+                public void onResizeStart( ResizeEvent resizeEvent ) {
+                    log( "[Shape1] onResizeStart" );
+                }
+
+                @Override
+                public void onResizeStep( ResizeEvent resizeEvent ) {
+                    log( "[Shape1] onResizeStep" );
+                }
+
+                @Override
+                public void onResizeEnd( ResizeEvent resizeEvent ) {
+                    log( "[Shape1] onResizeEnd" );
+                }
+            } );
+
+
+        addAnotherShape( wires_manager );
+
+    }
+
+    private void addAnotherShape( final WiresManager wires_manager ) {
+        final WiresShape shape2 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+                .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
+                .setX( 300 ).setY( 300 );
+
+        wires_manager.createMagnets( shape2 );
+
+        shape2
                 .setDraggable( true )
                 .setResizable( true )
                 .addWiresResizeHandler( new ResizeHandler() {
                     @Override
                     public void onResizeStart( ResizeEvent resizeEvent ) {
-                        GWT.log( "onResizeStart" );
+                        log( "[Shape2] onResizeStart" );
                     }
 
                     @Override
                     public void onResizeStep( ResizeEvent resizeEvent ) {
-                        GWT.log( "onResizeStep" );
+                        log( "[Shape2] onResizeStep" );
                     }
 
                     @Override
                     public void onResizeEnd( ResizeEvent resizeEvent ) {
-                        GWT.log( "onResizeEnd" );
+                        log( "[Shape2] onResizeEnd" );
                     }
                 } );
+    }
 
+    private void log( String s ) {
+        // GWT.log( s );
     }
 
 }

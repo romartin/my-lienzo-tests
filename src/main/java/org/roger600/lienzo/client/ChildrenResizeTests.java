@@ -20,7 +20,7 @@ public class ChildrenResizeTests extends FlowPanel implements MyLienzoTest {
 
         WiresShape endEventShape = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
-                .setX( 700 ).setY( 400 );
+                .setX( 200 ).setY( 200 );
         wires_manager.createMagnets( endEventShape );
 
         Circle startEventCircle = new Circle(50).setFillColor("#0000CC").setDraggable(false);
