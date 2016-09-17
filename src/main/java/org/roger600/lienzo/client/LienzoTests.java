@@ -16,6 +16,7 @@ public class LienzoTests implements EntryPoint {
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
             new BPMNIconsTests(),
             new CircleResizeTests(),
+            new ChildrenResizeTests(),
             new ConnectionAcceptorsTests(),
             new DeleteChildTests(),
             new DockingTests(),

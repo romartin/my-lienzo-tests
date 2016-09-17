@@ -8,6 +8,7 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.types.BoundingBox;
+import com.ait.lienzo.client.core.types.PathPartList;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.ait.tooling.common.api.flow.Flows;
 import com.google.gwt.core.client.GWT;
@@ -82,7 +83,6 @@ public class MultiPathAttributesChangedTests implements MyLienzoTest {
         m_multi.addAttributesChangedHandler(Attribute.HEIGHT, handler);
         m_multi.addAttributesChangedHandler(Attribute.PATH, handler);
 
-
         Attribute[] allAttrs = getAllAttributes();
         for ( final Attribute a : allAttrs ) {
             m_multi.addAttributesChangedHandler(a, handler);
@@ -100,8 +100,8 @@ public class MultiPathAttributesChangedTests implements MyLienzoTest {
             @Override
             public void onNodeMouseClick( NodeMouseClickEvent event ) {
 
-                GWT.log("Moving path...");
                 m_multi.setX( 500 ).setY( 500 );
+                //m_multi.setFillColor( ColorName.BLACK );
                 layer.batch();
             }
         } );
