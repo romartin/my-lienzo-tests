@@ -1,20 +1,21 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.shape.wires.event.AbstractWiresEvent;
+import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.ResizeEvent;
 import com.ait.lienzo.client.core.shape.wires.event.ResizeHandler;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
-public class ChildrenResizeTests extends FlowPanel implements MyLienzoTest, HasButtons {
+public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest, HasButtons {
 
     WiresManager wires_manager;
 
@@ -60,7 +61,7 @@ public class ChildrenResizeTests extends FlowPanel implements MyLienzoTest, HasB
                     }
 
                     currentShape = create( 800, 400, 200, 200, "#CC00EE", "#FFFFFF" );
-                    Circle circle1 = new Circle(50).setFillColor("#00CCCC").setDraggable(false);
+                    Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#00CCCC").setDraggable(false);
                     currentShape.addChild(circle1, layout);
 
                 }
@@ -73,23 +74,23 @@ public class ChildrenResizeTests extends FlowPanel implements MyLienzoTest, HasB
 
     private void testAllLayouts(Layer layer) {
         WiresShape shapeTop = create( 400, 50, 100, 100, "#CC0000", "#FFFFFF" );
-        Circle circle1 = new Circle(25).setFillColor("#0000CC").setDraggable(false);
+        Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
         shapeTop.addChild(circle1, WiresLayoutContainer.Layout.TOP);
 
         WiresShape shapeLeft = create( 50, 200, 100, 100, "#00CC00", "#FFFFFF" );
-        Circle circle2 = new Circle(25).setFillColor("#0000CC").setDraggable(false);
+        Rectangle circle2 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
         shapeLeft.addChild(circle2, WiresLayoutContainer.Layout.LEFT);
 
         WiresShape shapeCenter = create( 400, 200, 100, 100, "#0000CC", "#FFFFFF" );
-        Circle circle3 = new Circle(25).setFillColor("#CCCCCC").setDraggable(false);
+        Rectangle circle3 = new Rectangle( 50, 50).setFillColor("#CCCCCC").setDraggable(false);
         shapeCenter.addChild(circle3, WiresLayoutContainer.Layout.CENTER);
 
         WiresShape shapeRight = create( 800, 200, 100, 100, "#0000FF", "#FFFFFF" );
-        Circle circle4 = new Circle(25).setFillColor("#CC00CC").setDraggable(false);
+        Rectangle circle4 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
         shapeRight.addChild(circle4, WiresLayoutContainer.Layout.RIGHT);
 
         WiresShape shapeBottom = create( 400, 400, 100, 100, "#FF00FF", "#FFFFFF" );
-        Circle circle5 = new Circle(25).setFillColor("#0000CC").setDraggable(false);
+        Rectangle circle5 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
         shapeBottom.addChild(circle5, WiresLayoutContainer.Layout.BOTTOM);
     }
 
