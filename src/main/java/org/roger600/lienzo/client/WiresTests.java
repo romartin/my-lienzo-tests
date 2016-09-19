@@ -146,72 +146,21 @@ public class WiresTests extends FlowPanel implements MyLienzoTest {
         // Connector from blue start event to yellow task node.
         connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager, true, false);
 
-        startEventShape.setDraggable(true).addShapeDragHandler( new ShapeDragHandler() {
+        startEventShape.setDraggable(true).addShapeMovedHandler( new ShapeMovedHandler() {
             @Override
-            public void onDragStart(ShapeDragEvent dragEvent) {
-                final WiresContainer shape = dragEvent.getShape();
-                final double dx = dragEvent.getX();
-                final double dy = dragEvent.getY();
-                log("onDragStart#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy + "]");
+            public void onShapeMoved( ShapeMovedEvent event ) {
+                log( "onShapeMoved [x=" + event.getX() + ", y=" + event.getY()+ "]" );
             }
+        } );
 
+        startEventShape.setResizable(true).addShapeResizedHandler( new ShapeResizedHandler() {
             @Override
-            public void onDragMove(ShapeDragEvent dragEvent) {
-                final WiresContainer shape = dragEvent.getShape();
-                final double dx = dragEvent.getX();
-                final double dy = dragEvent.getY();
-                log("onDragMove#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy + "]");
+            public void onShapeResized( ShapeResizedEvent resizeEvent ) {
+                log( "onShapeResized [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
+                        + ", width=" + resizeEvent.getWidth()
+                        + ", height=" + resizeEvent.getHeight() + "]" );
             }
-
-            @Override
-            public void onDragEnd(ShapeDragEvent dragEvent) {
-                final WiresContainer shape = dragEvent.getShape();
-                final double dx = dragEvent.getX();
-                final double dy = dragEvent.getY();
-                log("onDragEnd#DRAG - [shape=" + shape + ", x=" + dx + ", y=" + dy + "]");
-            }
-        });
-
-        startEventShape.setResizable(true).addWiresResizeHandler( new ResizeHandler() {
-
-            private int sx;
-            private double sr;
-
-            @Override
-            public void onResizeStart(final ResizeEvent resizeEvent) {
-                final WiresShape shape = resizeEvent.getShape();
-                final int index = resizeEvent.getControlPointIndex();
-                final IPrimitive<?> control = shape.getControls( IControlHandle.ControlHandleStandardType.RESIZE ).getHandle(index).getControl();
-                final int rx = resizeEvent.getX();
-                final int ry = resizeEvent.getY();
-                this.sx = rx;
-                this.sr = startEventCircle.getRadius();
-                log("onResizeStart#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
-            }
-
-            @Override
-            public void onResizeStep(final ResizeEvent resizeEvent) {
-                final WiresShape shape = resizeEvent.getShape();
-                final int index = resizeEvent.getControlPointIndex();
-                final IPrimitive<?> control = shape.getControls( IControlHandle.ControlHandleStandardType.RESIZE ).getHandle(index).getControl();
-                final int rx = resizeEvent.getX();
-                final int ry = resizeEvent.getY();
-                /*final double radius = ( sr * rx ) / sx;
-                log("Circle RADIUS="+radius);
-                startEventCircle.setRadius(radius);*/
-                log("onResizeStep#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
-            }
-
-            @Override
-            public void onResizeEnd(final ResizeEvent resizeEvent) {
-                final WiresShape shape = resizeEvent.getShape();
-                final int index = resizeEvent.getControlPointIndex();
-                final IPrimitive<?> control = shape.getControls( IControlHandle.ControlHandleStandardType.RESIZE ).getHandle(index).getControl();
-                final double rx = resizeEvent.getX();
-                final double ry = resizeEvent.getY();
-                log("onResizeEnd#RESIZE - [shape=" + shape  + ", x=" + rx + ", y=" + ry + ", control=" + control + "]");
-            }
-        });
+        } );
 
         addButton(layer);
         addButton2(layer);
