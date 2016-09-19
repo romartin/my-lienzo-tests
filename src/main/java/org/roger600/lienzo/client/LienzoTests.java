@@ -1,6 +1,8 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.shape.GridLayer;
 import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.Line;
 import com.ait.lienzo.client.widget.LienzoPanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
@@ -15,6 +17,7 @@ public class LienzoTests implements EntryPoint {
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
             new SimpleTests(),
+            new BoundingBoxTests(),
             new ShapeResizeTests(),
             new ChildRectangleResizeTests(),
             new ChildCircleResizeTests(),
@@ -76,6 +79,7 @@ public class LienzoTests implements EntryPoint {
         testsPanel.getElement().getStyle().setBorderColor( "#000000" );
 
         final LienzoPanel panel = new LienzoPanel(1200, 900);
+        applyGrid( panel );
         final Layer layer = new Layer();
 
         testsPanel.add( panel );
@@ -106,6 +110,24 @@ public class LienzoTests implements EntryPoint {
 
         buttonsRowPanel.add( button );
         buttonsPanelSize++;
+    }
+
+    private void applyGrid( final LienzoPanel panel ) {
+
+        // Grid.
+        Line line1 = new Line( 0, 0, 0, 0 )
+                .setStrokeColor( "#0000FF" )
+                .setAlpha( 0.2 );
+        Line line2 = new Line( 0, 0, 0, 0 )
+                .setStrokeColor( "#00FF00"  )
+                .setAlpha( 0.2 );
+
+        line2.setDashArray( 2,
+                2 );
+
+        GridLayer gridLayer = new GridLayer( 100, line1, 25, line2 );
+
+        panel.setBackgroundLayer( gridLayer );
     }
 
 }

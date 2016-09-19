@@ -2,7 +2,16 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.event.ShapeMovedEvent;
+import com.ait.lienzo.client.core.shape.wires.event.ShapeMovedHandler;
+import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedEvent;
+import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedHandler;
 import com.ait.lienzo.client.core.types.BoundingBox;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
@@ -11,58 +20,44 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class SimpleTests extends FlowPanel implements MyLienzoTest {
 
 
-    /*
-        BB RECTANGLE = [0, 0, 50, 50]
-        BB CIRCLE = [-50, -50, 100, 100]
-     */
     public void test(Layer layer) {
 
-       // testRectangle( layer );
+        WiresManager wires_manager = WiresManager.get( layer );
 
-        testCircle( layer );
+        WiresShape shape1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+                .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
+                .setX( 100 ).setY( 100 );
 
-    }
+        wires_manager.createMagnets( shape1 );
 
-    private void testRectangle( Layer layer ) {
+        Rectangle circle4 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
+        shape1.addChild(circle4, WiresLayoutContainer.Layout.CENTER);
 
-        Rectangle rectangle = new Rectangle( 50, 50 )
-                .setX( 100 )
-                .setY( 100 )
-                .setFillColor( ColorName.RED );
+        shape1
+                .setResizable( true )
+                .setDraggable( true );
 
-        layer.add( rectangle );
+        shape1.addShapeMovedHandler( new ShapeMovedHandler() {
+            @Override
+            public void onShapeMoved( ShapeMovedEvent event ) {
+                log( "onShapeMoved #1 [x=" + event.getX() + ", y=" + event.getY() + "]" );
+            }
+        } );
 
-        BoundingBox bb = rectangle.getBoundingBox();
-        final double bbx = bb.getX();
-        final double bby = bb.getY();
-        final double bbw = bb.getWidth();
-        final double bbh = bb.getHeight();
-
-        GWT.log( " BB RECTANGLE = [" + bbx + ", " + bby + ", " + bbw + ", " + bbh + "]" );
-
-    }
-
-    private void testCircle( Layer layer ) {
-
-        Circle circle = new Circle( 50 )
-                .setX( 0  )
-                .setY( 0  )
-                .setFillColor( ColorName.RED );
-
-        layer.add( circle );
-
-        BoundingBox bb = circle.getBoundingBox();
-        final double bbx = bb.getX();
-        final double bby = bb.getY();
-        final double bbw = bb.getWidth();
-        final double bbh = bb.getHeight();
-
-        GWT.log( " BB CIRCLE = [" + bbx + ", " + bby + ", " + bbw + ", " + bbh + "]" );
+        shape1.addShapeResizedHandler( new ShapeResizedHandler() {
+            @Override
+            public void onShapeResized( ShapeResizedEvent resizeEvent ) {
+                log( "onShapeResized #1 [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
+                        + ", width=" + resizeEvent.getWidth()
+                        + ", height=" + resizeEvent.getHeight() + "]" );
+            }
+        } );
 
     }
+
 
     private void log( String s ) {
-        // GWT.log( s );
+        GWT.log( s );
     }
 
 }
