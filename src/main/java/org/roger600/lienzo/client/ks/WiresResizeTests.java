@@ -61,7 +61,7 @@ public class WiresResizeTests extends FlowPanel implements MyLienzoTest {
 
                         if ((null != m_ctrls) && (m_ctrls.isActive()))
                         {
-                            m_ctrls.show(layer);
+                            m_ctrls.show();
                         }
                     }
                 }
@@ -81,7 +81,7 @@ public class WiresResizeTests extends FlowPanel implements MyLienzoTest {
 
                         if ((null != m_ctrls) && (m_ctrls.isActive()))
                         {
-                            m_ctrls.show(layer);
+                            m_ctrls.show();
                         }
                     }
                 }

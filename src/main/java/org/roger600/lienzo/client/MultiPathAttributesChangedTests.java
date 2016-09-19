@@ -131,7 +131,7 @@ public class MultiPathAttributesChangedTests implements MyLienzoTest {
 
                         if ((null != m_ctrls) && (m_ctrls.isActive()))
                         {
-                            m_ctrls.show(layer);
+                            m_ctrls.show();
                         }
                     }
                 }
@@ -151,7 +151,7 @@ public class MultiPathAttributesChangedTests implements MyLienzoTest {
 
                         if ((null != m_ctrls) && (m_ctrls.isActive()))
                         {
-                            m_ctrls.show(layer);
+                            m_ctrls.show();
                         }
                     }
                 }
