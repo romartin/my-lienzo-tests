@@ -1,5 +1,7 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
+import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
@@ -24,37 +26,93 @@ public class SimpleTests extends FlowPanel implements MyLienzoTest {
 
         WiresManager wires_manager = WiresManager.get( layer );
 
-        WiresShape shape1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
-                .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
+        final WiresShape parent = wires_manager.createShape( new MultiPath().rect( 0, 0, 600, 600 )
+                .setStrokeColor( "#000000" ).setFillColor( "#FFFFFF" ) )
                 .setX( 100 ).setY( 100 );
 
-        wires_manager.createMagnets( shape1 );
+        wires_manager.createMagnets( parent );
 
-        Rectangle circle4 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
-        shape1.addChild(circle4, WiresLayoutContainer.Layout.CENTER);
-
-        shape1
+        parent
                 .setResizable( true )
                 .setDraggable( true );
 
-        shape1.addShapeMovedHandler( new ShapeMovedHandler() {
+        addLogging( "parent", parent );
+
+        final WiresShape child1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+                .setStrokeColor( "#000000" ).setFillColor( "#FF0000" ) )
+                .setX( 100 ).setY( 100 );
+
+        wires_manager.createMagnets( child1 );
+
+        Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
+        child1.addChild(circle1, WiresLayoutContainer.Layout.CENTER);
+
+        child1
+                .setResizable( true )
+                .setDraggable( true );
+
+        parent.add( child1 );
+
+        layer.add( buildButton( 0, 0, ColorName.RED, new NodeMouseClickHandler() {
+            @Override
+            public void onNodeMouseClick( NodeMouseClickEvent event ) {
+                parent.getMagnets().show();
+            }
+        } ) );
+
+        layer.add( buildButton( 0, 50, ColorName.BLUE, new NodeMouseClickHandler() {
+            @Override
+            public void onNodeMouseClick( NodeMouseClickEvent event ) {
+                child1.getMagnets().show();
+            }
+        } ) );
+
+        addLogging( "child1", child1 );
+
+    }
+
+    private void logShapeCoords( WiresShape shape ) {
+        final double x = shape.getGroup().getX();
+        final double y = shape.getGroup().getY();
+        final double px = shape.getPath().getX();
+        final double py = shape.getPath().getY();
+        GWT.log( " GROUP AT [" + x + ", " + y + "]" );
+        GWT.log( " PATH AT [" + px + ", " + py + "]" );
+    }
+
+    private Rectangle buildButton( final double x,
+                              final double y,
+                              final ColorName colorName,
+                              final NodeMouseClickHandler handler ) {
+
+        Rectangle button = new Rectangle( 25, 25 )
+                .setX( x )
+                .setY( y )
+                .setFillColor( colorName );
+
+        button.addNodeMouseClickHandler( handler );
+
+        return button;
+    }
+
+    private void addLogging( final String s, final WiresShape shape ) {
+
+        shape.addShapeMovedHandler( new ShapeMovedHandler() {
             @Override
             public void onShapeMoved( ShapeMovedEvent event ) {
-                log( "onShapeMoved #1 [x=" + event.getX() + ", y=" + event.getY() + "]" );
+                log( "onShapeMoved #" + s + " [x=" + event.getX() + ", y=" + event.getY() + "]" );
             }
         } );
 
-        shape1.addShapeResizedHandler( new ShapeResizedHandler() {
+        shape.addShapeResizedHandler( new ShapeResizedHandler() {
             @Override
             public void onShapeResized( ShapeResizedEvent resizeEvent ) {
-                log( "onShapeResized #1 [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
+                log( "onShapeResized #" + s + " [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
                         + ", width=" + resizeEvent.getWidth()
                         + ", height=" + resizeEvent.getHeight() + "]" );
             }
         } );
-
     }
-
 
     private void log( String s ) {
         GWT.log( s );

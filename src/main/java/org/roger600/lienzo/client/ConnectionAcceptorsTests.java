@@ -30,7 +30,7 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest 
         WiresShape startEventShape = wires_manager.createShape(startEventMultiPath);
         Circle startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
         startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
-        startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
+        startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.CENTER);
         wires_manager.createMagnets( startEventShape );
         startEventShape.setDraggable( true ).setResizable( true );
 
@@ -88,8 +88,10 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest 
         x1 = m1_1.getControl().getX();
         y1 = m1_1.getControl().getY();
         line = createLine(layer, 0, 0, x0, y0, (x0 + ((x1-x0)/2)), (y0 + ((y1-y0)/2)), x1, y1);
-        line.setHeadOffset(head.getBoundingBox().getHeight());
-        line.setTailOffset(tail.getBoundingBox().getHeight());
+        final double hh = head.getBoundingBox().getHeight();
+        line.setHeadOffset( hh );
+        final double th = tail.getBoundingBox().getHeight();
+        line.setTailOffset( th );
 
         WiresConnector connector = wiresManager.createConnector(m0_1, m1_1, line,
                 new MultiPathDecorator(head),
