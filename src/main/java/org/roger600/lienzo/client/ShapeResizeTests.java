@@ -21,7 +21,6 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
 
     private Layer layer;
     private IControlHandleList m_ctrls;
-    private WiresShape shape1;
 
     public void test(Layer layer) {
 
@@ -29,7 +28,7 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
 
         WiresManager wires_manager = WiresManager.get( layer );
 
-        shape1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+        final WiresShape shape1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 100 ).setY( 100 );
 
@@ -55,14 +54,13 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
             }
         } );
 
+        addButton1( shape1 );
 
-        addAnotherShape( wires_manager );
-
-        addButton();
-
+        WiresShape shape2 = addAnotherShape( wires_manager );
+        addButton2( shape2 );
     }
 
-    private void addButton() {
+    private void addButton1( final WiresShape shape ) {
 
         Rectangle button = new Rectangle( 25, 25 )
                 .setX( 0 )
@@ -72,8 +70,7 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
         button.addNodeMouseClickHandler( new NodeMouseClickHandler() {
             @Override
             public void onNodeMouseClick( NodeMouseClickEvent event ) {
-                Point2DArray points = shape1.getPath().getAttributes().getPoints();
-                GWT.log( points.toJSONString() );
+                shape.getMagnets().show();
             }
         } );
 
@@ -81,7 +78,25 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
 
     }
 
-    private void addAnotherShape( final WiresManager wires_manager ) {
+    private void addButton2( final WiresShape shape ) {
+
+        Rectangle button = new Rectangle( 25, 25 )
+                .setX( 0 )
+                .setY( 50 )
+                .setFillColor( ColorName.BLUE );
+
+        button.addNodeMouseClickHandler( new NodeMouseClickHandler() {
+            @Override
+            public void onNodeMouseClick( NodeMouseClickEvent event ) {
+                shape.getMagnets().show();
+            }
+        } );
+
+        layer.add( button );
+
+    }
+
+    private WiresShape addAnotherShape( final WiresManager wires_manager ) {
         final WiresShape shape2 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 300 ).setY( 300 );
@@ -107,10 +122,12 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
                         + ", height=" + resizeEvent.getHeight() + "]" );
             }
         } );
+
+        return shape2;
     }
 
     private void log( String s ) {
-        GWT.log( s );
+        // GWT.log( s );
     }
 
 }
