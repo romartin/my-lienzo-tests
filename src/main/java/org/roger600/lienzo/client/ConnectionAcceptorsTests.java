@@ -28,7 +28,9 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest 
 
         WiresManager wires_manager = WiresManager.get(layer);
 
+        wires_manager.getMagnetManager().setHotspotSize( 10 );
         initConnectionAcceptor( wires_manager );
+        initDockingAcceptor( wires_manager, 20 );
 
         final double startX = 300;
         final double startY = 300;
@@ -72,6 +74,25 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest 
         // connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager);
 
         addMediators( layer );
+    }
+
+    private void initDockingAcceptor( final WiresManager wires_manager, final int hotspotSize ) {
+        wires_manager.setDockingAcceptor( new IDockingAcceptor() {
+            @Override
+            public boolean dockingAllowed( WiresContainer parent, WiresShape child ) {
+                return true;
+            }
+
+            @Override
+            public boolean acceptDocking( WiresContainer parent, WiresShape child ) {
+                return true;
+            }
+
+            @Override
+            public int getHotspotSize() {
+                return hotspotSize;
+            }
+        } );
     }
 
     private void initConnectionAcceptor( final WiresManager wires_manager ) {

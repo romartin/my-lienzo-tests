@@ -38,6 +38,12 @@ public class DockingTests extends FlowPanel implements MyLienzoTest {
                 GWT.log( "acceptDocking - [x=" + child.getGroup().getX() + ", y=" + child.getGroup().getY() + "]" );
                 return true;
             }
+
+            @Override
+            public int getHotspotSize() {
+                return IDockingAcceptor.HOTSPOT_SIZE;
+            }
+
         });
 
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#000000");
