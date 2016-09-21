@@ -7,8 +7,8 @@ import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedEvent;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -107,9 +107,9 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
         wires_manager.register( endEventShape );
         wires_manager.createMagnets( endEventShape );
 
-        endEventShape.setDraggable( true ).setResizable(true).addShapeResizedHandler( new ShapeResizedHandler() {
+        endEventShape.setDraggable( true ).setResizable(true).addWiresResizeHandler( new WiresResizeHandler() {
             @Override
-            public void onShapeResized( ShapeResizedEvent resizeEvent ) {
+            public void onShapeResized( WiresResizeEvent resizeEvent ) {
                 log( "onShapeResized [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
                         + ", width=" + resizeEvent.getWidth()
                         + ", height=" + resizeEvent.getHeight() + "]" );

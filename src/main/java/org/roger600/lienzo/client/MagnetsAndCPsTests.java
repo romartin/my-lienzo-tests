@@ -3,19 +3,16 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.mediator.*;
-import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
-import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeMovedEvent;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeMovedHandler;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedEvent;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedHandler;
-import com.ait.lienzo.client.core.types.BoundingBox;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -108,16 +105,16 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest {
 
     private void addLogging( final String s, final WiresShape shape ) {
 
-        shape.addShapeMovedHandler( new ShapeMovedHandler() {
+        shape.addWiresMoveHandler( new WiresMoveHandler() {
             @Override
-            public void onShapeMoved( ShapeMovedEvent event ) {
+            public void onShapeMoved( WiresMoveEvent event ) {
                 log( "onShapeMoved #" + s + " [x=" + event.getX() + ", y=" + event.getY() + "]" );
             }
         } );
 
-        shape.addShapeResizedHandler( new ShapeResizedHandler() {
+        shape.addWiresResizeHandler( new WiresResizeHandler() {
             @Override
-            public void onShapeResized( ShapeResizedEvent resizeEvent ) {
+            public void onShapeResized( WiresResizeEvent resizeEvent ) {
                 log( "onShapeResized #" + s + " [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
                         + ", width=" + resizeEvent.getWidth()
                         + ", height=" + resizeEvent.getHeight() + "]" );

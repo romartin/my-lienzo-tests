@@ -8,13 +8,11 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeMovedEvent;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeMovedHandler;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedEvent;
-import com.ait.lienzo.client.core.shape.wires.event.ShapeResizedHandler;
-import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
 import com.ait.lienzo.shared.core.types.ColorName;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
@@ -38,16 +36,16 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
                 .setResizable( true )
                 .setDraggable( true );
 
-        shape1.addShapeMovedHandler( new ShapeMovedHandler() {
+        shape1.addWiresMoveHandler( new WiresMoveHandler() {
             @Override
-            public void onShapeMoved( ShapeMovedEvent event ) {
+            public void onShapeMoved( WiresMoveEvent event ) {
                 log( "onShapeMoved #1 [x=" + event.getX() + ", y=" + event.getY() + "]" );
             }
         } );
 
-        shape1.addShapeResizedHandler( new ShapeResizedHandler() {
+        shape1.addWiresResizeHandler( new WiresResizeHandler() {
             @Override
-            public void onShapeResized( ShapeResizedEvent resizeEvent ) {
+            public void onShapeResized( WiresResizeEvent resizeEvent ) {
                 log( "onShapeResized #1 [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
                         + ", width=" + resizeEvent.getWidth()
                         + ", height=" + resizeEvent.getHeight() + "]" );
@@ -108,16 +106,16 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
             .setResizable( true )
             .setDraggable( true );
 
-        shape2.addShapeMovedHandler( new ShapeMovedHandler() {
+        shape2.addWiresMoveHandler( new WiresMoveHandler() {
             @Override
-            public void onShapeMoved( ShapeMovedEvent event ) {
+            public void onShapeMoved( WiresMoveEvent event ) {
                 log( "onShapeMoved #2 [x=" + event.getX() + ", y=" + event.getY() + "]" );
             }
         } );
 
-        shape2.addShapeResizedHandler( new ShapeResizedHandler() {
+        shape2.addWiresResizeHandler( new WiresResizeHandler() {
             @Override
-            public void onShapeResized( ShapeResizedEvent resizeEvent ) {
+            public void onShapeResized( WiresResizeEvent resizeEvent ) {
                 log( "onShapeResized #2 [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
                         + ", width=" + resizeEvent.getWidth()
                         + ", height=" + resizeEvent.getHeight() + "]" );

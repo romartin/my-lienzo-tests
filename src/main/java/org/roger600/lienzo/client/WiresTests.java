@@ -4,7 +4,10 @@ import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
@@ -150,16 +153,16 @@ public class WiresTests extends FlowPanel implements MyLienzoTest {
         // Connector from blue start event to yellow task node.
         connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager, true, false);
 
-        startEventShape.setDraggable(true).addShapeMovedHandler( new ShapeMovedHandler() {
+        startEventShape.setDraggable(true).addWiresMoveHandler( new WiresMoveHandler() {
             @Override
-            public void onShapeMoved( ShapeMovedEvent event ) {
+            public void onShapeMoved( WiresMoveEvent event ) {
                 log( "onShapeMoved [x=" + event.getX() + ", y=" + event.getY()+ "]" );
             }
         } );
 
-        startEventShape.setResizable(true).addShapeResizedHandler( new ShapeResizedHandler() {
+        startEventShape.setResizable(true).addWiresResizeHandler( new WiresResizeHandler() {
             @Override
-            public void onShapeResized( ShapeResizedEvent resizeEvent ) {
+            public void onShapeResized( WiresResizeEvent resizeEvent ) {
                 log( "onShapeResized [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
                         + ", width=" + resizeEvent.getWidth()
                         + ", height=" + resizeEvent.getHeight() + "]" );
