@@ -2,6 +2,7 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
+import com.ait.lienzo.client.core.mediator.*;
 import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
@@ -21,6 +22,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public class SimpleTests extends FlowPanel implements MyLienzoTest {
 
+    private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
+    private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
     public void test(Layer layer) {
 
@@ -69,6 +72,13 @@ public class SimpleTests extends FlowPanel implements MyLienzoTest {
 
         addLogging( "child1", child1 );
 
+        addMediators( layer );
+    }
+
+    private void addMediators( final Layer layer ) {
+        final Mediators mediators = layer.getViewport().getMediators();
+        mediators.push( new MouseWheelZoomMediator( zommFilters ) );
+        mediators.push( new MousePanMediator( panFilters ) );
     }
 
     private void logShapeCoords( WiresShape shape ) {
