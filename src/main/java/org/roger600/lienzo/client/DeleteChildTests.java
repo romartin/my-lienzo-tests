@@ -33,12 +33,14 @@ public class DeleteChildTests extends FlowPanel implements MyLienzoTest {
         });
         
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#000000");
-        final WiresShape parentShape = wires_manager.createShape(parentMultiPath);
+        final WiresShape parentShape = new WiresShape(parentMultiPath);
+        wires_manager.register( parentShape );
         parentShape.setDraggable(true).setX(0).setY(0);
         wires_manager.createMagnets(parentShape);
 
         MultiPath childMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#CC0000");
-        final WiresShape childShape = wires_manager.createShape(childMultiPath);
+        final WiresShape childShape = new WiresShape(childMultiPath);
+        wires_manager.register( childShape );
         childShape.setDraggable(true).setX(500).setY(0);
         wires_manager.createMagnets(childShape);
 
@@ -49,7 +51,7 @@ public class DeleteChildTests extends FlowPanel implements MyLienzoTest {
             @Override
             public void onNodeMouseClick(final NodeMouseClickEvent event) {
                 GWT.log("Deregistering shape " + childShape);
-                wires_manager.deregisterShape(childShape);
+                wires_manager.deregister(childShape);
                 layer.batch();
             }
         });

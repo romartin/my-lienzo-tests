@@ -47,12 +47,14 @@ public class DockingTests extends FlowPanel implements MyLienzoTest {
         });
 
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#000000");
-        final WiresShape parentShape = wires_manager.createShape(parentMultiPath);
+        final WiresShape parentShape = new WiresShape(parentMultiPath);
+        wires_manager.register( parentShape );
         parentShape.setDraggable(true).setX(200).setY(200);
         wires_manager.createMagnets(parentShape);
 
         MultiPath childMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#CC0000");
-        final WiresShape childShape = wires_manager.createShape(childMultiPath);
+        final WiresShape childShape = new WiresShape(childMultiPath);
+        wires_manager.register( childShape );
         childShape.setDraggable(true).setX(600).setY(200);
         wires_manager.createMagnets(childShape);
 

@@ -115,7 +115,8 @@ public class WiresTests extends FlowPanel implements MyLienzoTest {
 
         // Blue start event.
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
-        startEventShape = wires_manager.createShape(startEventMultiPath);
+        startEventShape = new WiresShape( startEventMultiPath );
+        wires_manager.register(startEventShape);
         startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
         startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
@@ -124,17 +125,20 @@ public class WiresTests extends FlowPanel implements MyLienzoTest {
         // ( (WiresLayoutContainer) startEventShape.getGroup()).add(startEventCircle, WiresLayoutContainer.Layout.CENTER);
 
         // Green task node.
-        WiresShape taskNodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
+        WiresShape taskNodeShape = new WiresShape( new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00") );
+        wires_manager.register(taskNodeShape);
         taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
         wires_manager.createMagnets( taskNodeShape );
 
         // Yellow task node.
-        WiresShape task2NodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
+        WiresShape task2NodeShape = new WiresShape( new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52") );
+        wires_manager.register(task2NodeShape);
         task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
         wires_manager.createMagnets( task2NodeShape );
 
         // Red end event.
-        WiresShape endEventShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
+        WiresShape endEventShape = new WiresShape( new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF") );
+        wires_manager.register(endEventShape);
         endEventShape.setX(startX + 400).setY(startY);
         endEventShape.getContainer().setUserData("event");
         wires_manager.createMagnets( endEventShape );

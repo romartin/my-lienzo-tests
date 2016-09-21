@@ -29,10 +29,11 @@ public class SimpleTests extends FlowPanel implements MyLienzoTest {
 
         WiresManager wires_manager = WiresManager.get( layer );
 
-        final WiresShape parent = wires_manager.createShape( new MultiPath().rect( 0, 0, 600, 600 )
+        final WiresShape parent = new WiresShape( new MultiPath().rect( 0, 0, 600, 600 )
                 .setStrokeColor( "#000000" ).setFillColor( "#FFFFFF" ) )
                 .setX( 100 ).setY( 100 );
 
+        wires_manager.register( parent );
         wires_manager.createMagnets( parent );
 
         parent
@@ -41,10 +42,10 @@ public class SimpleTests extends FlowPanel implements MyLienzoTest {
 
         addLogging( "parent", parent );
 
-        final WiresShape child1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+        final WiresShape child1 = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#000000" ).setFillColor( "#FF0000" ) )
                 .setX( 100 ).setY( 100 );
-
+        wires_manager.register( child1 );
         wires_manager.createMagnets( child1 );
 
         Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);

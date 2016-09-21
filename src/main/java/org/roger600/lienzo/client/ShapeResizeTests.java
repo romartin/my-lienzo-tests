@@ -28,10 +28,10 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
 
         WiresManager wires_manager = WiresManager.get( layer );
 
-        final WiresShape shape1 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+        final WiresShape shape1 = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 100 ).setY( 100 );
-
+        wires_manager.register( shape1 );
         wires_manager.createMagnets( shape1 );
 
         shape1
@@ -97,10 +97,11 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
     }
 
     private WiresShape addAnotherShape( final WiresManager wires_manager ) {
-        final WiresShape shape2 = wires_manager.createShape( new MultiPath().rect( 0, 0, 100, 100 )
+        final WiresShape shape2 = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 300 ).setY( 300 );
 
+        wires_manager.register( shape2 );
         wires_manager.createMagnets( shape2 );
 
         shape2

@@ -98,9 +98,10 @@ public class ChildCircleResizeTests extends FlowPanel implements MyLienzoTest, H
                                final String fillColor,
                                final String strokeColor) {
 
-        WiresShape endEventShape = wires_manager.createShape( new MultiPath().rect( 0, 0, w, h )
+        WiresShape endEventShape = new WiresShape( new MultiPath().rect( 0, 0, w, h )
                 .setStrokeColor( strokeColor ).setFillColor( fillColor ) )
                 .setX( x ).setY( y );
+        wires_manager.register( endEventShape );
         wires_manager.createMagnets( endEventShape );
 
         endEventShape.setDraggable( true ).setResizable(true).addShapeResizedHandler( new ShapeResizedHandler() {

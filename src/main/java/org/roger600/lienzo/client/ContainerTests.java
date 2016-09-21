@@ -50,11 +50,13 @@ public class ContainerTests extends FlowPanel implements MyLienzoTest {
 
         // Blue start event.
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
-        WiresShape startEventShape = wires_manager.createShape(startEventMultiPath);
+        WiresShape startEventShape = new WiresShape(startEventMultiPath);
+        wires_manager.register( startEventShape );
         startEventShape.setX(startX).setY(startY).setDraggable(true).getContainer().setUserData("event");
 
         // Green task node.
-        WiresShape taskNodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
+        WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
+        wires_manager.register( taskNodeShape );
         taskNodeShape.setX(startX + 200).setY(startY).setDraggable(true).getContainer().setUserData("task");
 
     }

@@ -26,33 +26,38 @@ public class MediatorsTests2 extends FlowPanel implements MyLienzoTest {
         final double h = 100;
 
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, w + 900 , h + 900).setStrokeColor("#000000");
-        WiresShape parentShape = wires_manager.createShape(parentMultiPath);
+        WiresShape parentShape = new WiresShape(parentMultiPath);
+        wires_manager.register( parentShape );
         parentShape.setX( 300 ).setY( 300 ).getContainer().setUserData("parent");
 
         // Blue start event.
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
-        WiresShape startEventShape = wires_manager.createShape(startEventMultiPath);
+        WiresShape startEventShape = new WiresShape(startEventMultiPath);
+        wires_manager.register( startEventShape );
         startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
         wires_manager.createMagnets( startEventShape );
 
         parentShape.add( startEventShape );
 
         // Green task node.
-        WiresShape taskNodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
+        WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
+        wires_manager.register( taskNodeShape );
         taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
         wires_manager.createMagnets(taskNodeShape);
 
         parentShape.add( taskNodeShape );
 
         // Yellow task node.
-        WiresShape task2NodeShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
+        WiresShape task2NodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
+        wires_manager.register( task2NodeShape );
         task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
         wires_manager.createMagnets(task2NodeShape);
 
         parentShape.add( task2NodeShape );
 
         // Red end event.
-        WiresShape endEventShape = wires_manager.createShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
+        WiresShape endEventShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
+        wires_manager.register( endEventShape );
         endEventShape.setX(startX + 400).setY(startY);
         endEventShape.getContainer().setUserData("event");
         wires_manager.createMagnets(endEventShape);
@@ -107,9 +112,11 @@ public class MediatorsTests2 extends FlowPanel implements MyLienzoTest {
         line.setHeadOffset(head.getBoundingBox().getHeight());
         line.setTailOffset(tail.getBoundingBox().getHeight());
 
-        WiresConnector connector = wiresManager.createConnector(m0_1, m1_1, line,
+        WiresConnector connector = new WiresConnector(m0_1, m1_1, line,
                 new MultiPathDecorator(head),
                 new MultiPathDecorator(tail));
+
+        wiresManager.register( connector );
 
         head.setStrokeWidth(5).setStrokeColor("#0000CC");
         tail.setStrokeWidth(5).setStrokeColor("#0000CC");
