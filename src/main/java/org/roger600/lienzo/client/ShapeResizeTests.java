@@ -13,6 +13,7 @@ import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
 import com.ait.lienzo.shared.core.types.ColorName;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
@@ -126,7 +127,7 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
     }
 
     private void log( String s ) {
-        // GWT.log( s );
+        GWT.log( s );
     }
 
 }
