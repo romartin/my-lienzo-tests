@@ -16,7 +16,7 @@ import org.roger600.lienzo.client.ks.WiresResizeTests;
 public class LienzoTests implements EntryPoint {
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
-            new SimpleTests(),
+            new MagnetsAndCPsTests(),
             new BoundingBoxTests(),
             new ShapeResizeTests(),
             new ChildRectangleResizeTests(),
