@@ -1,5 +1,7 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
+import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
@@ -9,6 +11,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
+import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -72,7 +75,7 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
 
     }
 
-    private void testAllLayouts(Layer layer) {
+    private void testAllLayouts( final Layer layer) {
         WiresShape shapeTop = create( 400, 50, 100, 100, "#CC0000", "#FFFFFF" );
         Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
         shapeTop.addChild(circle1, WiresLayoutContainer.Layout.TOP);
@@ -85,13 +88,28 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
         Rectangle circle3 = new Rectangle( 50, 50).setFillColor("#CCCCCC").setDraggable(false);
         shapeCenter.addChild(circle3, WiresLayoutContainer.Layout.CENTER);
 
-        WiresShape shapeRight = create( 800, 200, 100, 100, "#0000FF", "#FFFFFF" );
-        Rectangle circle4 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
+        final WiresShape shapeRight = create( 800, 200, 100, 100, "#0000FF", "#FFFFFF" );
+        final Rectangle circle4 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
         shapeRight.addChild(circle4, WiresLayoutContainer.Layout.RIGHT);
 
         WiresShape shapeBottom = create( 400, 400, 100, 100, "#FF00FF", "#FFFFFF" );
         Rectangle circle5 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
         shapeBottom.addChild(circle5, WiresLayoutContainer.Layout.BOTTOM);
+
+        addResizeButton( layer, new NodeMouseClickHandler() {
+            @Override
+            public void onNodeMouseClick( NodeMouseClickEvent event ) {
+                circle4.setWidth( 60 ).setHeight( 30 );
+                shapeRight.refresh();
+                layer.batch();
+            }
+        } );
+    }
+
+    private void addResizeButton( Layer layer, NodeMouseClickHandler handler ) {
+        Rectangle r = new Rectangle( 25, 25 ).setFillColor( ColorName.RED );
+        r.addNodeMouseClickHandler( handler );
+        layer.add( r );
     }
 
     private WiresShape create( final double x,
