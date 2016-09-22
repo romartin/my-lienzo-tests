@@ -6,7 +6,7 @@ import com.ait.lienzo.client.core.shape.wires.*;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class DockingTests extends FlowPanel implements MyLienzoTest {
+public class DockingTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private Layer layer;
 

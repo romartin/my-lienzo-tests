@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest {
+public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };

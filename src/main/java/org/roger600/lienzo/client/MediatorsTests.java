@@ -1,62 +1,51 @@
 package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.mediator.*;
-import com.ait.lienzo.client.core.shape.Layer;
-import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.MultiPathDecorator;
-import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
+import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.shared.core.types.ColorName;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 
 
-public class MediatorsTests extends FlowPanel implements MyLienzoTest {
+public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButtons {
 
-    private Layer layer;
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
+
+    private Layer layer;
+    private WiresShape startShape;
+    private WiresShape parentShape;
+    private WiresShape childShape;
 
     public void test(Layer layer) {
         this.layer = layer;
         WiresManager wires_manager = WiresManager.get(layer);
 
-        final double startX = 300;
-        final double startY = 300;
-        final double w = 100;
-        final double h = 100;
+        // White box.
+        MultiPath startEventMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#000000");
+        startShape = new WiresShape(startEventMultiPath);
+        wires_manager.register( startShape.setDraggable( true ) );
+        startShape.setX(100).setY(100).getContainer().setUserData("event");
+        // wires_manager.getMagnetManager().createMagnets( startEventShape );
+        // startEventShape.getMagnets().show();
 
-        // Blue start event.
-        MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
-        WiresShape startEventShape = new WiresShape(startEventMultiPath);
-        wires_manager.register( startEventShape );
-        startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
-        wires_manager.getMagnetManager().createMagnets( startEventShape );
+        MultiPath parentPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#FF0000").setStrokeWidth( 2 );
+        parentShape  = new WiresShape(parentPath);
+        wires_manager.register( parentShape.setDraggable( true ) );
+        parentShape.setX(300).setY(100).getContainer().setUserData("event");
 
-        // Green task node.
-        WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
-        wires_manager.register( taskNodeShape );
-        taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
-        wires_manager.getMagnetManager().createMagnets(taskNodeShape);
+        MultiPath childPath = new MultiPath().rect(0, 0, 50, 50).setFillColor("#000000");
+        childShape  = new WiresShape(childPath);
+        wires_manager.register( childShape.setDraggable( true ) );
+        childShape.setX(50).setY(50).getContainer().setUserData("event");
 
-        // Yellow task node.
-        WiresShape task2NodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
-        wires_manager.register( task2NodeShape );
-        task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
-        wires_manager.getMagnetManager().createMagnets(task2NodeShape);
-
-        // Red end event.
-        WiresShape endEventShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
-        wires_manager.register( endEventShape );
-        endEventShape.setX(startX + 400).setY(startY);
-        endEventShape.getContainer().setUserData("event");
-        wires_manager.getMagnetManager().createMagnets(endEventShape);
-
-        // Connector from blue start event to green task node.
-        connect(layer, startEventShape.getMagnets(), 3, taskNodeShape.getMagnets(), 7, wires_manager);
-        // Connector from green task node to red end event
-        connect(layer, taskNodeShape.getMagnets(), 3, endEventShape.getMagnets(), 7, wires_manager);
-        // Connector from blue start event to yellow task node.
-        connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager);
+        parentShape.add( childShape );
 
         addMediators();
 
@@ -118,4 +107,43 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest {
         return line;
     }
 
+    @Override
+    public void setButtonsPanel( Panel panel ) {
+        Button b1 = new Button( "StartShape" );
+        b1.addClickHandler( new ClickHandler() {
+            @Override
+            public void onClick( ClickEvent clickEvent ) {
+                Group group = startShape.getGroup();
+                GWT.log( "StartShape [x=" + group.getX() + ", y=" + group.getY() );
+                GWT.log( "StartShape location = " + group.getLocation().toJSONString() );
+                GWT.log( "StartShape absolute location = " + group.getAbsoluteLocation().toJSONString() );
+            }
+        } );
+        panel.add( b1 );
+
+        Button b2 = new Button( "ParentShape" );
+        b2.addClickHandler( new ClickHandler() {
+            @Override
+            public void onClick( ClickEvent clickEvent ) {
+                Group group = parentShape.getGroup();
+                GWT.log( "ParentShape [x=" + group.getX() + ", y=" + group.getY() );
+                GWT.log( "ParentShape location = " + group.getLocation().toJSONString() );
+                GWT.log( "ParentShape absolute location = " + group.getAbsoluteLocation().toJSONString() );
+            }
+        } );
+        panel.add( b2 );
+
+        Button b3 = new Button( "ChildShape" );
+        b3.addClickHandler( new ClickHandler() {
+            @Override
+            public void onClick( ClickEvent clickEvent ) {
+                Group group = childShape.getGroup();
+                GWT.log( "ChildShape [x=" + group.getX() + ", y=" + group.getY() );
+                GWT.log( "ChildShape location = " + group.getLocation().toJSONString() );
+                GWT.log( "ChildShape absolute location = " + group.getAbsoluteLocation().toJSONString() );
+            }
+        } );
+        panel.add( b3 );
+
+    }
 }

@@ -14,7 +14,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
-public class WiresTests extends FlowPanel implements MyLienzoTest {
+public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private Layer layer;
     private IControlHandleList m_ctrls;

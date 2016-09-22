@@ -10,7 +10,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 
-public class ContainerTests extends FlowPanel implements MyLienzoTest {
+public class ContainerTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private Layer layer;
 

@@ -5,7 +5,7 @@ import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class MarkConnectorTests extends FlowPanel implements MyLienzoTest {
+public class MarkConnectorTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private Layer layer;
 

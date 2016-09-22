@@ -1,5 +1,6 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.mediator.*;
 import com.ait.lienzo.client.core.shape.GridLayer;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
@@ -15,7 +16,11 @@ import org.roger600.lienzo.client.ks.WiresResizeTests;
 
 public class LienzoTests implements EntryPoint {
 
+    private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
+    private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
+
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
+            new TransformTests(),
             new MagnetsAndCPsTests(),
             new BoundingBoxTests(),
             new WiresDragAndMoveTests(),
@@ -90,9 +95,21 @@ public class LienzoTests implements EntryPoint {
         if ( test instanceof HasButtons ) {
             ( ( HasButtons ) test ).setButtonsPanel( screenButtonsPanel );
         }
+
+        if ( test instanceof HasMediators ) {
+            addMediators( layer );
+        }
+
         test.test( layer );
+
         layer.draw();
 
+    }
+
+    private void addMediators( Layer layer ) {
+        final Mediators mediators = layer.getViewport().getMediators();
+        mediators.push( new MouseWheelZoomMediator( zommFilters ) );
+        mediators.push( new MousePanMediator( panFilters ) );
     }
 
     private void addButton( final Button button ) {

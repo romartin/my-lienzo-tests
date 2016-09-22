@@ -16,7 +16,7 @@ import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
+public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private Layer layer;
     private IControlHandleList m_ctrls;

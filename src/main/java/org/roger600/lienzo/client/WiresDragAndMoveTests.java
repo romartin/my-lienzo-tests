@@ -12,7 +12,7 @@ import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest {
+public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     public void test(Layer _layer) {
         final Layer layer = _layer;

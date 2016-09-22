@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
-public class ChildCircleResizeTests extends FlowPanel implements MyLienzoTest, HasButtons {
+public class ChildCircleResizeTests extends FlowPanel implements MyLienzoTest, HasButtons, HasMediators {
 
     WiresManager wires_manager;
 

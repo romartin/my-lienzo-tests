@@ -17,7 +17,7 @@ import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest {
+public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
