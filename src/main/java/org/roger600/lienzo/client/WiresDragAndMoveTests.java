@@ -22,7 +22,7 @@ public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest {
         final WiresShape parentRedShape = new WiresShape(parentMultiPath1);
         wires_manager.register( parentRedShape );
         parentRedShape.setDraggable(true).setX(0).setY(0);
-        wires_manager.createMagnets(parentRedShape);
+        wires_manager.getMagnetManager().createMagnets(parentRedShape);
 
         addHandlers( "ParentRed", parentRedShape );
 
@@ -30,7 +30,7 @@ public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest {
         final WiresShape parentShape = new WiresShape(parentMultiPath);
         wires_manager.register( parentShape );
         parentShape.setDraggable(true).setX(200).setY(200);
-        wires_manager.createMagnets(parentShape);
+        wires_manager.getMagnetManager().createMagnets(parentShape);
 
         addHandlers( "ParentBlack", parentShape );
 
@@ -38,7 +38,7 @@ public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest {
         final WiresShape childShape = new WiresShape(childMultiPath);
         wires_manager.register( childShape );
         childShape.setDraggable(true).setX(0).setY(0);
-        wires_manager.createMagnets(childShape);
+        wires_manager.getMagnetManager().createMagnets(childShape);
         addHandlers( "Child", childShape );
 
         parentShape.add( childShape );

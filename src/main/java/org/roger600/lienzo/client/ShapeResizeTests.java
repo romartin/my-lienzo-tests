@@ -31,7 +31,7 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 100 ).setY( 100 );
         wires_manager.register( shape1 );
-        wires_manager.createMagnets( shape1 );
+        wires_manager.getMagnetManager().createMagnets( shape1 );
 
         shape1
                 .setResizable( true )
@@ -101,7 +101,7 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest {
                 .setX( 300 ).setY( 300 );
 
         wires_manager.register( shape2 );
-        wires_manager.createMagnets( shape2 );
+        wires_manager.getMagnetManager().createMagnets( shape2 );
 
         shape2
             .setResizable( true )

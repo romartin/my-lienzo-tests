@@ -123,10 +123,10 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
         wires_manager.register( wiresShape3 );
         wiresShape3.getContainer().setUserData("B");
 
-        wires_manager.createMagnets(wiresShape0);
-        wires_manager.createMagnets(wiresShape1);
-        wires_manager.createMagnets(wiresShape2);
-        wires_manager.createMagnets(wiresShape3);
+        wires_manager.getMagnetManager().createMagnets(wiresShape0);
+        wires_manager.getMagnetManager().createMagnets(wiresShape1);
+        wires_manager.getMagnetManager().createMagnets(wiresShape2);
+        wires_manager.getMagnetManager().createMagnets(wiresShape3);
 
         connect(layer, wiresShape1.getMagnets(), 3, wiresShape0.getMagnets(), 7, wires_manager);
 

@@ -30,26 +30,26 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest {
         WiresShape startEventShape = new WiresShape(startEventMultiPath);
         wires_manager.register( startEventShape );
         startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
-        wires_manager.createMagnets( startEventShape );
+        wires_manager.getMagnetManager().createMagnets( startEventShape );
 
         // Green task node.
         WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
         wires_manager.register( taskNodeShape );
         taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
-        wires_manager.createMagnets(taskNodeShape);
+        wires_manager.getMagnetManager().createMagnets(taskNodeShape);
 
         // Yellow task node.
         WiresShape task2NodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
         wires_manager.register( task2NodeShape );
         task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
-        wires_manager.createMagnets(task2NodeShape);
+        wires_manager.getMagnetManager().createMagnets(task2NodeShape);
 
         // Red end event.
         WiresShape endEventShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
         wires_manager.register( endEventShape );
         endEventShape.setX(startX + 400).setY(startY);
         endEventShape.getContainer().setUserData("event");
-        wires_manager.createMagnets(endEventShape);
+        wires_manager.getMagnetManager().createMagnets(endEventShape);
 
         // Connector from blue start event to green task node.
         connect(layer, startEventShape.getMagnets(), 3, taskNodeShape.getMagnets(), 7, wires_manager);

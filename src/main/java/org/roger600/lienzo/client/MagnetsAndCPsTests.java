@@ -31,7 +31,7 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest {
                 .setX( 100 ).setY( 100 );
 
         wires_manager.register( parent );
-        wires_manager.createMagnets( parent );
+        wires_manager.getMagnetManager().createMagnets( parent );
 
         parent
                 .setResizable( true )
@@ -43,7 +43,7 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest {
                 .setStrokeColor( "#000000" ).setFillColor( "#FF0000" ) )
                 .setX( 100 ).setY( 100 );
         wires_manager.register( child1 );
-        wires_manager.createMagnets( child1 );
+        wires_manager.getMagnetManager().createMagnets( child1 );
 
         Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
         child1.addChild(circle1, WiresLayoutContainer.Layout.CENTER);
