@@ -25,6 +25,7 @@ public class LienzoTests implements EntryPoint {
             new BoundingBoxTests(),
             new WiresDragAndMoveTests(),
             new ShapeResizeTests(),
+            new LayoutContainerChildrenTests(),
             new ChildRectangleResizeTests(),
             new ChildCircleResizeTests(),
             new ConnectionAcceptorsTests(),
