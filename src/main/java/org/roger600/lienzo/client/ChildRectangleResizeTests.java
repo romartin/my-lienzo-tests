@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.Panel;
 public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest, HasButtons, HasMediators {
 
     WiresManager wires_manager;
+    Panel panelButtons;
 
     public void test(Layer layer) {
 
@@ -33,6 +34,7 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
     @Override
     public void setButtonsPanel( Panel panel ) {
 
+        this.panelButtons = panel;
         showLayoutButtons( panel );
 
     }
@@ -96,20 +98,17 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
         Rectangle circle5 = new Rectangle( 50, 50).setFillColor("#0000CC").setDraggable(false);
         shapeBottom.addChild(circle5, WiresLayoutContainer.Layout.BOTTOM);
 
-        addResizeButton( layer, new NodeMouseClickHandler() {
+        Button buttonResizeChild = new Button( "Resize child on RIGHT rectangle." );
+        buttonResizeChild.addClickHandler( new ClickHandler() {
             @Override
-            public void onNodeMouseClick( NodeMouseClickEvent event ) {
+            public void onClick( ClickEvent clickEvent ) {
                 circle4.setWidth( 60 ).setHeight( 30 );
                 shapeRight.refresh();
                 layer.batch();
             }
         } );
-    }
 
-    private void addResizeButton( Layer layer, NodeMouseClickHandler handler ) {
-        Rectangle r = new Rectangle( 25, 25 ).setFillColor( ColorName.RED );
-        r.addNodeMouseClickHandler( handler );
-        layer.add( r );
+        this.panelButtons.add( buttonResizeChild );
     }
 
     private WiresShape create( final double x,
