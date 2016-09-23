@@ -33,9 +33,8 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMe
         wires_manager.register( parent );
         wires_manager.getMagnetManager().createMagnets( parent );
 
-        parent
-                .setResizable( true )
-                .setDraggable( true );
+        parent.setDraggable( true );
+        TestsUtils.addResizeHandlers( parent );
 
         addLogging( "parent", parent );
 
@@ -48,9 +47,8 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMe
         Rectangle circle1 = new Rectangle( 50, 50).setFillColor("#CC00CC").setDraggable(false);
         child1.addChild(circle1, WiresLayoutContainer.Layout.CENTER);
 
-        child1
-                .setResizable( true )
-                .setDraggable( true );
+        child1.setDraggable( true );
+        TestsUtils.addResizeHandlers( child1 );
 
         parent.add( child1 );
 

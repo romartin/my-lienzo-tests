@@ -34,8 +34,9 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
         wires_manager.getMagnetManager().createMagnets( shape1 );
 
         shape1
-                .setResizable( true )
                 .setDraggable( true );
+
+        TestsUtils.addResizeHandlers( shape1 );
 
         shape1.addWiresMoveHandler( new WiresMoveHandler() {
             @Override
@@ -104,8 +105,8 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
         wires_manager.getMagnetManager().createMagnets( shape2 );
 
         shape2
-            .setResizable( true )
             .setDraggable( true );
+        TestsUtils.addResizeHandlers( shape2 );
 
         shape2.addWiresMoveHandler( new WiresMoveHandler() {
             @Override

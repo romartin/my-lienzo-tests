@@ -160,7 +160,9 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
             }
         } );
 
-        startEventShape.setResizable(true).addWiresResizeHandler( new WiresResizeHandler() {
+        TestsUtils.addResizeHandlers( startEventShape );
+
+        startEventShape.addWiresResizeHandler( new WiresResizeHandler() {
             @Override
             public void onShapeResized( WiresResizeEvent resizeEvent ) {
                 log( "onShapeResized [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()

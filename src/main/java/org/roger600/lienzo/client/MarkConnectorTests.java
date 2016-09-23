@@ -27,7 +27,8 @@ public class MarkConnectorTests extends FlowPanel implements MyLienzoTest, HasMe
         startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
-        startEventShape.setDraggable( true ).setResizable( true );
+        startEventShape.setDraggable( true );
+        TestsUtils.addResizeHandlers( startEventShape );
 
         // Green task node.
         WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));

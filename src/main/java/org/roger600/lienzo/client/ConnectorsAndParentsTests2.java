@@ -36,7 +36,8 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
 
         WiresShape parentShape = new WiresShape(new MultiPath().rect(0, 0, 800, 400).setStrokeColor( ColorName.YELLOW ));
         wires_manager.register( parentShape );
-        parentShape.setDraggable( true ).setResizable( true );
+        parentShape.setDraggable( true );
+        TestsUtils.addResizeHandlers( parentShape );
         parentShape.setX(50).setY(50);
         parentShape.getContainer().setUserData(ColorName.YELLOW.getColorString());
         wires_manager.getMagnetManager().createMagnets(parentShape);
@@ -49,14 +50,16 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
         startEventShape.setX(startX).setY(startY).getContainer().setUserData(ColorName.BLUE.getColorString());
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.CENTER);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
-        startEventShape.setDraggable( true ).setResizable( true );
+        startEventShape.setDraggable( true );
+        TestsUtils.addResizeHandlers( startEventShape );
 
         parentShape.add( startEventShape );
 
         // Green task node.
         WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor( ColorName.GREEN ));
         wires_manager.register( taskNodeShape );
-        taskNodeShape.setDraggable( true ).setResizable( true );
+        taskNodeShape.setDraggable( true );
+        TestsUtils.addResizeHandlers( taskNodeShape );
         taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData(ColorName.GREEN.getColorString());
         wires_manager.getMagnetManager().createMagnets(taskNodeShape);
 
@@ -65,14 +68,16 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
         // Yellow task node.
         WiresShape task2NodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor( ColorName.YELLOW ));
         wires_manager.register( task2NodeShape );
-        task2NodeShape.setDraggable( true ).setResizable( true );
+        task2NodeShape.setDraggable( true );
+        TestsUtils.addResizeHandlers( task2NodeShape );
         task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData(ColorName.YELLOW.getColorString());
         wires_manager.getMagnetManager().createMagnets(task2NodeShape);
 
         // Red end event.
         WiresShape endEventShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setStrokeColor( ColorName.RED ));
         wires_manager.register( endEventShape );
-        endEventShape.setDraggable( true ).setResizable( true );
+        endEventShape.setDraggable( true );
+        TestsUtils.addResizeHandlers( endEventShape );
         endEventShape.setX(startX + 700).setY(startY);
         endEventShape.getContainer().setUserData(ColorName.RED.getColorString());
         wires_manager.getMagnetManager().createMagnets(endEventShape);

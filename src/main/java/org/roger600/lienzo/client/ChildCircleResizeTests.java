@@ -107,7 +107,9 @@ public class ChildCircleResizeTests extends FlowPanel implements MyLienzoTest, H
         wires_manager.register( endEventShape );
         wires_manager.getMagnetManager().createMagnets( endEventShape );
 
-        endEventShape.setDraggable( true ).setResizable(true).addWiresResizeHandler( new WiresResizeHandler() {
+        TestsUtils.addResizeHandlers( endEventShape );
+
+        endEventShape.setDraggable( true ).addWiresResizeHandler( new WiresResizeHandler() {
             @Override
             public void onShapeResized( WiresResizeEvent resizeEvent ) {
                 log( "onShapeResized [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
