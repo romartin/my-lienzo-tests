@@ -1,5 +1,7 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.event.NodeDragMoveEvent;
+import com.ait.lienzo.client.core.event.NodeDragMoveHandler;
 import com.ait.lienzo.client.core.mediator.*;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
@@ -32,6 +34,12 @@ public class TransformTests extends FlowPanel implements MyLienzoTest, HasButton
                 .setFillColor( ColorName.BLACK )
                 .setDraggable( true );
 
+        rectangle.addNodeDragMoveHandler( new NodeDragMoveHandler() {
+            @Override
+            public void onNodeDragMove( NodeDragMoveEvent event ) {
+                GWT.log( "MOVING TO [Dx=" + event.getDragContext().getDx() + ", Dy=" + event.getDragContext().getDy() + "]" );
+            }
+        } );
         layer.add( rectangle );
 
         addMediators();

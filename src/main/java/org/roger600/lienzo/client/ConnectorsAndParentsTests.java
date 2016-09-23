@@ -12,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest, HasMediators {
+public class ConnectorsAndParentsTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
@@ -70,6 +70,14 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest,
         endEventShape.getContainer().setUserData(ColorName.RED.getColorString());
         wires_manager.getMagnetManager().createMagnets(endEventShape);
 
+        // Red end event.
+        WiresShape parentShape = new WiresShape(new MultiPath().rect(0, 0, 300, 300).setStrokeColor( ColorName.YELLOW ));
+        wires_manager.register( parentShape );
+        parentShape.setDraggable( true ).setResizable( true );
+        parentShape.setX(100).setY(50);
+        parentShape.getContainer().setUserData(ColorName.YELLOW.getColorString());
+        wires_manager.getMagnetManager().createMagnets(parentShape);
+
         // Connector from blue start event to green task node.
         connect(layer, startEventShape.getMagnets(), 3, taskNodeShape.getMagnets(), 7, wires_manager);
         // Connector from green task node to red end event
@@ -101,80 +109,7 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest,
 
     private void initConnectionAcceptor( final WiresManager wires_manager ) {
 
-        wires_manager.setConnectionAcceptor(new IConnectionAcceptor() {
-            @Override
-            public boolean acceptHead(WiresConnection head, WiresMagnet magnet) {
-                WiresConnection tail = head.getConnector().getTailConnection();
 
-                WiresMagnet m = tail.getMagnet();
-
-                if (m == null)
-                {
-                    return true;
-                }
-                return accept(magnet.getMagnets().getGroup(), tail.getMagnet().getMagnets().getGroup());
-            }
-
-            @Override
-            public boolean acceptTail(WiresConnection tail, WiresMagnet magnet) {
-                WiresConnection head = tail.getConnector().getHeadConnection();
-
-                WiresMagnet m = head.getMagnet();
-
-                if (m == null)
-                {
-                    return true;
-                }
-                return accept(head.getMagnet().getMagnets().getGroup(), magnet.getMagnets().getGroup());
-            }
-
-            @Override
-            public boolean headConnectionAllowed(WiresConnection head, WiresShape shape) {
-                WiresConnection tail = head.getConnector().getTailConnection();
-                WiresMagnet m = tail.getMagnet();
-
-                if (m == null)
-                {
-                    return true;
-                }
-
-                return accept(shape.getContainer(), tail.getMagnet().getMagnets().getGroup());
-            }
-
-            @Override
-            public boolean tailConnectionAllowed(WiresConnection tail, WiresShape shape) {
-                WiresConnection head = tail.getConnector().getHeadConnection();
-
-                WiresMagnet m = head.getMagnet();
-
-                if (m == null)
-                {
-                    return true;
-                }
-                return accept(head.getMagnet().getMagnets().getGroup(), shape.getContainer());
-            }
-
-            private boolean accept(final IContainer head, final IContainer tail)
-            {
-                GWT.log("Accept [head=" + head.getUserData() + "] [tail=" + tail.getUserData() + "]");
-                final String headData = (String) head.getUserData();
-                final String tailData = (String) tail.getUserData();
-
-                final List<String[]> accepted = new LinkedList<String[]>() {{
-                    add( new String[] { ColorName.BLUE.getColorString(), ColorName.GREEN.getColorString() } );
-                }};
-
-                for ( String[] a : accepted ) {
-
-                    if ( a[0].equals( headData ) && a[1].equals( tailData ) ) {
-                        GWT.log(" ACCEPT = TRUE");
-                        return true;
-                    }
-                }
-                GWT.log(" ACCEPT = FALSE");
-                return false;
-            }
-        });
 
     }
     private void connect(Layer layer, MagnetManager.Magnets magnets0, int i0_1, MagnetManager.Magnets magnets1, int i1_1, WiresManager wiresManager)

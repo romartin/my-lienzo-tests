@@ -7,11 +7,12 @@ import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.wires.IControlHandle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.google.gwt.user.client.ui.FlowPanel;
+import org.roger600.lienzo.client.HasMediators;
 import org.roger600.lienzo.client.MyLienzoTest;
 
 import java.util.Map;
 
-public class WiresResizeTests extends FlowPanel implements MyLienzoTest {
+public class WiresResizeTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
     private IControlHandleList m_ctrls;
     private MultiPath    m_multi;
