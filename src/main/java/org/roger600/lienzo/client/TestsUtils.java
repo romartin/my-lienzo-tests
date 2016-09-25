@@ -14,7 +14,7 @@ public class TestsUtils {
             @Override
             public void onNodeMouseClick(NodeMouseClickEvent event)
             {
-                final IControlHandleList controlHandles = shape.getControls( IControlHandle.ControlHandleStandardType.RESIZE );
+                final IControlHandleList controlHandles = shape.loadControls( IControlHandle.ControlHandleStandardType.RESIZE );
 
                 if ( null != controlHandles ) {
 
