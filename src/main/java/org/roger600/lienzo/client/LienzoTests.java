@@ -10,10 +10,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
-import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
-import org.roger600.lienzo.client.ks.WiresArrowsTests;
-import org.roger600.lienzo.client.ks.WiresResizeTests;
-import org.roger600.lienzo.client.ks.WiresSquaresTests;
+import org.roger600.lienzo.client.ks.*;
 
 public class LienzoTests implements EntryPoint {
 
@@ -45,7 +42,8 @@ public class LienzoTests implements EntryPoint {
             new WiresAlignDistroTests(),
             new WiresResizeTests(),
             new WiresArrowsTests(),
-            new WiresSquaresTests()
+            new WiresSquaresTests(),
+            new WiresResizesTests()
     };
 
     private static final int MAX_BUTTONS_ROW = 7;
