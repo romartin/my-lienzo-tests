@@ -7,8 +7,7 @@ import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
-import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
+import com.ait.lienzo.client.core.shape.wires.event.*;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -109,12 +108,30 @@ public class ChildCircleResizeTests extends FlowPanel implements MyLienzoTest, H
 
         TestsUtils.addResizeHandlers( endEventShape );
 
-        endEventShape.setDraggable( true ).addWiresResizeHandler( new WiresResizeHandler() {
+        endEventShape.addWiresResizeStartHandler( new WiresResizeStartHandler() {
             @Override
-            public void onShapeResized( WiresResizeEvent resizeEvent ) {
-                log( "onShapeResized [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
-                        + ", width=" + resizeEvent.getWidth()
-                        + ", height=" + resizeEvent.getHeight() + "]" );
+            public void onShapeResizeStart( final WiresResizeStartEvent event ) {
+                log( "onShapeResizeStart [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
+        endEventShape.addWiresResizeStepHandler( new WiresResizeStepHandler() {
+            @Override
+            public void onShapeResizeStep( WiresResizeStepEvent event ) {
+                log( "onShapeResizeStep [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
+        endEventShape.addWiresResizeEndHandler( new WiresResizeEndHandler() {
+            @Override
+            public void onShapeResizeEnd( WiresResizeEndEvent event ) {
+                log( "onShapeResizeEnd [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
             }
         } );
 

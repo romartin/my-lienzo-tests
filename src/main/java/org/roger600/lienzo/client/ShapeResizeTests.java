@@ -8,10 +8,7 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
-import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
-import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
-import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
+import com.ait.lienzo.client.core.shape.wires.event.*;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -45,12 +42,30 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
             }
         } );
 
-        shape1.addWiresResizeHandler( new WiresResizeHandler() {
+        shape1.addWiresResizeStartHandler( new WiresResizeStartHandler() {
             @Override
-            public void onShapeResized( WiresResizeEvent resizeEvent ) {
-                log( "onShapeResized #1 [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
-                        + ", width=" + resizeEvent.getWidth()
-                        + ", height=" + resizeEvent.getHeight() + "]" );
+            public void onShapeResizeStart( final WiresResizeStartEvent event ) {
+                log( "onShapeResizeStart #1 [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
+        shape1.addWiresResizeStepHandler( new WiresResizeStepHandler() {
+            @Override
+            public void onShapeResizeStep( WiresResizeStepEvent event ) {
+                log( "onShapeResizeStep #1 [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
+        shape1.addWiresResizeEndHandler( new WiresResizeEndHandler() {
+            @Override
+            public void onShapeResizeEnd( WiresResizeEndEvent event ) {
+                log( "onShapeResizeEnd #1 [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
             }
         } );
 
@@ -115,12 +130,30 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
             }
         } );
 
-        shape2.addWiresResizeHandler( new WiresResizeHandler() {
+        shape2.addWiresResizeStartHandler( new WiresResizeStartHandler() {
             @Override
-            public void onShapeResized( WiresResizeEvent resizeEvent ) {
-                log( "onShapeResized #2 [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
-                        + ", width=" + resizeEvent.getWidth()
-                        + ", height=" + resizeEvent.getHeight() + "]" );
+            public void onShapeResizeStart( final WiresResizeStartEvent event ) {
+                log( "onShapeResizeStart #2 [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
+        shape2.addWiresResizeStepHandler( new WiresResizeStepHandler() {
+            @Override
+            public void onShapeResizeStep( WiresResizeStepEvent event ) {
+                log( "onShapeResizeStep #2 [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
+        shape2.addWiresResizeEndHandler( new WiresResizeEndHandler() {
+            @Override
+            public void onShapeResizeEnd( WiresResizeEndEvent event ) {
+                log( "onShapeResizeEnd #2 [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
             }
         } );
 

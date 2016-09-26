@@ -9,10 +9,7 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
-import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
-import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEvent;
-import com.ait.lienzo.client.core.shape.wires.event.WiresResizeHandler;
+import com.ait.lienzo.client.core.shape.wires.event.*;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -110,14 +107,33 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMe
             }
         } );
 
-        shape.addWiresResizeHandler( new WiresResizeHandler() {
+        shape.addWiresResizeStartHandler( new WiresResizeStartHandler() {
             @Override
-            public void onShapeResized( WiresResizeEvent resizeEvent ) {
-                log( "onShapeResized #" + s + " [x=" + resizeEvent.getX() + ", y=" + resizeEvent.getY()
-                        + ", width=" + resizeEvent.getWidth()
-                        + ", height=" + resizeEvent.getHeight() + "]" );
+            public void onShapeResizeStart( final WiresResizeStartEvent event ) {
+                log( "onShapeResizeStart [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
             }
         } );
+
+        shape.addWiresResizeStepHandler( new WiresResizeStepHandler() {
+            @Override
+            public void onShapeResizeStep( WiresResizeStepEvent event ) {
+                log( "onShapeResizeStep [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
+        shape.addWiresResizeEndHandler( new WiresResizeEndHandler() {
+            @Override
+            public void onShapeResizeEnd( WiresResizeEndEvent event ) {
+                log( "onShapeResizeEnd [x=" + event.getX() + ", y=" + event.getY()
+                        + ", width=" + event.getWidth()
+                        + ", height=" + event.getHeight() + "]" );
+            }
+        } );
+
     }
 
     private void log( String s ) {
