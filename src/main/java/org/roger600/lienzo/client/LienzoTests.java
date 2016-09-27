@@ -40,7 +40,7 @@ public class LienzoTests implements EntryPoint {
             new MultiPathAttributesChangedTests(),
             // From Lienzo KS
             new WiresAlignDistroTests(),
-            new WiresResizeTests(),
+            new MultiPathResizeTests(),
             new WiresArrowsTests(),
             new WiresSquaresTests(),
             new WiresResizesTests(),

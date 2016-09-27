@@ -19,42 +19,52 @@ public class MultiPathShapesTests extends FlowPanel implements MyLienzoTest {
     public void test(Layer _layer) {
         final Layer layer = _layer;
 
-        //regularShapes( _layer );
-        createRectangleWithUserIcon( _layer );
+        MultiPath path = createRectangle( 100, 100, 10 );
+        path.setX( 100 ).setY( 100 );
+        layer.add( path );
 
     }
 
-    private void createRectangleWithUserIcon(Layer layer) {
-        final WiresManager wires_manager = WiresManager.get(layer);
+    // w = width
+    // h = height
+    // r = corner radius
+    private MultiPath createRectangle( final double w, final double h, final double r ) {
 
-        //Group timerIcon = timer();
-        Group timerIcon = user();
-        final BoundingBox bb = timerIcon.getBoundingBox();
-        final double w = bb.getWidth();
-        final double h = bb.getHeight();
+        MultiPath path = new MultiPath();
 
-        MultiPath path =  new MultiPath().rect(0, 0, w, h).setStrokeColor(ColorName.BLACK);
-        final WiresShape parentShape = new WiresShape(path);
-        parentShape.setDraggable(true).setX(200).setY(200);
-        parentShape.addChild( timerIcon, LayoutContainer.Layout.CENTER );
+        if ((w > 0) && (h > 0)) {
+            if ((r > 0) && (r < (w / 2)) && (r < (h / 2))) {
 
-        wires_manager.register( parentShape );
-        wires_manager.getMagnetManager().createMagnets(parentShape);
-        TestsUtils.addResizeHandlers( parentShape );
+                path.M(r, 0);
 
-    }
+                path.L(w - r, 0);
 
-    private void regularShapes(Layer layer) {
-        final WiresManager wires_manager = WiresManager.get(layer);
-        MultiPath path = createRectangle( 100, 100 );
-        final WiresShape parentShape = new WiresShape(path);
-        parentShape.setDraggable(true).setX(200).setY(200);
-        wires_manager.register( parentShape );
-        wires_manager.getMagnetManager().createMagnets(parentShape);
-        TestsUtils.addResizeHandlers( parentShape );
+                path.A( w , 0, w, r, r );
 
-        Circle circle = new Circle( 100 ).setX( 500 ).setY( 200 ).setFillColor( ColorName.RED );
-        layer.add( circle );
+                path.L(w, h - r);
+
+                path.A( w, h, w - r, h, r );
+
+                path.L(r, h);
+
+                path.A( 0, h, 0, h - r , r );
+
+                path.L(0, r);
+
+                path.A( 0, 0, r, 0, r );
+
+
+            } else {
+
+                path.rect(0, 0, w, h);
+
+            }
+
+            path.Z();
+
+        }
+
+        return path;
     }
 
     private MultiPath createRectangle( final double width, final double height ) {
@@ -98,24 +108,11 @@ public class MultiPathShapesTests extends FlowPanel implements MyLienzoTest {
         return result.setStrokeColor("#000000").setFillColor( ColorName.BLACK );
     }
 
-    private MultiPath createRing( final double outer, final double inner ) {
-
-
-        MultiPath path = new MultiPath().setStrokeColor( ColorName.BLACK );
-        createCircle( path, 0, 0, outer );
-        path.setFillColor( ColorName.BLACK );
-        /*circle( path, 0, 0, 10 );
-        path.setFillColor( ColorName.WHITE );
-        path.Z();*/
-
-
-        return  path;
-    }
 
     private MultiPath createCircle( final MultiPath path,
-                         final double x,
-                         final double y,
-                         final double r )
+                                    final double x,
+                                    final double y,
+                                    final double r )
     {
         final double c = r * 2;
 
@@ -130,6 +127,39 @@ public class MultiPathShapesTests extends FlowPanel implements MyLienzoTest {
         path.Z();
 
         return path;
+    }
+
+    private void createRectangleWithUserIcon(Layer layer) {
+        final WiresManager wires_manager = WiresManager.get(layer);
+
+        //Group timerIcon = timer();
+        Group timerIcon = user();
+        final BoundingBox bb = timerIcon.getBoundingBox();
+        final double w = bb.getWidth();
+        final double h = bb.getHeight();
+
+        MultiPath path =  new MultiPath().rect(0, 0, w, h).setStrokeColor(ColorName.BLACK);
+        final WiresShape parentShape = new WiresShape(path);
+        parentShape.setDraggable(true).setX(200).setY(200);
+        parentShape.addChild( timerIcon, LayoutContainer.Layout.CENTER );
+
+        wires_manager.register( parentShape );
+        wires_manager.getMagnetManager().createMagnets(parentShape);
+        TestsUtils.addResizeHandlers( parentShape );
+
+    }
+
+    private void regularShapes(Layer layer) {
+        final WiresManager wires_manager = WiresManager.get(layer);
+        MultiPath path = createRectangle( 100, 100 );
+        final WiresShape parentShape = new WiresShape(path);
+        parentShape.setDraggable(true).setX(200).setY(200);
+        wires_manager.register( parentShape );
+        wires_manager.getMagnetManager().createMagnets(parentShape);
+        TestsUtils.addResizeHandlers( parentShape );
+
+        Circle circle = new Circle( 100 ).setX( 500 ).setY( 200 ).setFillColor( ColorName.RED );
+        layer.add( circle );
     }
 
     private static Group user() {
