@@ -43,7 +43,8 @@ public class LienzoTests implements EntryPoint {
             new WiresResizeTests(),
             new WiresArrowsTests(),
             new WiresSquaresTests(),
-            new WiresResizesTests()
+            new WiresResizesTests(),
+            new WiresDockingTests()
     };
 
     private static final int MAX_BUTTONS_ROW = 7;
