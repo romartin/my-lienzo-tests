@@ -2,10 +2,13 @@ package org.roger600.lienzo.client.ks;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
-import com.ait.lienzo.client.core.shape.*;
+import com.ait.lienzo.client.core.shape.Circle;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.Text;
 import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.types.Point2DArray;
-import com.ait.tooling.nativetools.client.util.Console;
+import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -18,18 +21,27 @@ import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.*;
 
 public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasButtons {
 
+    private static final double SIZE = 100;
+
     private WiresShape wires_shape;
     private WiresManager wires_manager;
+    private Text text;
 
     public void test( final Layer layer ) {
 
-       wires_manager = WiresManager.get(layer);
+        wires_manager = WiresManager.get( layer );
 
-       wires_shape = center();
+        text = new Text( "[" + SIZE +", " + SIZE + "]" )
+                .setFontFamily( "Verdana" )
+                .setFontSize( 12 )
+                .setStrokeWidth( 1 )
+                .setStrokeColor( ColorName.WHITE );
+
+        wires_shape = center();
 
     }
 
-    private static void addResizeHandlers( final WiresShape shape ) {
+    private void addResizeHandlers( final WiresShape shape ) {
         shape
             .setResizable( true )
             .getPath()
@@ -47,15 +59,47 @@ public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasBut
                     }
                 }
             } );
+
+        shape.addWiresResizeStartHandler( new WiresResizeStartHandler() {
+            @Override
+            public void onShapeResizeStart( final WiresResizeStartEvent event ) {
+                onShapeResize( event.getWidth(), event.getHeight() );
+            }
+        } );
+
+        shape.addWiresResizeStepHandler( new WiresResizeStepHandler() {
+            @Override
+            public void onShapeResizeStep( final WiresResizeStepEvent event ) {
+                onShapeResize( event.getWidth(), event.getHeight() );
+            }
+        } );
+
+        shape.addWiresResizeEndHandler( new WiresResizeEndHandler() {
+            @Override
+            public void onShapeResizeEnd( final WiresResizeEndEvent event ) {
+                onShapeResize( event.getWidth(), event.getHeight() );
+            }
+        } );
+    }
+
+    private void onShapeResize( final double width, final double height ) {
+        final String t = "[" + width + ", " + height + "]";
+        text.setText( t );
     }
 
     private WiresShape create( String color, double size, LayoutContainer.Layout layout ) {
-        WiresShape wiresShape0 =
-                new WiresShape( new MultiPath().rect(0, 0, size, size).setStrokeWidth(5).setStrokeColor( color ) )
+        text.setText( "[" + SIZE +", " + SIZE + "]" );
+        final MultiPath path = new MultiPath().rect(0, 0, size, size)
+                .setStrokeWidth(1)
+                .setStrokeColor( color )
+                .setFillColor( ColorName.LIGHTGREY );
+        final WiresShape wiresShape0 =
+                new WiresShape( path )
                         .setX(400)
                         .setY(200)
                         .setDraggable(true)
-                        .addChild( new Circle( size / 4 ).setFillColor( color ), layout );
+                        .addChild( new Circle( size / 4 ).setFillColor( color ), layout )
+                        .addChild( text, CENTER );
 
         wires_manager.register( wiresShape0 );
         wires_manager.getMagnetManager().createMagnets(wiresShape0);
@@ -132,22 +176,22 @@ public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasBut
     }
 
     private WiresShape left() {
-        return create( "#CC00CC", 100, LEFT );
+        return create( "#CC00CC", SIZE, LEFT );
     }
 
     private WiresShape right() {
-        return create( "#0000CC", 100, RIGHT );
+        return create( "#0000CC", SIZE, RIGHT );
     }
 
     private WiresShape center() {
-        return create( "#CC0000", 100, CENTER );
+        return create( "#CC0000", SIZE, CENTER );
     }
 
     private WiresShape top() {
-        return create( "#00CC00", 100, TOP );
+        return create( "#00CC00", SIZE, TOP );
     }
 
     private WiresShape bottom() {
-        return create( "#CCCC00", 100, BOTTOM );
+        return create( "#CCCC00", SIZE, BOTTOM );
     }
 }
