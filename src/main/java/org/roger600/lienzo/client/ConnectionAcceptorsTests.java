@@ -114,6 +114,12 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest,
 
                 if (m == null)
                 {
+                    GWT.log( "acceptHead - m is null -> true" );
+                    return true;
+                }
+                if (magnet == null)
+                {
+                    GWT.log( "acceptHead- magnet is null -> true" );
                     return true;
                 }
                 return accept(magnet.getMagnets().getGroup(), tail.getMagnet().getMagnets().getGroup());
@@ -127,6 +133,12 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest,
 
                 if (m == null)
                 {
+                    GWT.log( "acceptTail- m is null -> true" );
+                    return true;
+                }
+                if (magnet == null)
+                {
+                    GWT.log( "acceptTail- magnet is null -> true" );
                     return true;
                 }
                 return accept(head.getMagnet().getMagnets().getGroup(), magnet.getMagnets().getGroup());
@@ -139,6 +151,13 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest,
 
                 if (m == null)
                 {
+                    GWT.log( "headConnectionAllowed - m is null -> true" );
+                    return true;
+                }
+
+                if ( shape == null )
+                {
+                    GWT.log( "headConnectionAllowed - shape is null -> true" );
                     return true;
                 }
 
@@ -153,8 +172,16 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest,
 
                 if (m == null)
                 {
+                    GWT.log( "tailConnectionAllowed - m is null -> true" );
                     return true;
                 }
+
+                if ( shape == null )
+                {
+                    GWT.log( "tailConnectionAllowed - shape is null -> true" );
+                    return true;
+                }
+
                 return accept(head.getMagnet().getMagnets().getGroup(), shape.getContainer());
             }
 

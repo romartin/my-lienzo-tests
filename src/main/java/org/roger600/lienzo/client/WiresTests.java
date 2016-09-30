@@ -33,6 +33,10 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
                 {
                     return true;
                 }
+                if (magnet == null)
+                {
+                    return true;
+                }
                 return accept(magnet.getMagnets().getGroup(), tail.getMagnet().getMagnets().getGroup());
             }
 
@@ -43,6 +47,10 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
                 WiresMagnet m = head.getMagnet();
 
                 if (m == null)
+                {
+                    return true;
+                }
+                if (magnet == null)
                 {
                     return true;
                 }
@@ -58,6 +66,10 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
                 {
                     return true;
                 }
+                if (shape == null)
+                {
+                    return true;
+                }
 
                 return accept(shape.getContainer(), tail.getMagnet().getMagnets().getGroup());
             }
@@ -69,6 +81,10 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
                 WiresMagnet m = head.getMagnet();
 
                 if (m == null)
+                {
+                    return true;
+                }
+                if (shape == null)
                 {
                     return true;
                 }

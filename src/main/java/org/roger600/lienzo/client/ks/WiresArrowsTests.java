@@ -31,6 +31,10 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
                 {
                     return true;
                 }
+                if (shape == null)
+                {
+                    return true;
+                }
                 return accept(shape.getContainer(), tail.getMagnet().getMagnets().getGroup());
             }
 
@@ -42,6 +46,10 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
                 WiresMagnet m = head.getMagnet();
 
                 if (m == null)
+                {
+                    return true;
+                }
+                if (shape == null)
                 {
                     return true;
                 }
@@ -59,6 +67,10 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
                 {
                     return true;
                 }
+                if (magnet == null)
+                {
+                    return true;
+                }
                 return accept(magnet.getMagnets().getGroup(), tail.getMagnet().getMagnets().getGroup());
             }
 
@@ -70,6 +82,10 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
                 WiresMagnet m = head.getMagnet();
 
                 if (m == null)
+                {
+                    return true;
+                }
+                if (magnet == null)
                 {
                     return true;
                 }
