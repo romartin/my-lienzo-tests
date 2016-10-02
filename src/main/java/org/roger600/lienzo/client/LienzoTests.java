@@ -20,6 +20,7 @@ public class LienzoTests implements EntryPoint {
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
             new MultiPathShapesTests(),
             new WiresRingTests(),
+            new BasicWiresShapesTests(),
             new GlyphPositionsAndScaleTests(),
             new TransformTests(),
             new MagnetsAndCPsTests(),
