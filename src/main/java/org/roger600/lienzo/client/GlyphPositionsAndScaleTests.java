@@ -1,7 +1,10 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.Group;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.types.BoundingBox;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.client.core.util.Geometry;
@@ -110,7 +113,6 @@ public class GlyphPositionsAndScaleTests extends FlowPanel implements MyLienzoTe
 
     private Group doIt( final WiresShape shape ) {
         final Group group = shape.getGroup().copy();
-        final BoundingBox pbb = shape.getPath().getBoundingBox();
 
         // Group's bounding box top left point must be at 0,0 for all glyphs.
         final BoundingBox gbb = group.getBoundingBox();
@@ -121,6 +123,7 @@ public class GlyphPositionsAndScaleTests extends FlowPanel implements MyLienzoTe
         group.setX( ngx / 2 ).setY( ngy / 2 );
 
         // Scale, if necessary, to the given glyph size.
+        final BoundingBox pbb = shape.getPath().getBoundingBox();
         final double[] scale = getScaleFactor( pbb.getWidth(), pbb.getHeight(), GLYPH_SIZE, GLYPH_SIZE );
         group.setScale( scale[0], scale[1] );
 
