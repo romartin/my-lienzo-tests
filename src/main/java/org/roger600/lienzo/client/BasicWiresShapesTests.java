@@ -113,10 +113,10 @@ public class BasicWiresShapesTests extends FlowPanel implements MyLienzoTest {
         setResizable( polygon );
 
         WiresShape polygonWithIcon =  createPolygon();
+        polygonWithIcon.addChild( new Circle( RADIUS / 3 ), LayoutContainer.Layout.CENTER );
         Group polygonIconGlyph = createGlyph( polygonWithIcon );
         box4.add( polygonIconGlyph );
         polygonWithIcon.setX( 700 ).setY( 100 );
-        polygonWithIcon.addChild( new Circle( RADIUS / 3 ), LayoutContainer.Layout.CENTER );
         setResizable( polygonWithIcon );
 
         WiresShape ringShape =  createRing();
@@ -131,14 +131,6 @@ public class BasicWiresShapesTests extends FlowPanel implements MyLienzoTest {
 
     private Group createGlyph( final WiresShape shape ) {
         final Group group = shape.getGroup().copy();
-
-        // Group's bounding box top left point must be at 0,0 for all glyphs.
-        final BoundingBox gbb = group.getBoundingBox();
-        final double gx = group.getX();
-        final double gy = group.getY();
-        final double ngx = gx - ( gbb.getX() );
-        final double ngy = gy - ( gbb.getY() );
-        //  group.setX( ngx / 2 ).setY( ngy / 2 );
 
         // Scale, if necessary, to the given glyph size.
         final BoundingBox pbb = shape.getPath().getBoundingBox();
