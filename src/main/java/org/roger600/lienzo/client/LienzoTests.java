@@ -18,6 +18,7 @@ public class LienzoTests implements EntryPoint {
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
+            new ImagesTests(),
             new MultiPathShapesTests(),
             new WiresRingTests(),
             new BasicWiresShapesTests(),
