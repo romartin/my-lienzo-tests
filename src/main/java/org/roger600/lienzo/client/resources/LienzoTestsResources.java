@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ClientBundleWithLookup;
 import com.google.gwt.resources.client.DataResource;
+import com.google.gwt.resources.client.ImageResource;
 
 public interface LienzoTestsResources extends ClientBundleWithLookup {
 
@@ -14,6 +15,10 @@ public interface LienzoTestsResources extends ClientBundleWithLookup {
 
     @ClientBundle.Source( "images/yamaha_logo_trans.png" )
     DataResource yamahaLogoPNG();
+
+    @ClientBundle.Source( "images/envelope.svg" )
+    @DataResource.MimeType("image/svg+xml")
+    DataResource envelopeIconSVG();
 
 }
 
