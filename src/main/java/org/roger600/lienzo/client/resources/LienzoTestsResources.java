@@ -20,5 +20,9 @@ public interface LienzoTestsResources extends ClientBundleWithLookup {
     @DataResource.MimeType("image/svg+xml")
     DataResource envelopeIconSVG();
 
+    @ClientBundle.Source( "images/rectangle.svg" )
+    @DataResource.MimeType("image/svg+xml")
+    DataResource rectangleSVG();
+
 }
 
