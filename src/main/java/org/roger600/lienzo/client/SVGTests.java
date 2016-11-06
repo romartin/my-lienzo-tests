@@ -27,6 +27,7 @@ public class SVGTests  extends FlowPanel implements MyLienzoTest {
     private Picture getSvgImage() {
         final String uri = LienzoTestsResources.INSTANCE.rectangleSVG().getSafeUri().asString();
         final Picture picture = new Picture( uri );
+        picture.setScale( 0.5, 0.5 );
         return picture;
     }
 
