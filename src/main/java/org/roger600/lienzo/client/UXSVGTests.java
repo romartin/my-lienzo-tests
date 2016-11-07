@@ -3,6 +3,7 @@ package org.roger600.lienzo.client;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Picture;
+import com.ait.lienzo.client.core.shape.SVGPath;
 import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
@@ -25,19 +26,20 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
 
         // final String uri = LienzoTestsResources.INSTANCE.envelopeIconSVG().getSafeUri().asString();
         final String uri = LienzoTestsResources.INSTANCE.eventEndIconSVG().getSafeUri().asString();
+        // final String uri = LienzoTestsResources.INSTANCE.eventEndNoGridIconSVG().getSafeUri().asString();
         picture = new Picture( uri );
 
         WiresManager wires_manager = WiresManager.get(layer);
 
-        final double w = 150d;
-        final double h = 150d;
+        final double w = 448d;
+        final double h = 448d;
         picturePath = new MultiPath().rect(0, 0, w, h)
                 .setStrokeColor( ColorName.BLACK )
                 .setStrokeWidth( 1 )
                 .setStrokeAlpha( 1 );
         pictureShape = new WiresShape( picturePath );
         resize( w, h );
-        pictureShape.addChild( picture , WiresLayoutContainer.Layout.CENTER );
+        pictureShape.addChild( picture );
         wires_manager.register( pictureShape );
         wires_manager.getMagnetManager().createMagnets( pictureShape );
 
@@ -83,6 +85,8 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
             }
         } );
 
+        // addPicture( layer );
+        // addSvgPath( layer );
     }
 
     public void resize( final double width,
@@ -106,6 +110,19 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
                 width > 0 ? targetWidth / width : 1,
                 height > 0 ? targetHeight / height : 1 };
 
+    }
+
+    private void addPicture( final Layer layer ) {
+        final String uri = LienzoTestsResources.INSTANCE.eventEndNoGridIconSVG().getSafeUri().asString();
+        Picture picture = new Picture( uri );
+        layer.add( picture.setX( 500 ).setY( 200 ) );
+    }
+
+    private void addSvgPath( final Layer layer ) {
+        final String p = "M224,47.9c-97.2,0-176,78.8-176,176s78.8,176,176,176s176-78.8,176-176S321.2,47.9,224,47.9z M224,447.9\n" +
+                "\tc-123.7,0-224-100.3-224-224s100.3-224,224-224s224,100.3,224,224S347.7,447.9,224,447.9z";
+        final SVGPath svgPath = new SVGPath( p );
+        layer.add( svgPath.setX( 500 ).setY( 200 ) );
     }
 
     @Override

@@ -24,6 +24,10 @@ public interface LienzoTestsResources extends ClientBundleWithLookup {
     @DataResource.MimeType("image/svg+xml")
     DataResource eventEndIconSVG();
 
+    @ClientBundle.Source( "images/event-end-nogrid.svg" )
+    @DataResource.MimeType("image/svg+xml")
+    DataResource eventEndNoGridIconSVG();
+
     @ClientBundle.Source( "images/rectangle.svg" )
     @DataResource.MimeType("image/svg+xml")
     DataResource rectangleSVG();
