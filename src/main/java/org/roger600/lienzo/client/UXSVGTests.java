@@ -4,7 +4,6 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Picture;
 import com.ait.lienzo.client.core.shape.SVGPath;
-import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.*;
@@ -25,8 +24,8 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
     public void test( Layer layer ) {
 
         // final String uri = LienzoTestsResources.INSTANCE.envelopeIconSVG().getSafeUri().asString();
-        final String uri = LienzoTestsResources.INSTANCE.eventEndIconSVG().getSafeUri().asString();
-        // final String uri = LienzoTestsResources.INSTANCE.eventEndNoGridIconSVG().getSafeUri().asString();
+        // final String uri = LienzoTestsResources.INSTANCE.eventEndIconSVG().getSafeUri().asString();
+        final String uri = LienzoTestsResources.INSTANCE.envelopeNoGridIconSVG().getSafeUri().asString();
         picture = new Picture( uri );
 
         WiresManager wires_manager = WiresManager.get(layer);
@@ -38,7 +37,7 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
                 .setStrokeWidth( 1 )
                 .setStrokeAlpha( 1 );
         pictureShape = new WiresShape( picturePath );
-        resize( w, h );
+        // resize( w, h );
         pictureShape.addChild( picture );
         wires_manager.register( pictureShape );
         wires_manager.getMagnetManager().createMagnets( pictureShape );
@@ -113,7 +112,7 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
     }
 
     private void addPicture( final Layer layer ) {
-        final String uri = LienzoTestsResources.INSTANCE.eventEndNoGridIconSVG().getSafeUri().asString();
+        final String uri = LienzoTestsResources.INSTANCE.envelopeIconSVG().getSafeUri().asString();
         Picture picture = new Picture( uri );
         layer.add( picture.setX( 500 ).setY( 200 ) );
     }
