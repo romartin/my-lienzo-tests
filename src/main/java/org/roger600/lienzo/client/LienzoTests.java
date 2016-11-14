@@ -21,6 +21,7 @@ public class LienzoTests implements EntryPoint {
             new SVGTests(),
             new UXSVGTests(),
             new DragConstraintsTests(),
+            new FontTests(),
             new ImagesTests(),
             new MultiPathShapesTests(),
             new WiresRingTests(),
