@@ -2,17 +2,17 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.*;
 import com.ait.lienzo.client.core.shape.Layer;
-import com.ait.lienzo.client.core.shape.Picture;
+import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveHandler;
 import com.ait.lienzo.client.core.types.DragBounds;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import org.roger600.lienzo.client.resources.LienzoTestsResources;
 
 public class DragConstraintsTests extends FlowPanel implements MyLienzoTest, HasMediators, HasButtons {
 
@@ -21,6 +21,41 @@ public class DragConstraintsTests extends FlowPanel implements MyLienzoTest, Has
     }
 
     public void test(Layer layer) {
+        testWithPrimitives( layer );
+        testWithWires( layer );
+    }
+
+    private void testWithWires( final Layer layer) {
+        final WiresManager wiresManager = WiresManager.get( layer );
+        final WiresShape rectangle = createRectangle( 50, 50, wiresManager );
+        rectangle.setX( 500 ).setY( 300 );
+        rectangle.addWiresDragMoveHandler( new WiresDragMoveHandler() {
+            @Override
+            public void onShapeDragMove( WiresDragMoveEvent wiresDragMoveEvent ) {
+                double x = rectangle.getGroup().getX();
+                double y = rectangle.getGroup().getY();
+                GWT.log( "Move at [" + x + ", " + y + "]" );
+                double tx = x < 200 ? 200 : x;
+                double tx1 = tx > 700 ? 700 : tx;
+                double ty = y < 200 ? 200 : y;
+                double ty1 = ty > 700 ? 700 : ty;
+                GWT.log( "Adjust at [" + tx1 + ", " + ty1 + "]" );
+                rectangle.setX( tx1 );
+                rectangle.setY( ty1 );
+            }
+        } );
+    }
+
+    private WiresShape createRectangle( final double w, final  double h, final WiresManager wiresManager ) {
+        MultiPath path = new MultiPath().rect( 0, 0, w, h ).setFillColor( ColorName.YELLOW );
+        final WiresShape shape = new WiresShape( path );
+        wiresManager.register( shape );
+        shape.setDraggable(true);
+        wiresManager.getMagnetManager().createMagnets( shape );
+        return shape;
+    }
+
+    private void testWithPrimitives(Layer layer) {
         Rectangle parent = new Rectangle( 500, 500 )
                 .setX( 200 )
                 .setY( 200 )
