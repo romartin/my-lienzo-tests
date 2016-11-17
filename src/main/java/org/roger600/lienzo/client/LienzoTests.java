@@ -10,6 +10,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.*;
+import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
 import org.roger600.lienzo.client.ks.*;
 
 public class LienzoTests implements EntryPoint {
@@ -47,6 +48,7 @@ public class LienzoTests implements EntryPoint {
             new MediatorsTests2(),
             new WiresTests(),
             new MultiPathAttributesChangedTests(),
+            new CaseModellerContainmentTests(),
             // From Lienzo KS
             new WiresAlignDistroTests(),
             new MultiPathResizeTests(),
