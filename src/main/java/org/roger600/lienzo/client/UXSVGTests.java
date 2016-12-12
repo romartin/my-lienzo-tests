@@ -1,5 +1,6 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.image.ImageShapeLoadedHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Picture;
@@ -16,28 +17,46 @@ import org.roger600.lienzo.client.resources.LienzoTestsResources;
 
 public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators, HasButtons {
 
-    private MultiPath picturePath;
-    private WiresShape pictureShape;
-    private Picture picture;
-
     @Override
     public void test( Layer layer ) {
+        addPictureWiresShape( layer, 0, 0, LienzoTestsResources.INSTANCE.envelopeNoGridIconSVG().getSafeUri().asString() );
+        // addPictureShape( layer, 200, 200, LienzoTestsResources.INSTANCE.envelopeIconSVG().getSafeUri().asString() );
+        // addSvgPath( layer, 200, 200 );
+    }
 
-        // final String uri = LienzoTestsResources.INSTANCE.envelopeIconSVG().getSafeUri().asString();
-        // final String uri = LienzoTestsResources.INSTANCE.eventEndIconSVG().getSafeUri().asString();
-        final String uri = LienzoTestsResources.INSTANCE.envelopeNoGridIconSVG().getSafeUri().asString();
-        picture = new Picture( uri );
+    private void addPictureShape( final Layer layer,
+                                  final double x,
+                                  final double y,
+                                  final String uri ) {
+        Picture picture = new Picture( uri );
+        layer.add( picture.setX( x ).setY( y ) );
+    }
+
+    private void addSvgPath( final Layer layer,
+                             final double x,
+                             final double y ) {
+        final String p = "M224,47.9c-97.2,0-176,78.8-176,176s78.8,176,176,176s176-78.8,176-176S321.2,47.9,224,47.9z M224,447.9\n" +
+                "\tc-123.7,0-224-100.3-224-224s100.3-224,224-224s224,100.3,224,224S347.7,447.9,224,447.9z";
+        final SVGPath svgPath = new SVGPath( p );
+        layer.add( svgPath.setX( x ).setY( y ) );
+    }
+
+    private void addPictureWiresShape( final Layer layer,
+                                          final double x,
+                                          final double y,
+                                       final String uri ) {
+        final Picture picture = new Picture( uri );
 
         WiresManager wires_manager = WiresManager.get(layer);
 
         final double w = 448d;
         final double h = 448d;
-        picturePath = new MultiPath().rect(0, 0, w, h)
+        final MultiPath picturePath = new MultiPath().rect(0, 0, w, h)
                 .setStrokeColor( ColorName.BLACK )
                 .setStrokeWidth( 1 )
                 .setStrokeAlpha( 1 );
-        pictureShape = new WiresShape( picturePath );
-        // resize( w, h );
+        final WiresShape pictureShape = new WiresShape( picturePath );
+        resize( picture, w, h );
         pictureShape.addChild( picture );
         wires_manager.register( pictureShape );
         wires_manager.getMagnetManager().createMagnets( pictureShape );
@@ -60,7 +79,7 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
                 log( "onShapeResizeStart #1 [x=" + event.getX() + ", y=" + event.getY()
                         + ", width=" + event.getWidth()
                         + ", height=" + event.getHeight() + "]" );
-                resize( event.getWidth(), event.getHeight() );
+                resize( picture, event.getWidth(), event.getHeight() );
             }
         } );
 
@@ -70,7 +89,7 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
                 log( "onShapeResizeStep #1 [x=" + event.getX() + ", y=" + event.getY()
                         + ", width=" + event.getWidth()
                         + ", height=" + event.getHeight() + "]" );
-                resize( event.getWidth(), event.getHeight() );
+                resize( picture, event.getWidth(), event.getHeight() );
             }
         } );
 
@@ -80,20 +99,20 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
                 log( "onShapeResizeEnd #1 [x=" + event.getX() + ", y=" + event.getY()
                         + ", width=" + event.getWidth()
                         + ", height=" + event.getHeight() + "]" );
-                resize( event.getWidth(), event.getHeight() );
+                resize( picture, event.getWidth(), event.getHeight() );
             }
         } );
-
-        // addPicture( layer );
-        // addSvgPath( layer );
     }
 
-    public void resize( final double width,
-                                final double height ) {
-        scalePicture( width, height );
+
+    private void resize( final Picture picture,
+                        final double width,
+                        final double height ) {
+        scalePicture( picture, width, height );
     }
 
-    private void scalePicture( final double width,
+    private void scalePicture( final Picture picture,
+                               final double width,
                                final double height ) {
         final BoundingBox bb = picture.getBoundingBox();
         final double[] scale = getScaleFactor( bb.getWidth(), bb.getHeight(), width, height );
@@ -109,19 +128,6 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
                 width > 0 ? targetWidth / width : 1,
                 height > 0 ? targetHeight / height : 1 };
 
-    }
-
-    private void addPicture( final Layer layer ) {
-        final String uri = LienzoTestsResources.INSTANCE.envelopeIconSVG().getSafeUri().asString();
-        Picture picture = new Picture( uri );
-        layer.add( picture.setX( 500 ).setY( 200 ) );
-    }
-
-    private void addSvgPath( final Layer layer ) {
-        final String p = "M224,47.9c-97.2,0-176,78.8-176,176s78.8,176,176,176s176-78.8,176-176S321.2,47.9,224,47.9z M224,447.9\n" +
-                "\tc-123.7,0-224-100.3-224-224s100.3-224,224-224s224,100.3,224,224S347.7,447.9,224,447.9z";
-        final SVGPath svgPath = new SVGPath( p );
-        layer.add( svgPath.setX( 500 ).setY( 200 ) );
     }
 
     @Override

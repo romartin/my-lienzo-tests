@@ -53,8 +53,12 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButton
 
     private void addMediators() {
         final Mediators mediators = layer.getViewport().getMediators();
-        mediators.push( new MouseWheelZoomMediator( zommFilters ) );
-        mediators.push( new MousePanMediator( panFilters ) );
+        final MouseWheelZoomMediator zoomMediator = new MouseWheelZoomMediator( zommFilters );
+        zoomMediator.setMinScale( 1 );
+        zoomMediator.setMaxScale( 2 );
+        mediators.push( zoomMediator );
+        final MousePanMediator panMediator = new MousePanMediator( panFilters );
+        mediators.push( panMediator );
     }
 
     private void connect(Layer layer, MagnetManager.Magnets magnets0, int i0_1, MagnetManager.Magnets magnets1, int i1_1, WiresManager wiresManager)
