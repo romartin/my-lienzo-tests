@@ -21,7 +21,8 @@
   
   <inherits name="com.ait.lienzo.Lienzo" />
   
-  <entry-point class="org.roger600.lienzo.client.LienzoTests" />
+  <entry-point class="org.roger600.lienzo.client.CanvasReplicationTests" />
+  <!--<entry-point class="org.roger600.lienzo.client.LienzoTests" />-->
   <!--<entry-point class="org.roger600.lienzo.client.LayerReplicationTests" />-->
   <!--<entry-point class="org.roger600.lienzo.client.CanvasToDataImageTests" />-->
   <!--<entry-point class="org.roger600.lienzo.client.LienzoKeyboardTests" />-->
