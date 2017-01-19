@@ -4,6 +4,9 @@ import com.ait.lienzo.client.core.mediator.*;
 import com.ait.lienzo.client.core.shape.*;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.client.core.types.Transform;
+import com.ait.lienzo.client.widget.LienzoPanel;
+import com.ait.lienzo.shared.core.types.AutoScaleType;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,11 +16,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
 
-public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButtons {
+public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButtons, NeedsThePanel {
 
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
+    private LienzoPanel lienzoPanel;
     private Layer layer;
     private WiresShape startShape;
     private WiresShape parentShape;
@@ -112,6 +116,12 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButton
     }
 
     @Override
+    public void setLienzoPanel(final LienzoPanel lienzoPanel) {
+        this.lienzoPanel = lienzoPanel;
+        lienzoPanel.setAutoScale(AutoScaleType.WIDTH);
+    }
+
+    @Override
     public void setButtonsPanel( Panel panel ) {
         Button b1 = new Button( "StartShape" );
         b1.addClickHandler( new ClickHandler() {
@@ -148,6 +158,36 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButton
             }
         } );
         panel.add( b3 );
+        Button scaleButton = new Button( "Scale" );
+        scaleButton.addClickHandler( new ClickHandler() {
+            @Override
+            public void onClick( ClickEvent clickEvent ) {
+                scaleIt();
+            }
+        } );
+        panel.add( scaleButton );
 
     }
+
+    private void scaleIt() {
+
+        final double factor = 0.5;
+
+        Transform transform = layer.getViewport().getTransform();
+
+        if (transform == null)
+        {
+            layer.getViewport().setTransform(transform = new Transform());
+        }
+
+        transform.scale(factor, factor);
+
+        final int w = lienzoPanel.getWidth();
+        final int h = lienzoPanel.getHeight();
+        final int tw = (int) (w - ( w * factor));
+        final int th = (int) (h - ( h * factor));
+        lienzoPanel.setPixelSize(tw, th);
+    }
+
+
 }

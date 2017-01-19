@@ -121,6 +121,10 @@ public class LienzoTests implements EntryPoint {
             addMediators( layer );
         }
 
+        if ( test instanceof NeedsThePanel ) {
+            ((NeedsThePanel) test).setLienzoPanel(panel);
+        }
+
         test.test( layer );
 
         layer.draw();
