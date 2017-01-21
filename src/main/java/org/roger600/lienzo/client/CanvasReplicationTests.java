@@ -10,11 +10,14 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.Viewport;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Transform;
 import com.ait.lienzo.client.widget.LienzoPanel;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -35,6 +38,8 @@ public class CanvasReplicationTests implements EntryPoint {
 
     private Layer layer1;
     private Layer layer2;
+    private LienzoPanel panel1;
+    private LienzoPanel panel2;
     private WiresManager wiresManager1;
     private WiresManager wiresManager2;
     private Rectangle rectangle;
@@ -51,10 +56,10 @@ public class CanvasReplicationTests implements EntryPoint {
         final Object[] o1 = createPanel();
         final Object[] o2 = createPanel();
         final FlowPanel container1 = (FlowPanel) o1[0];
-        final LienzoPanel panel1 = (LienzoPanel) o1[1];
+        panel1 = (LienzoPanel) o1[1];
         layer1 = (Layer) o1[2];
         final FlowPanel container2 = (FlowPanel) o2[0];
-        final LienzoPanel panel2 = (LienzoPanel) o2[1];
+        panel2 = (LienzoPanel) o2[1];
         layer2 = (Layer) o2[2];
         wiresManager1 = WiresManager.get(layer1);
         wiresManager2 = WiresManager.get(layer2);
@@ -66,7 +71,22 @@ public class CanvasReplicationTests implements EntryPoint {
 
         drawWires();
 
+        addViewportBoundaryShape();
+
         addButtons();
+    }
+
+    // Drag - different from main
+    // Over - different from main
+    // top - same as main
+    private void addViewportBoundaryShape() {
+        final Layer overLayer = layer2.getScene().getTopLayer();
+        final Rectangle rectangle = new Rectangle(100, 100)
+                .setX(0)
+                .setY(0)
+                .setFillColor(ColorName.LIGHTGREY)
+                .setFillAlpha(0.5d);
+        overLayer.add(rectangle);
     }
 
     private void addButtons() {
@@ -81,7 +101,36 @@ public class CanvasReplicationTests implements EntryPoint {
             }
         });
         buttonsPanel.add(b1);
+        final Button b2 = new Button( "Scale #2" );
+        b2.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent clickEvent) {
+                scale(0.5d, 0.5d);
+                scalePanel(300, 300, 0.5d, 0.5d);
+            }
+        });
+        buttonsPanel.add(b2);
     }
+
+    private void scalePanel(final double width,
+                              final double height,
+                              final double ratioX,
+                              final double ratioY) {
+        if ( true) {
+            panel2.setPixelSize(300,
+                                300);
+            return;
+        }
+
+        final int fx = ratioX >= 1 ? +1 : -1;
+        final int fy = ratioY >= 1 ? +1 : -1;
+        final double tw = width + (fx * width * ratioX);
+        final double th = height + (fy * height * ratioY);
+        GWT.log("Scaling panel px size to [" + tw + ", " + th + "]");
+        panel2.setPixelSize((int) tw,
+                            (int) th);
+    }
+
 
     private void drawWires( ) {
         wiresShape1 = new WiresShape( new MultiPath().rect(0, 0, 100, 100).setFillColor("#00CC00") );
@@ -141,9 +190,86 @@ public class CanvasReplicationTests implements EntryPoint {
         return new Object[]{ container, panel, layer };
     }
 
+    public void translate(final double tx,
+                          final double ty) {
+        setTransform(new TransformCallback() {
+            @Override
+            public void apply(Transform t) {
+                CanvasReplicationTests.this.translate(t,
+                                                      tx,
+                                                      ty);
+            }
+        });
+    }
+
+    public void scale(final double sx,
+                      final double sy) {
+        setTransform(new TransformCallback() {
+            @Override
+            public void apply(Transform t) {
+                CanvasReplicationTests.this.scale(t,
+                                                  sx,
+                                                  sy);
+            }
+        });
+    }
+
+    public void scale(final double delta) {
+        setTransform(new TransformCallback() {
+            @Override
+            public void apply(Transform t) {
+                scale(t,
+                      delta);
+            }
+        });
+    }
+
+    private interface TransformCallback {
+
+        void apply(Transform transform);
+    }
+
+    private void setTransform(final TransformCallback callback) {
+
+        Transform transform = getViewPort().getTransform();
+
+        if (transform == null) {
+            getViewPort().setTransform(transform = new Transform());
+        }
+
+        callback.apply(transform);
+
+        getViewPort().setTransform(transform);
+
+        getViewPort().getScene().batch();
+    }
+
+    private void scale(final Transform transform,
+                       final double sx,
+                       final double sy) {
+        transform.scale(sx,
+                        sy);
+    }
+
+    private void scale(final Transform transform,
+                       final double delta) {
+        transform.scale(delta);
+    }
+
+    private void translate(final Transform transform,
+                           final double tx,
+                           final double ty) {
+        transform.translate(tx,
+                            ty);
+    }
+
+    private Viewport getViewPort() {
+        return layer2.getViewport();
+    }
+
     private void addMediators( Layer layer ) {
         final Mediators mediators = layer.getViewport().getMediators();
-        mediators.push( new MouseWheelZoomMediator( zommFilters ) );
+        mediators.push( new MouseWheelZoomMediator( zommFilters ).setMinScale(0).setMaxScale(1) );
         mediators.push( new MousePanMediator( panFilters ) );
     }
 
