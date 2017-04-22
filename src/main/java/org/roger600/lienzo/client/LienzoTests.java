@@ -1,6 +1,10 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.mediator.*;
+import com.ait.lienzo.client.core.mediator.EventFilter;
+import com.ait.lienzo.client.core.mediator.IEventFilter;
+import com.ait.lienzo.client.core.mediator.Mediators;
+import com.ait.lienzo.client.core.mediator.MousePanMediator;
+import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
 import com.ait.lienzo.client.core.shape.GridLayer;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
@@ -9,11 +13,23 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.*;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
-import org.roger600.lienzo.client.ks.*;
+import org.roger600.lienzo.client.ks.MultiPathResizeTests;
+import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
+import org.roger600.lienzo.client.ks.WiresArrowsTests;
+import org.roger600.lienzo.client.ks.WiresDockingTests;
+import org.roger600.lienzo.client.ks.WiresResizesTests;
+import org.roger600.lienzo.client.ks.WiresSquaresTests;
 
 public class LienzoTests implements EntryPoint {
+
+    public static final int WIDE = 1200;
+    public static final int HIGH = 900;
 
     private final IEventFilter[] zommFilters = new IEventFilter[] { EventFilter.CONTROL };
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
@@ -37,12 +53,14 @@ public class LienzoTests implements EntryPoint {
             new BoundingBoxTests(),
             new WiresDragAndMoveTests(),
             new ShapeResizeTests(),
+            new DragBoundsTests(),
             new LayoutContainerChildrenTests(),
             new LayoutContainerChildrenTests2(),
             new ChildRectangleResizeTests(),
             new ChildCircleResizeTests(),
             new StandaloneConnectorsTests(),
             new ConnectionAcceptorsTests(),
+            new ConnectorsSelectionTests(),
             new ConnectorsAndParentsTests(),
             new ConnectorsAndParentsTests2(),
             new DeleteChildTests(),
@@ -105,7 +123,8 @@ public class LienzoTests implements EntryPoint {
         testsPanel.getElement().getStyle().setBorderStyle( Style.BorderStyle.SOLID );
         testsPanel.getElement().getStyle().setBorderColor( "#000000" );
 
-        final LienzoPanel panel = new LienzoPanel(1200, 900);
+        final LienzoPanel panel = new LienzoPanel(WIDE,
+                                                  HIGH);
         applyGrid( panel );
         final Layer layer = new Layer();
 
