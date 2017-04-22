@@ -8,6 +8,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresUtils;
 import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresDockingAndContainmentControlImpl;
 import com.ait.lienzo.client.core.shape.wires.picker.ColorMapBackedPicker;
 import com.ait.lienzo.client.core.types.Point2D;
+import com.ait.lienzo.client.widget.DragContext;
 import com.ait.tooling.nativetools.client.collection.NFastArrayList;
 import org.roger600.lienzo.client.casemodeller.AbstractCaseModellerShape;
 
@@ -30,7 +31,7 @@ public class CaseModellerDockingAndContainmentControlImpl extends WiresDockingAn
     }
 
     @Override
-    public void dragStart( final Context context ) {
+    public void dragStart( final DragContext context ) {
         super.dragStart( context );
 
         m_origin_shape_index = null;
@@ -93,7 +94,7 @@ public class CaseModellerDockingAndContainmentControlImpl extends WiresDockingAn
     }
 
     @Override
-    protected void addShapeToParent() {
+    protected boolean addShapeToParent() {
         //Children contains m_ghost and others excluding m_shape. This replaces m_ghost with m_shape.
         final DragEndMode mode = getDragEndMode();
         switch ( mode ) {
@@ -111,6 +112,7 @@ public class CaseModellerDockingAndContainmentControlImpl extends WiresDockingAn
         m_ghost = null;
         m_origin_shape_index = null;
         m_origin_container = null;
+        return true;
     }
 
     private DragEndMode getDragEndMode() {

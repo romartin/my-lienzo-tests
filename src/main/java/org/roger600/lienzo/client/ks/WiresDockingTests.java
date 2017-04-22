@@ -24,13 +24,20 @@ public class WiresDockingTests extends FlowPanel implements MyLienzoTest, HasMed
 
             @Override
             public boolean acceptDocking(WiresContainer parent, WiresShape child) {
-                return parent.getContainer().getUserData().equals("parent")
-                        && child.getContainer().getUserData().equals( "dock" );
+                final String pd = getUserData(parent);
+                final String cd = getUserData(child);
+                return "parent".equals(pd) && "dock".equals(cd);
             }
 
             @Override
             public int getHotspotSize() {
                 return IDockingAcceptor.HOTSPOT_SIZE;
+            }
+
+            private String getUserData(WiresContainer shape) {
+                return (null != shape && null != shape.getContainer() &&
+                        null != shape.getContainer().getUserData()) ?
+                        shape.getContainer().getUserData().toString() : null;
             }
 
         });
