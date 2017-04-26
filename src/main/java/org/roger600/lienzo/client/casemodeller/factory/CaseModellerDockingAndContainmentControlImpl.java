@@ -1,7 +1,7 @@
 package org.roger600.lienzo.client.casemodeller.factory;
 
-import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
 import com.ait.lienzo.client.core.shape.wires.WiresContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresLayer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.WiresUtils;
@@ -79,18 +79,31 @@ public class CaseModellerDockingAndContainmentControlImpl extends WiresDockingAn
                                                  mouseRelativeLoc );
                 m_layer.getLayer().batch();
 
-                final NFastArrayList<WiresShape> shapesToSkip = new NFastArrayList<>();
-                shapesToSkip.add( m_ghost );
-                shapesToSkip.add( m_shape );
-                m_picker = new ColorMapBackedPicker( m_layer.getChildShapes(),
-                                                     m_layer.getLayer().getScratchPad(),
-                                                     shapesToSkip,
-                                                     false,
-                                                     IDockingAcceptor.HOTSPOT_SIZE );
+                m_picker = makeColorMapBackedPicker( m_layer,
+                                                     m_parent,
+                                                     m_shape);
+
             }
         }
 
         return true;
+    }
+
+    @Override
+    protected ColorMapBackedPicker makeColorMapBackedPicker( final WiresLayer layer,
+                                                             final WiresContainer parent,
+                                                             final WiresShape shape) {
+        final NFastArrayList<WiresShape> shapesToSkip = new NFastArrayList<>();
+        if ( m_ghost != null ) {
+            shapesToSkip.add( m_ghost );
+        }
+        shapesToSkip.add( shape );
+        return new ColorMapBackedPicker( layer.getChildShapes(),
+                                         layer.getLayer().getScratchPad(),
+                                         shapesToSkip,
+                                         shape.getDockingAcceptor().dockingAllowed( parent,
+                                                                                    shape),
+                                         shape.getDockingAcceptor().getHotspotSize());
     }
 
     @Override

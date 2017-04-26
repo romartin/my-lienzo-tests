@@ -121,7 +121,6 @@ public abstract class AbstractCaseModellerShape extends WiresShape {
             shape.getMagnets().shapeMoved();
         }
 
-        getLayoutHandler().requestLayout( this );
     }
 
     private int getIndex( final WiresShape shape ) {
