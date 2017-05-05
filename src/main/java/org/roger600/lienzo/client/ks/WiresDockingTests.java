@@ -4,6 +4,7 @@ import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.wires.*;
 import com.ait.lienzo.shared.core.types.ColorName;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 import org.roger600.lienzo.client.HasMediators;
 import org.roger600.lienzo.client.MyLienzoTest;
@@ -14,24 +15,46 @@ public class WiresDockingTests extends FlowPanel implements MyLienzoTest, HasMed
 
         final WiresManager wires_manager = WiresManager.get(layer);
 
-        wires_manager.setContainmentAcceptor(IContainmentAcceptor.ALL);
-        
-        wires_manager.setDockingAcceptor(new IDockingAcceptor() {
+        final IContainmentAcceptor containmentAcceptor = new IContainmentAcceptor() {
+            @Override
+            public boolean containmentAllowed(WiresContainer parent,
+                                              WiresShape child) {
+                GWT.log("ALLOW CONT = true");
+                return true;
+            }
+
+            @Override
+            public boolean acceptContainment(WiresContainer parent,
+                                             WiresShape child) {
+                GWT.log("ACCEPT CONT = true");
+                return true;
+            }
+        };
+
+        final IDockingAcceptor dockingAcceptor = new IDockingAcceptor() {
             @Override
             public boolean dockingAllowed(WiresContainer parent, WiresShape child) {
-                return acceptDocking( parent, child );
+                final boolean b = checkDocking( parent, child );
+                GWT.log("ALLOW DOCK = " + b );
+                return b;
             }
 
             @Override
             public boolean acceptDocking(WiresContainer parent, WiresShape child) {
-                final String pd = getUserData(parent);
-                final String cd = getUserData(child);
-                return "parent".equals(pd) && "dock".equals(cd);
+                final  boolean b = checkDocking(parent, child);
+                GWT.log("ACCEPT DOCK = " + b );
+                return b;
             }
 
             @Override
             public int getHotspotSize() {
                 return IDockingAcceptor.HOTSPOT_SIZE;
+            }
+
+            private boolean checkDocking(WiresContainer parent, WiresShape child) {
+                final String pd = getUserData(parent);
+                final String cd = getUserData(child);
+                return "parent".equals(pd) && "dock".equals(cd);
             }
 
             private String getUserData(WiresContainer shape) {
@@ -40,7 +63,12 @@ public class WiresDockingTests extends FlowPanel implements MyLienzoTest, HasMed
                         shape.getContainer().getUserData().toString() : null;
             }
 
-        });
+        };
+
+        wires_manager.setContainmentAcceptor(containmentAcceptor);
+        wires_manager.getLayer().setContainmentAcceptor(containmentAcceptor);
+        wires_manager.setDockingAcceptor(dockingAcceptor);
+        wires_manager.getLayer().setDockingAcceptor(dockingAcceptor);
 
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, 400, 400)
                 .setStrokeColor("#000000")
