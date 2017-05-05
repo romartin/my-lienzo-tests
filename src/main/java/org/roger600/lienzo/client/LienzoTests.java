@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
-import org.roger600.lienzo.client.ks.CardinalIntersect;
+import org.roger600.lienzo.client.ks.CardinalIntersectKSTests;
 import org.roger600.lienzo.client.ks.MultiPathResizeTests;
 import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
 import org.roger600.lienzo.client.ks.WiresArrowsTests;
@@ -36,6 +36,7 @@ public class LienzoTests implements EntryPoint {
     private final IEventFilter[] panFilters = new IEventFilter[] { EventFilter.SHIFT };
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[] {
+            new CardinalIntersectSimpleTest(),
             new WiresDragHandlersTests(),
             new DragHandlersTests(),
             new SVGPicturesTests(),
@@ -74,7 +75,7 @@ public class LienzoTests implements EntryPoint {
             new CaseModellerContainmentTests(),
             // From Lienzo KS
             new WiresAlignDistroTests(),
-            new CardinalIntersect(),
+            new CardinalIntersectKSTests(),
             new MultiPathResizeTests(),
             new WiresArrowsTests(),
             new WiresSquaresTests(),

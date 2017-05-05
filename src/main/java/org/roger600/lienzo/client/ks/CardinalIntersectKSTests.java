@@ -1,5 +1,7 @@
 package org.roger600.lienzo.client.ks;
 
+// CardinalIntersectKSTests
+
 import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Group;
 import com.ait.lienzo.client.core.shape.Layer;
@@ -12,7 +14,7 @@ import com.ait.lienzo.client.core.util.Geometry;
 import com.ait.lienzo.shared.core.types.ColorName;
 import org.roger600.lienzo.client.MyLienzoTest;
 
-public class CardinalIntersect implements MyLienzoTest {
+public class CardinalIntersectKSTests implements MyLienzoTest {
 
     @Override
     public void test(final Layer layer) {
