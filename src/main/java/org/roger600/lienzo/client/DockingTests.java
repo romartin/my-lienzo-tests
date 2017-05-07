@@ -2,7 +2,11 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
+import com.ait.lienzo.client.core.shape.wires.WiresContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -18,25 +22,45 @@ public class DockingTests extends FlowPanel implements MyLienzoTest, HasMediator
 
             @Override
             public boolean containmentAllowed(WiresContainer parent, WiresShape child) {
-                return false;
+                GWT.log("ALLOW CONT = true");
+                return true;
             }
 
             @Override
             public boolean acceptContainment(WiresContainer parent, WiresShape child) {
-                return false;
+                GWT.log("ACCEPT CONT = true");
+                return true;
+            }
+        });
+
+        wires_manager.getLayer().setContainmentAcceptor(new IContainmentAcceptor() {
+
+            @Override
+            public boolean containmentAllowed(WiresContainer parent, WiresShape child) {
+                GWT.log("ALLOW LAYER CONT = true");
+                return true;
+            }
+
+            @Override
+            public boolean acceptContainment(WiresContainer parent, WiresShape child) {
+                GWT.log("ACCEPT LAYER CONT = true");
+                return true;
             }
         });
         
         wires_manager.setDockingAcceptor(new IDockingAcceptor() {
             @Override
             public boolean dockingAllowed(WiresContainer parent, WiresShape child) {
-                return true;
+                final boolean b = checkDocking( parent, child );
+                GWT.log("ALLOW DOCKING = " + b);
+                return b;
             }
 
             @Override
             public boolean acceptDocking(WiresContainer parent, WiresShape child) {
-                GWT.log( "acceptDocking - [x=" + child.getGroup().getX() + ", y=" + child.getGroup().getY() + "]" );
-                return true;
+                final boolean b = checkDocking( parent, child );
+                GWT.log( "ACCEPT DOCKING = " + b + " [x=" + child.getGroup().getX() + ", y=" + child.getGroup().getY() + "]" );
+                return b;
             }
 
             @Override
@@ -44,32 +68,72 @@ public class DockingTests extends FlowPanel implements MyLienzoTest, HasMediator
                 return IDockingAcceptor.HOTSPOT_SIZE;
             }
 
+            private boolean checkDocking(WiresContainer parent, WiresShape child) {
+                final String pd = getUserData(parent);
+                final String cd = getUserData(child);
+                return "dock-source".equals(pd) && "dock-target".equals(cd);
+            }
+
+            private String getUserData(WiresContainer shape) {
+                return (null != shape && null != shape.getContainer() &&
+                        null != shape.getContainer().getUserData()) ?
+                        shape.getContainer().getUserData().toString() : null;
+            }
+
+        });
+
+        wires_manager.getLayer().setDockingAcceptor(new IDockingAcceptor() {
+            @Override
+            public boolean dockingAllowed(WiresContainer parent,
+                                          WiresShape child) {
+                final boolean b = false;
+                GWT.log("ALLOW LAYER DOCKING = " + b);
+                return b;
+            }
+
+            @Override
+            public boolean acceptDocking(WiresContainer parent,
+                                         WiresShape child) {
+                final boolean b = false;
+                GWT.log("ACCEPT LAYER DOCKING = " + b);
+                return b;
+            }
+
+            @Override
+            public int getHotspotSize() {
+                return 25;
+            }
         });
 
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#000000");
         final WiresShape parentShape = new WiresShape(parentMultiPath);
+        parentShape.getContainer().setUserData( "dock-source" );
         wires_manager.register( parentShape );
         parentShape.setDraggable(true).setX(200).setY(200);
         wires_manager.getMagnetManager().createMagnets(parentShape);
 
         MultiPath childMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#CC0000");
         final WiresShape childShape = new WiresShape(childMultiPath);
+        childShape.getContainer().setUserData( "dock-source" );
         wires_manager.register( childShape );
         childShape.setDraggable(true).setX(600).setY(200);
         wires_manager.getMagnetManager().createMagnets(childShape);
 
-        doDock( parentShape, childShape );
+        MultiPath dockMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#0000FF");
+        final WiresShape dockShape = new WiresShape(dockMultiPath);
+        dockShape.getContainer().setUserData( "dock-target" );
+        wires_manager.register( dockShape );
+        dockShape.setDraggable(true).setX(600).setY(200);
+        wires_manager.getMagnetManager().createMagnets(dockShape);
+
+        doDock( parentShape, dockShape );
         
     }
     
     private void doDock( WiresShape parentShape , WiresShape child ) {
 
         child.removeFromParent();
-        
-        // Point2D absLoc = child.getGroup().getAbsoluteLocation();
-        // Point2D trgAbsOffset = parentShape.getContainer().getAbsoluteLocation();
-        // child.getGroup().setX(absLoc.getX() - trgAbsOffset.getX()).setY(absLoc.getY() - trgAbsOffset.getY());
-        
+
         child.getGroup().setX( -50 ).setY( 50 );
         
         parentShape.add(child);
