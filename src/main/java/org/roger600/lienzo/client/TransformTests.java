@@ -85,15 +85,6 @@ public class TransformTests extends FlowPanel implements MyLienzoTest, HasButton
         } );
         panel.add( b3 );
 
-        Button b4 = new Button( "Rect Trans Log" );
-        b4.addClickHandler( new ClickHandler() {
-            @Override
-            public void onClick( ClickEvent clickEvent ) {
-                logTransform( "Rectangle -", rectangle.getNodeTransform() );
-            }
-        } );
-        panel.add( b4 );
-
         Button b5 = new Button( "Rect Abs Trans Log" );
         b5.addClickHandler( new ClickHandler() {
             @Override
