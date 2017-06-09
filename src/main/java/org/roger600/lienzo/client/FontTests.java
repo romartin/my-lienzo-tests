@@ -30,7 +30,7 @@ public class FontTests extends FlowPanel implements MyLienzoTest, HasMediators, 
     }
 
     private WiresShape task(WiresManager wiresManager) {
-        MultiPath path = createRectangle( new MultiPath().setFillColor( ColorName.LIGHTGREY ), 150, 50, 5 );
+        MultiPath path = TestsUtils.rect( new MultiPath().setFillColor( ColorName.LIGHTGREY ), 150, 50, 5 );
         final WiresShape shape = new WiresShape( path );
         Text taskText = new Text( "Open case" )
                 .setFontFamily( FAMILY )
@@ -45,7 +45,7 @@ public class FontTests extends FlowPanel implements MyLienzoTest, HasMediators, 
     }
 
     private WiresShape lane(WiresManager wiresManager) {
-        MultiPath path = createRectangle( new MultiPath(), 500, 200, 0 );
+        MultiPath path = TestsUtils.rect( new MultiPath(), 500, 200, 0 );
         path
                 .setFillColor( "#FFFFFF" )
                 .setFillAlpha( 0.2 )
@@ -64,47 +64,5 @@ public class FontTests extends FlowPanel implements MyLienzoTest, HasMediators, 
         wiresManager.getMagnetManager().createMagnets( shape );
         return shape;
     }
-
-    private static MultiPath createRectangle( final MultiPath path,
-                                              final double w,
-                                              final double h,
-                                              final double r ) {
-
-        if ((w > 0) && (h > 0)) {
-            if ((r > 0) && (r < (w / 2)) && (r < (h / 2))) {
-
-                path.M(r, 0);
-
-                path.L(w - r, 0);
-
-                path.A( w , 0, w, r, r );
-
-                path.L(w, h - r);
-
-                path.A( w, h, w - r, h, r );
-
-                path.L(r, h);
-
-                path.A( 0, h, 0, h - r , r );
-
-                path.L(0, r);
-
-                path.A( 0, 0, r, 0, r );
-
-
-            } else {
-
-                path.rect(0, 0, w, h);
-
-            }
-
-            path.Z();
-
-        }
-
-        return path;
-
-    }
-
 
 }

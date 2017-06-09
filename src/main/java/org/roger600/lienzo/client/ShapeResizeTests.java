@@ -1,163 +1,120 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
-import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.Rectangle;
-import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.*;
-import com.ait.lienzo.shared.core.types.ColorName;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Panel;
 
-public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMediators {
+public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMediators, HasButtons {
 
-    private Layer layer;
-    private IControlHandleList m_ctrls;
+    private WiresManager wiresManager;
+    private WiresShape rectangle;
+    private WiresShape rectangle2;
+    private WiresShape circle;
+
+    @Override
+    public void setButtonsPanel(Panel panel) {
+        final Button button1 = new Button("Show magnets #R");
+        button1.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                rectangle.getMagnets().show();
+            }
+        });
+        panel.add(button1);
+        final Button button2 = new Button("Show magnets #C");
+        button2.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                circle.getMagnets().show();
+            }
+        });
+        panel.add(button2);
+    }
 
     public void test(Layer layer) {
 
-        this.layer = layer;
+        wiresManager = WiresManager.get( layer );
 
-        WiresManager wires_manager = WiresManager.get( layer );
-
-        final WiresShape shape1 = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
+        rectangle = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 100 ).setY( 100 );
-        wires_manager.register( shape1 );
-        wires_manager.getMagnetManager().createMagnets( shape1 );
 
-        shape1
+        registerNewShape("R", rectangle);
+
+
+        rectangle2 = new WiresShape( TestsUtils.rect(new MultiPath(), 100, 100, 10)
+                                            .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
+                .setX( 300 ).setY( 100 );
+
+        registerNewShape("R2", rectangle2);
+
+        circle = new WiresShape( new MultiPath().circle(50)
+                                            .setStrokeColor( "#FFFFFF" ).setFillColor( "#0000FF" ) )
+                .setX( 600 ).setY( 100 );
+
+        registerNewShape("C", circle);
+
+    }
+
+    private void registerNewShape(final String name,
+                                  final WiresShape shape) {
+        wiresManager.register( shape );
+        wiresManager.getMagnetManager().createMagnets( shape );
+
+        shape
                 .setDraggable( true );
 
-        TestsUtils.addResizeHandlers( shape1 );
+        TestsUtils.addResizeHandlers( shape );
 
-        shape1.addWiresMoveHandler( new WiresMoveHandler() {
+        shape.addWiresMoveHandler( new WiresMoveHandler() {
             @Override
             public void onShapeMoved( WiresMoveEvent event ) {
-                log( "onShapeMoved #1 [x=" + event.getX() + ", y=" + event.getY() + "]" );
+                log( "onShapeMoved #" + name + " [x=" + event.getX() + ", y=" + event.getY() + "]" );
             }
         } );
 
-        shape1.addWiresResizeStartHandler( new WiresResizeStartHandler() {
+        shape.addWiresResizeStartHandler( new WiresResizeStartHandler() {
             @Override
             public void onShapeResizeStart( final WiresResizeStartEvent event ) {
-                log( "onShapeResizeStart #1 [x=" + event.getX() + ", y=" + event.getY()
-                        + ", width=" + event.getWidth()
-                        + ", height=" + event.getHeight() + "]" );
+                log( "onShapeResizeStart #" + name + " [x=" + event.getX() + ", y=" + event.getY()
+                             + ", width=" + event.getWidth()
+                             + ", height=" + event.getHeight() + "]" );
             }
         } );
 
-        shape1.addWiresResizeStepHandler( new WiresResizeStepHandler() {
+        shape.addWiresResizeStepHandler( new WiresResizeStepHandler() {
             @Override
             public void onShapeResizeStep( WiresResizeStepEvent event ) {
-                log( "onShapeResizeStep #1 [x=" + event.getX() + ", y=" + event.getY()
-                        + ", width=" + event.getWidth()
-                        + ", height=" + event.getHeight() + "]" );
+                log( "onShapeResizeStep #" + name + " [x=" + event.getX() + ", y=" + event.getY()
+                             + ", width=" + event.getWidth()
+                             + ", height=" + event.getHeight() + "]" );
             }
         } );
 
-        shape1.addWiresResizeEndHandler( new WiresResizeEndHandler() {
+        shape.addWiresResizeEndHandler( new WiresResizeEndHandler() {
             @Override
             public void onShapeResizeEnd( WiresResizeEndEvent event ) {
-                log( "onShapeResizeEnd #1 [x=" + event.getX() + ", y=" + event.getY()
-                        + ", width=" + event.getWidth()
-                        + ", height=" + event.getHeight() + "]" );
+                log( "onShapeResizeEnd #"+ name + " [x=" + event.getX() + ", y=" + event.getY()
+                             + ", width=" + event.getWidth()
+                             + ", height=" + event.getHeight() + "]" );
             }
         } );
 
-        addButton1( shape1 );
-
-        WiresShape shape2 = addAnotherShape( wires_manager );
-        addButton2( shape2 );
-    }
-
-    private void addButton1( final WiresShape shape ) {
-
-        Rectangle button = new Rectangle( 25, 25 )
-                .setX( 0 )
-                .setY( 0 )
-                .setFillColor( ColorName.RED );
-
-        button.addNodeMouseClickHandler( new NodeMouseClickHandler() {
-            @Override
-            public void onNodeMouseClick( NodeMouseClickEvent event ) {
-                shape.getMagnets().show();
-            }
-        } );
-
-        layer.add( button );
-
-    }
-
-    private void addButton2( final WiresShape shape ) {
-
-        Rectangle button = new Rectangle( 25, 25 )
-                .setX( 0 )
-                .setY( 50 )
-                .setFillColor( ColorName.BLUE );
-
-        button.addNodeMouseClickHandler( new NodeMouseClickHandler() {
-            @Override
-            public void onNodeMouseClick( NodeMouseClickEvent event ) {
-                shape.getMagnets().show();
-            }
-        } );
-
-        layer.add( button );
-
-    }
-
-    private WiresShape addAnotherShape( final WiresManager wires_manager ) {
-        final WiresShape shape2 = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
-                .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
-                .setX( 300 ).setY( 300 );
-
-        wires_manager.register( shape2 );
-        wires_manager.getMagnetManager().createMagnets( shape2 );
-
-        shape2
-            .setDraggable( true );
-        TestsUtils.addResizeHandlers( shape2 );
-
-        shape2.addWiresMoveHandler( new WiresMoveHandler() {
-            @Override
-            public void onShapeMoved( WiresMoveEvent event ) {
-                log( "onShapeMoved #2 [x=" + event.getX() + ", y=" + event.getY() + "]" );
-            }
-        } );
-
-        shape2.addWiresResizeStartHandler( new WiresResizeStartHandler() {
-            @Override
-            public void onShapeResizeStart( final WiresResizeStartEvent event ) {
-                log( "onShapeResizeStart #2 [x=" + event.getX() + ", y=" + event.getY()
-                        + ", width=" + event.getWidth()
-                        + ", height=" + event.getHeight() + "]" );
-            }
-        } );
-
-        shape2.addWiresResizeStepHandler( new WiresResizeStepHandler() {
-            @Override
-            public void onShapeResizeStep( WiresResizeStepEvent event ) {
-                log( "onShapeResizeStep #2 [x=" + event.getX() + ", y=" + event.getY()
-                        + ", width=" + event.getWidth()
-                        + ", height=" + event.getHeight() + "]" );
-            }
-        } );
-
-        shape2.addWiresResizeEndHandler( new WiresResizeEndHandler() {
-            @Override
-            public void onShapeResizeEnd( WiresResizeEndEvent event ) {
-                log( "onShapeResizeEnd #2 [x=" + event.getX() + ", y=" + event.getY()
-                        + ", width=" + event.getWidth()
-                        + ", height=" + event.getHeight() + "]" );
-            }
-        } );
-
-        return shape2;
     }
 
     private void log( String s ) {
