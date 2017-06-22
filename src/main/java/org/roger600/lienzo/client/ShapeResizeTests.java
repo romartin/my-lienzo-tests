@@ -1,7 +1,13 @@
 package org.roger600.lienzo.client;
 
+import java.util.Map;
+
+import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
+import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.wires.IControlHandle;
+import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
@@ -69,6 +75,113 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
 
         registerNewShape("C", circle);
 
+        // Primitive resizing.
+
+        MultiPath p1 = createMultiPathShape();
+        layer.add(p1.setX(600).setY(0));
+
+        MultiPath c1 = createMultiPathCircle(0, 0, 50);
+        layer.add(c1.setX(200).setY(300));
+
+    }
+
+    private MultiPath createMultiPathCircle(final double x,
+                                            final double y,
+                                            final double r ) {
+        MultiPath m_multi = new MultiPath();
+
+        final double c = r * 2;
+        m_multi.A(x + r, y, x + r, y + r, r);
+        m_multi.A(x + r, y + c, x, y + c, r);
+
+
+        m_multi.A(x - r, y + c, x - r, y + r, r);
+        m_multi.A(x - r, y, x, y, r);
+        m_multi.Z();
+        m_multi.setStrokeWidth(5).setStrokeColor("#0000CC").setDraggable(true);
+
+        return addResize(m_multi);
+    }
+
+    private MultiPath createMultiPathShape() {
+        MultiPath m_multi = new MultiPath();
+
+        m_multi.M(100, 100);
+
+        m_multi.L(200, 150);
+
+        m_multi.L(300, 100);
+
+        m_multi.L(250, 200);
+
+        m_multi.L(300, 300);
+
+        m_multi.L(200, 250);
+
+        m_multi.L(100, 300);
+
+        m_multi.L(150, 200);
+
+        m_multi.Z();
+
+        m_multi.setStrokeWidth(5).setStrokeColor("#0000CC").setDraggable(true);
+
+        return addResize(m_multi);
+    }
+
+    private MultiPath addResize(final MultiPath m_multi) {
+
+        m_multi.addNodeMouseClickHandler(new NodeMouseClickHandler()
+        {
+            @Override
+            public void onNodeMouseClick(NodeMouseClickEvent event)
+            {
+                IControlHandleList m_ctrls = null;
+
+                if (event.isShiftKeyDown())
+                {
+                    if (null != m_ctrls)
+                    {
+                        m_ctrls.destroy();
+
+                        m_ctrls = null;
+                    }
+                    Map<IControlHandle.ControlHandleType, IControlHandleList> hmap = m_multi.getControlHandles(IControlHandle.ControlHandleStandardType.RESIZE);
+
+                    if (null != hmap)
+                    {
+                        m_ctrls = hmap.get( IControlHandle.ControlHandleStandardType.RESIZE);
+
+                        if ((null != m_ctrls) && (m_ctrls.isActive()))
+                        {
+                            m_ctrls.show();
+                        }
+                    }
+                }
+                else if (event.isAltKeyDown())
+                {
+                    if (null != m_ctrls)
+                    {
+                        m_ctrls.destroy();
+
+                        m_ctrls = null;
+                    }
+                    Map<IControlHandle.ControlHandleType, IControlHandleList> hmap = m_multi.getControlHandles( IControlHandle.ControlHandleStandardType.POINT);
+
+                    if (null != hmap)
+                    {
+                        m_ctrls = hmap.get( IControlHandle.ControlHandleStandardType.POINT);
+
+                        if ((null != m_ctrls) && (m_ctrls.isActive()))
+                        {
+                            m_ctrls.show();
+                        }
+                    }
+                }
+            }
+        });
+
+        return m_multi;
     }
 
     private void registerNewShape(final String name,
