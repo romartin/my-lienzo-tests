@@ -226,7 +226,7 @@ public class TextWrapTests extends FlowPanel implements MyLienzoTest, HasButtons
                         ", " + boundingBox.getX() +
                         ", " + boundingBox.getWidth() +
                         ", " + boundingBox.getHeight() + "]");
-        text.setWrapBoundaries(boundingBox);
+        // TODO text.setWrapBoundaries(boundingBox);
         layer.draw();
     }
 
