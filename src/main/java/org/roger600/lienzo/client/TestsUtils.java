@@ -83,7 +83,7 @@ public class TestsUtils {
     }
 
     public static void addResizeHandlers( final WiresShape shape ) {
-        shape.setResizable( true ).getPath().addNodeMouseClickHandler(new NodeMouseClickHandler()
+        shape.setResizable( true ).getGroup().addNodeMouseClickHandler(new NodeMouseClickHandler()
         {
             @Override
             public void onNodeMouseClick(NodeMouseClickEvent event)
