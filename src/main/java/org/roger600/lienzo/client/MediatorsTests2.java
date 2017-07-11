@@ -71,6 +71,12 @@ public class MediatorsTests2 extends FlowPanel implements MyLienzoTest {
         // Connector from blue start event to yellow task node.
         connect(layer, startEventShape.getMagnets(), 3, task2NodeShape.getMagnets(), 7, wires_manager);
 
+        parentShape.setDraggable(true);
+        startEventShape.setDraggable(true);
+        taskNodeShape.setDraggable(true);
+        task2NodeShape.setDraggable(true);
+        endEventShape.setDraggable(true);
+
         addMediators();
 
     }

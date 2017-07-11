@@ -58,7 +58,7 @@ public class TextWrapTests extends FlowPanel implements MyLienzoTest, HasButtons
     private void addResizeHandlers( final WiresShape shape ) {
         shape
             .setResizable( true )
-            .getPath()
+            .getGroup()
             .addNodeMouseClickHandler( new NodeMouseClickHandler() {
                 @Override
                 public void onNodeMouseClick( NodeMouseClickEvent event ) {

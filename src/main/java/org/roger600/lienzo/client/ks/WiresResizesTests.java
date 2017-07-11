@@ -44,7 +44,7 @@ public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasBut
     private void addResizeHandlers( final WiresShape shape ) {
         shape
             .setResizable( true )
-            .getPath()
+            .getGroup()
             .addNodeMouseClickHandler( new NodeMouseClickHandler() {
                 @Override
                 public void onNodeMouseClick( NodeMouseClickEvent event ) {
