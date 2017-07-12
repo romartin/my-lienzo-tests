@@ -99,7 +99,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
 
     private void mangetRedLess() {
         if (magnetRed <= 0) {
-            magnetRed = redShape.getMagnets().size();
+            magnetRed = redShape.getMagnets().size() - 1;
         } else {
             magnetRed--;
         }
@@ -115,7 +115,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
 
     private void mangetGreenLess() {
         if (magnetGreem <= 0) {
-            magnetGreem = greenShape.getMagnets().size();
+            magnetGreem = greenShape.getMagnets().size() - 1;
         } else {
             magnetGreem--;
         }
