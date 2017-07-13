@@ -1,5 +1,11 @@
 package org.roger600.lienzo.client;
 
+import com.ait.lienzo.client.core.event.NodeDragEndEvent;
+import com.ait.lienzo.client.core.event.NodeDragEndHandler;
+import com.ait.lienzo.client.core.event.NodeDragMoveEvent;
+import com.ait.lienzo.client.core.event.NodeDragMoveHandler;
+import com.ait.lienzo.client.core.event.NodeDragStartEvent;
+import com.ait.lienzo.client.core.event.NodeDragStartHandler;
 import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
@@ -9,13 +15,18 @@ import com.ait.lienzo.client.core.shape.Star;
 import com.ait.lienzo.client.core.shape.wires.IConnectionAcceptor;
 import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
 import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
-import com.ait.lienzo.client.core.shape.wires.MagnetManager;
 import com.ait.lienzo.client.core.shape.wires.WiresConnection;
 import com.ait.lienzo.client.core.shape.wires.WiresConnector;
 import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.handlers.WiresConnectorControl;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.client.widget.DragConstraintEnforcer;
+import com.ait.lienzo.client.widget.DragContext;
+import com.ait.lienzo.shared.core.types.ColorName;
+import com.ait.lienzo.shared.core.types.IColor;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -29,10 +40,12 @@ import static com.ait.lienzo.client.core.shape.wires.LayoutContainer.Layout.CENT
 public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest,
                                                                     HasButtons {
 
+    private WiresManager wiresManager;
     private WiresShape redShape;
     private WiresShape greenShape;
     private WiresShape parentShape;
     private WiresConnector connector;
+    private WiresConnector connector2;
     private Label labelRed;
     private Label labelGreen;
     private int magnetRed = 7;
@@ -87,6 +100,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
             }
         });
         panel.add(b4);
+
     }
 
     private void doUpdate() {
@@ -170,18 +184,18 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
 
     public void test(final Layer layer) {
 
-        WiresManager wires_manager = WiresManager.get(layer);
-        wires_manager.setContainmentAcceptor(IContainmentAcceptor.ALL);
-        wires_manager.setDockingAcceptor(IDockingAcceptor.ALL);
-        //wires_manager.setConnectionAcceptor(IConnectionAcceptor.ALL);
-        wires_manager.setConnectionAcceptor(logggerAcceptor);
-        wires_manager.setSpliceEnabled(false);
+        wiresManager = WiresManager.get(layer);
+        wiresManager.setContainmentAcceptor(IContainmentAcceptor.ALL);
+        wiresManager.setDockingAcceptor(IDockingAcceptor.ALL);
+        //wiresManager.setConnectionAcceptor(IConnectionAcceptor.ALL);
+        wiresManager.setConnectionAcceptor(logggerAcceptor);
+        wiresManager.setSpliceEnabled(false);
 
         redShape = new WiresShape(new MultiPath().rect(0,
                                                        0,
                                                        100,
                                                        100).setStrokeColor("#CC0000")).setX(300).setY(100).setDraggable(true);
-        wires_manager.register(redShape);
+        wiresManager.register(redShape);
         redShape.getContainer().setUserData("A");
         redShape.addChild(new Circle(30),
                           CENTER);
@@ -190,7 +204,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
                                                          0,
                                                          100,
                                                          100).setStrokeColor("#00CC00")).setX(50).setY(50).setDraggable(true);
-        wires_manager.register(greenShape);
+        wiresManager.register(greenShape);
         greenShape.getContainer().setUserData("A");
         greenShape.addChild(new Star(5,
                                      15,
@@ -201,19 +215,127 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
                                                           0,
                                                           500,
                                                           400).setStrokeColor("#000000")).setX(200).setY(250).setDraggable(true);
-        wires_manager.register(parentShape);
+        wiresManager.register(parentShape);
         parentShape.getContainer().setUserData("A");
 
-        wires_manager.getMagnetManager().createMagnets(parentShape);
-        wires_manager.getMagnetManager().createMagnets(redShape);
-        wires_manager.getMagnetManager().createMagnets(greenShape);
+        wiresManager.getMagnetManager().createMagnets(parentShape);
+        wiresManager.getMagnetManager().createMagnets(redShape);
+        wiresManager.getMagnetManager().createMagnets(greenShape);
 
-        connect(layer,
-                greenShape.getMagnets(),
-                3,
-                redShape.getMagnets(),
-                magnetRed,
-                wires_manager);
+        createAndSetUpConnector1();
+
+        createAndSetUpConnector2();
+
+    }
+
+    private void createAndSetUpConnector2() {
+
+        final Layer layer = wiresManager.getLayer().getLayer();
+
+        final WiresConnectorControl[] connectorControl =  new WiresConnectorControl[] { null };
+
+        final double cx = 25;
+        final double cy = 25;
+        final Circle newButton = new Circle(15)
+                .setX(cx)
+                .setY(cy)
+                .setFillColor(ColorName.RED)
+                .setSelectionBoundsOffset(15)
+                .setFillBoundsForSelection(true)
+                .setDraggable(true);
+
+        newButton.setDragConstraints(new DragConstraintEnforcer() {
+            @Override
+            public void startDrag(DragContext dragContext) {
+                GWT.log("CREATING NEW CONNECTOR");
+
+                if (null != connector2) {
+                    wiresManager.deregister(connector2);
+                    connector2 = null;
+                    connectorControl[0] = null;
+                }
+
+                WiresMagnet gm3 = greenShape.getMagnets().getMagnet(3);
+
+                Point2D loc = dragContext.getLocalAdjusted();
+
+                connector2 = connector(layer,
+                                       ColorName.RED,
+                                       gm3,
+                                       gm3.getControl().getLocation(),
+                                       null,
+                                       loc);
+
+                connectorControl[0] = wiresManager.register(connector2);
+
+                connectorControl[0].showControlPoints();
+
+                connectorControl[0].getTailConnectionControl().dragStart(dragContext);
+
+                newButton.setAlpha(0);
+            }
+
+            @Override
+            public boolean adjust(Point2D dxy) {
+                if (null != connectorControl[0]) {
+                    boolean adjusted = connectorControl[0].getTailConnectionControl().dragAdjust(dxy);
+                    GWT.log("ADJUST [" + adjusted + "] TAIL TO [" + dxy.getX() + ", " + dxy.getY() + "]");
+                    return adjusted;
+                }
+                return false;
+            }
+        });
+
+        newButton.addNodeDragStartHandler(new NodeDragStartHandler() {
+            @Override
+            public void onNodeDragStart(NodeDragStartEvent event) {
+            }
+        });
+
+        newButton.addNodeDragMoveHandler(new NodeDragMoveHandler() {
+            @Override
+            public void onNodeDragMove(NodeDragMoveEvent event) {
+                GWT.log("MOVE TO [" + event.getX() + ", " + event.getY() + "]");
+                connectorControl[0].getTailConnectionControl().dragMove(event.getDragContext());
+                connector2.getTailConnection().move(event.getX(), event.getY());
+            }
+        });
+
+        newButton.addNodeDragEndHandler(new NodeDragEndHandler() {
+            @Override
+            public void onNodeDragEnd(NodeDragEndEvent event) {
+                GWT.log("DESTROYING NEW CONNECTOR");
+                connector2.getTailConnection().move(event.getX(), event.getY());
+                boolean accepts =
+                        connectorControl[0].getTailConnectionControl().dragEnd(event.getDragContext());
+                if (accepts) {
+                    connectorControl[0].hideControlPoints();
+                } else {
+                    wiresManager.deregister(connector2);
+                    connector2 = null;
+                }
+                connectorControl[0] = null;
+                newButton
+                        .setAlpha(1)
+                        .setX(cx)
+                        .setY(cy);
+            }
+        });
+
+        layer.add(newButton);
+
+    }
+
+    private void createAndSetUpConnector1() {
+        WiresMagnet gm3 = greenShape.getMagnets().getMagnet(3);
+        WiresMagnet rm7 = redShape.getMagnets().getMagnet(7);
+        connector = connector(wiresManager.getLayer().getLayer(),
+                              ColorName.BLUE,
+                              gm3,
+                              gm3.getControl().getLocation(),
+                              rm7,
+                              rm7.getControl().getLocation());
+        wiresManager.register(connector);
     }
 
     private IConnectionAcceptor logggerAcceptor = new IConnectionAcceptor() {
@@ -248,14 +370,12 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
         }
     };
 
-    private void connect(Layer layer,
-                         MagnetManager.Magnets magnets0,
-                         int i0_1,
-                         MagnetManager.Magnets magnets1,
-                         int i1_1,
-                         WiresManager wiresManager) {
-        WiresMagnet m0_1 = magnets0.getMagnet(i0_1);
-        WiresMagnet m1_1 = magnets1.getMagnet(i1_1);
+    private WiresConnector connector(Layer layer,
+                                     IColor color,
+                                     WiresMagnet magnet0,
+                                     Point2D loc0,
+                                     WiresMagnet magnet1,
+                                     Point2D loc1) {
 
         double x0, x1, y0, y1;
 
@@ -278,10 +398,10 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
         tail.Z();
 
         OrthogonalPolyLine line;
-        x0 = m0_1.getControl().getX();
-        y0 = m0_1.getControl().getY();
-        x1 = m1_1.getControl().getX();
-        y1 = m1_1.getControl().getY();
+        x0 = loc0.getX();
+        y0 = loc0.getY();
+        x1 = loc1.getX();
+        y1 = loc1.getY();
         line = createLine(layer,
                           0,
                           0,
@@ -295,16 +415,18 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
         line.setTailOffset(tail.getBoundingBox().getHeight());
         line.setSelectionStrokeOffset(25);
 
-        connector = new WiresConnector(m0_1,
-                                       m1_1,
+        head.setStrokeWidth(2).setStrokeColor(color);
+        tail.setStrokeWidth(2).setStrokeColor(color);
+        line.setStrokeWidth(2).setStrokeColor(color);
+
+        WiresConnector connector = new WiresConnector(magnet0,
+                                       magnet1,
                                        line,
                                        new MultiPathDecorator(head),
                                        new MultiPathDecorator(tail));
-        wiresManager.register(connector);
 
-        head.setStrokeWidth(5).setStrokeColor("#0000CC");
-        tail.setStrokeWidth(5).setStrokeColor("#0000CC");
-        line.setStrokeWidth(5).setStrokeColor("#0000CC");
+        return connector;
+
     }
 
     private final OrthogonalPolyLine createLine(Layer layer,
