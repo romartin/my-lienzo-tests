@@ -30,6 +30,7 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
     private WiresManager wiresManager;
     private WiresShape rectangle;
     private WiresShape rectangle2;
+    private WiresShape rectangle3;
     private WiresShape circle;
 
     @Override
@@ -56,32 +57,41 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
 
         wiresManager = WiresManager.get( layer );
 
+        // Rectangle - no cornering
         rectangle = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
                 .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 100 ).setY( 100 );
 
         registerNewShape("R", rectangle);
 
-
+        // Rectangle - cornering via ARC
         rectangle2 = new WiresShape( TestsUtils.rect(new MultiPath(), 100, 100, 10)
                                             .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 300 ).setY( 100 );
 
         registerNewShape("R2", rectangle2);
 
+        // Rectangle - cornering via corner-radius attribute
+        rectangle3 = new WiresShape( new MultiPath().rect(0, 0, 400, 400)
+                                            // TODO .setCornerRadius(50)
+                                             .setStrokeColor( "#FFFFFF" ).setFillColor( "#CCBB00" ) )
+                .setX( 500 ).setY( 100 );
+
+        registerNewShape("R3", rectangle3);
+
         circle = new WiresShape( new MultiPath().circle(50)
                                             .setStrokeColor( "#FFFFFF" ).setFillColor( "#0000FF" ) )
-                .setX( 600 ).setY( 100 );
+                .setX( 700 ).setY( 100 );
 
         registerNewShape("C", circle);
 
         // Primitive resizing.
 
         MultiPath p1 = createMultiPathShape();
-        layer.add(p1.setX(600).setY(0));
+        layer.add(p1.setX(100).setY(300));
 
         MultiPath c1 = createMultiPathCircle(0, 0, 50);
-        layer.add(c1.setX(200).setY(300));
+        layer.add(c1.setX(300).setY(300));
 
     }
 
