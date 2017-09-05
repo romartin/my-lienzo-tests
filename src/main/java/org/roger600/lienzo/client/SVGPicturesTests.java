@@ -39,22 +39,36 @@ public class SVGPicturesTests implements MyLienzoTest,
     @Override
     public void test(final Layer layer) {
         this.layer = layer;
-        String content = getSvgCompositeContent(true,
-                                                taskComposite,
-                                                taskUserComposite,
-                                                taskScriptComposite);
-
-        String encodedBase64 = SVG_DATA_URI_B64 + Base64Util.encode(content.getBytes(),
-                                                                    0,
-                                                                    content.length());
-        new Picture(encodedBase64,
+        new Picture(LienzoTestsResources.INSTANCE.edit().getSafeUri().asString(),
                     new PictureLoadedHandler() {
                         @Override
                         public void onPictureLoaded(Picture picture) {
                             SVGPicturesTests.this.picture = picture;
                             picture.setX(105)
                                     .setY(105);
-                            // scalePicture(picture, 20, 20);
+                            scalePicture(picture, 15, 15);
+                            layer.add(picture);
+                        }
+                    });
+        new Picture(LienzoTestsResources.INSTANCE.delete().getSafeUri().asString(),
+                    new PictureLoadedHandler() {
+                        @Override
+                        public void onPictureLoaded(Picture picture) {
+                            SVGPicturesTests.this.picture = picture;
+                            picture.setX(305)
+                                    .setY(105);
+                            scalePicture(picture, 15, 15);
+                            layer.add(picture);
+                        }
+                    });
+        new Picture(LienzoTestsResources.INSTANCE.gears().getSafeUri().asString(),
+                    new PictureLoadedHandler() {
+                        @Override
+                        public void onPictureLoaded(Picture picture) {
+                            SVGPicturesTests.this.picture = picture;
+                            picture.setX(505)
+                                    .setY(105);
+                            scalePicture(picture, 15, 15);
                             layer.add(picture);
                         }
                     });

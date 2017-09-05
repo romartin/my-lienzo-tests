@@ -109,5 +109,19 @@ public interface LienzoTestsResources extends ClientBundleWithLookup {
     @DataResource.MimeType("image/svg+xml")
     DataResource taskUserComposite();
 
+
+
+    @ClientBundle.Source( "images/edit.svg" )
+    @DataResource.MimeType("image/svg+xml")
+    DataResource edit();
+
+    @ClientBundle.Source( "images/gears.svg" )
+    @DataResource.MimeType("image/svg+xml")
+    DataResource gears();
+
+    @ClientBundle.Source( "images/delete.svg" )
+    @DataResource.MimeType("image/svg+xml")
+    DataResource delete();
+
 }
 
