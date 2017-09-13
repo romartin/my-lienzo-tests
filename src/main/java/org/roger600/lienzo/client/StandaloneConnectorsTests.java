@@ -1,8 +1,20 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.Circle;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.MultiPathDecorator;
+import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
+import com.ait.lienzo.client.core.shape.wires.IConnectionAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
+import com.ait.lienzo.client.core.shape.wires.MagnetManager;
+import com.ait.lienzo.client.core.shape.wires.WiresConnector;
+import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.handlers.WiresConnectorControl;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -82,7 +94,8 @@ public class StandaloneConnectorsTests extends FlowPanel implements MyLienzoTest
         WiresShape startEventShape = new WiresShape(startEventMultiPath);
         wires_manager.register( startEventShape );
         Circle startEventCircle = new Circle(radius).setFillColor(ColorName.BLUE).setDraggable(false);
-        startEventShape.setX(startX).setY(startY).getContainer().setUserData(ColorName.BLUE.getColorString());
+        startEventShape.setLocation(new Point2D(startX, startY));
+        startEventShape.getContainer().setUserData(ColorName.BLUE.getColorString());
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.CENTER);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
         startEventShape.setDraggable( true );
@@ -93,7 +106,8 @@ public class StandaloneConnectorsTests extends FlowPanel implements MyLienzoTest
         wires_manager.register( taskNodeShape );
         taskNodeShape.setDraggable( true );
         TestsUtils.addResizeHandlers( taskNodeShape );
-        taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData(ColorName.GREEN.getColorString());
+        taskNodeShape.setLocation(new Point2D(startX + 200, startY));
+        taskNodeShape.getContainer().setUserData(ColorName.GREEN.getColorString());
         wires_manager.getMagnetManager().createMagnets(taskNodeShape);
 
         // Yellow task node.
@@ -101,7 +115,8 @@ public class StandaloneConnectorsTests extends FlowPanel implements MyLienzoTest
         wires_manager.register( task2NodeShape );
         task2NodeShape.setDraggable( true );
         TestsUtils.addResizeHandlers( task2NodeShape );
-        task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData(ColorName.YELLOW.getColorString());
+        task2NodeShape.setLocation(new Point2D(startX + 200, startY + 300));
+        task2NodeShape.getContainer().setUserData(ColorName.YELLOW.getColorString());
         wires_manager.getMagnetManager().createMagnets(task2NodeShape);
 
         c1 = createConnector( layer, wires_manager, 0, 0, 100, 100 );

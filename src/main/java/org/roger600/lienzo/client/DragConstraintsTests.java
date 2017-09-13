@@ -1,6 +1,11 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.event.*;
+import com.ait.lienzo.client.core.event.NodeDragEndEvent;
+import com.ait.lienzo.client.core.event.NodeDragEndHandler;
+import com.ait.lienzo.client.core.event.NodeDragMoveEvent;
+import com.ait.lienzo.client.core.event.NodeDragMoveHandler;
+import com.ait.lienzo.client.core.event.NodeDragStartEvent;
+import com.ait.lienzo.client.core.event.NodeDragStartHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
@@ -9,6 +14,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveHandler;
 import com.ait.lienzo.client.core.types.DragBounds;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -28,7 +34,8 @@ public class DragConstraintsTests extends FlowPanel implements MyLienzoTest, Has
     private void testWithWires( final Layer layer) {
         final WiresManager wiresManager = WiresManager.get( layer );
         final WiresShape rectangle = createRectangle( 50, 50, wiresManager );
-        rectangle.setX( 500 ).setY( 300 );
+        rectangle.setLocation(new Point2D(500 , 300));
+
         rectangle.addWiresDragMoveHandler( new WiresDragMoveHandler() {
             @Override
             public void onShapeDragMove( WiresDragMoveEvent wiresDragMoveEvent ) {
@@ -40,8 +47,7 @@ public class DragConstraintsTests extends FlowPanel implements MyLienzoTest, Has
                 double ty = y < 200 ? 200 : y;
                 double ty1 = ty > 700 ? 700 : ty;
                 GWT.log( "Adjust at [" + tx1 + ", " + ty1 + "]" );
-                rectangle.setX( tx1 );
-                rectangle.setY( ty1 );
+                rectangle.setLocation( new Point2D(tx1, ty1));
             }
         } );
     }

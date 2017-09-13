@@ -10,6 +10,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresConnector;
 import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 import org.roger600.lienzo.client.MyLienzoTest;
@@ -38,11 +39,10 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     0,
                                                     w,
                                                     h).setStrokeWidth(5).setStrokeColor("#CC0000"))
-                        .setX(400)
-                        .setY(400)
                         .setDraggable(true)
                         .addChild(new Circle(radius).setFillColor("#CC0000"),
                                   CENTER);
+        wiresShape0.setLocation(new Point2D(400, 400));
 
         wires_manager.register(wiresShape0);
         wires_manager.getMagnetManager().createMagnets(wiresShape0);
@@ -53,11 +53,10 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     0,
                                                     w,
                                                     h).setStrokeWidth(5).setStrokeColor("#00CC00"))
-                        .setX(400)
-                        .setY(50)
                         .setDraggable(true)
                         .addChild(new Circle(radius).setFillColor("#00CC00"),
                                   TOP);
+        wiresShape1.setLocation(new Point2D(400, 50));
 
         wires_manager.register(wiresShape1);
         wires_manager.getMagnetManager().createMagnets(wiresShape1);
@@ -68,11 +67,10 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     0,
                                                     w,
                                                     h).setStrokeWidth(5).setStrokeColor("#0000CC"))
-                        .setX(750)
-                        .setY(400)
                         .setDraggable(true)
                         .addChild(new Circle(radius).setFillColor("#0000CC"),
                                   RIGHT);
+        wiresShape2.setLocation(new Point2D(750, 400));
 
         wires_manager.register(wiresShape2);
         wires_manager.getMagnetManager().createMagnets(wiresShape2);
@@ -83,11 +81,10 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     0,
                                                     w,
                                                     h).setStrokeWidth(5).setStrokeColor("#CCCC00"))
-                        .setX(400)
-                        .setY(700)
                         .setDraggable(true)
                         .addChild(new Circle(radius).setFillColor("#CCCC00"),
                                   BOTTOM);
+        wiresShape3.setLocation(new Point2D(400, 700));
 
         wires_manager.register(wiresShape3);
         wires_manager.getMagnetManager().createMagnets(wiresShape3);
@@ -98,11 +95,10 @@ public class WiresSquaresTests extends FlowPanel implements MyLienzoTest {
                                                     0,
                                                     w,
                                                     h).setStrokeWidth(5).setStrokeColor("#CC00CC"))
-                        .setX(50)
-                        .setY(400)
                         .setDraggable(true)
                         .addChild(new Circle(radius).setFillColor("#CC00CC"),
                                   LEFT);
+        wiresShape4.setLocation(new Point2D(50, 400));
 
         wires_manager.register(wiresShape4);
         wires_manager.getMagnetManager().createMagnets(wiresShape4);

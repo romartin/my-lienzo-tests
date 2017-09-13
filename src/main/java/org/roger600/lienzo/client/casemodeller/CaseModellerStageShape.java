@@ -27,14 +27,14 @@ public class CaseModellerStageShape extends AbstractCaseModellerShape {
 
         @Override
         public boolean containmentAllowed( final WiresContainer parent,
-                                           final WiresShape child ) {
-            return ( parent instanceof CaseModellerStageShape && child instanceof CaseModellerActivityShape );
+                                           final WiresShape[] children ) {
+            return ( parent instanceof CaseModellerStageShape && children[0] instanceof CaseModellerActivityShape );
         }
 
         @Override
         public boolean acceptContainment( final WiresContainer parent,
-                                          final WiresShape child ) {
-            return ( parent instanceof CaseModellerStageShape && child instanceof CaseModellerActivityShape );
+                                          final WiresShape[] children ) {
+            return ( parent instanceof CaseModellerStageShape && children[0] instanceof CaseModellerActivityShape );
         }
     };
 
@@ -73,7 +73,7 @@ public class CaseModellerStageShape extends AbstractCaseModellerShape {
         public void layout( final WiresContainer container ) {
             double y = DECORATION_HEIGHT + PADDING_Y;
             for ( WiresShape ws : container.getChildShapes() ) {
-                ws.setY( y ).setX( PADDING_X );
+                ws.setLocation( new Point2D(PADDING_X, y ) );
                 y = y + ws.getPath().getBoundingBox().getHeight() + PADDING_Y;
             }
             resizeContainer( container );

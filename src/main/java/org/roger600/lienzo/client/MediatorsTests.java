@@ -1,13 +1,25 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.mediator.*;
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.mediator.EventFilter;
+import com.ait.lienzo.client.core.mediator.IEventFilter;
+import com.ait.lienzo.client.core.mediator.Mediators;
+import com.ait.lienzo.client.core.mediator.MousePanMediator;
+import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
+import com.ait.lienzo.client.core.shape.Group;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.MultiPathDecorator;
+import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
+import com.ait.lienzo.client.core.shape.wires.MagnetManager;
+import com.ait.lienzo.client.core.shape.wires.WiresConnector;
+import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.client.core.types.Transform;
 import com.ait.lienzo.client.widget.LienzoPanel;
 import com.ait.lienzo.shared.core.types.AutoScaleType;
-import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -35,19 +47,22 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButton
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#000000");
         startShape = new WiresShape(startEventMultiPath);
         wires_manager.register( startShape.setDraggable( true ) );
-        startShape.setX(100).setY(100).getContainer().setUserData("event");
+        startShape.setLocation(new Point2D(100, 100));
+        startShape.getContainer().setUserData("event");
         // wires_manager.getMagnetManager().createMagnets( startEventShape );
         // startEventShape.getMagnets().show();
 
         MultiPath parentPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#FF0000").setStrokeWidth( 2 );
         parentShape  = new WiresShape(parentPath);
         wires_manager.register( parentShape.setDraggable( true ) );
-        parentShape.setX(300).setY(100).getContainer().setUserData("event");
+        parentShape.setLocation(new Point2D(300, 100));
+        parentShape.getContainer().setUserData("event");
 
         MultiPath childPath = new MultiPath().rect(0, 0, 50, 50).setFillColor("#000000");
         childShape  = new WiresShape(childPath);
         wires_manager.register( childShape.setDraggable( true ) );
-        childShape.setX(50).setY(50).getContainer().setUserData("event");
+        childShape.setLocation(new Point2D(50, 50));
+        childShape.getContainer().setUserData("event");
 
         parentShape.add( childShape );
 

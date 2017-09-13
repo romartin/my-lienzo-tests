@@ -7,7 +7,15 @@ import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragStartHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -21,7 +29,7 @@ public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest, Ha
         MultiPath parentMultiPath1 = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#FF0000");
         final WiresShape parentRedShape = new WiresShape(parentMultiPath1);
         wires_manager.register( parentRedShape );
-        parentRedShape.setDraggable(true).setX(0).setY(0);
+        parentRedShape.setDraggable(true);
         wires_manager.getMagnetManager().createMagnets(parentRedShape);
 
         addHandlers( "ParentRed", parentRedShape );
@@ -29,7 +37,7 @@ public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest, Ha
         MultiPath parentMultiPath = new MultiPath().rect(0, 0, 300, 300).setStrokeColor("#000000");
         final WiresShape parentShape = new WiresShape(parentMultiPath);
         wires_manager.register( parentShape );
-        parentShape.setDraggable(true).setX(200).setY(200);
+        parentShape.setDraggable(true).setLocation(new Point2D(200, 200));
         wires_manager.getMagnetManager().createMagnets(parentShape);
 
         addHandlers( "ParentBlack", parentShape );
@@ -37,7 +45,7 @@ public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest, Ha
         MultiPath childMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#CC00CC");
         final WiresShape childShape = new WiresShape(childMultiPath);
         wires_manager.register( childShape );
-        childShape.setDraggable(true).setX(0).setY(0);
+        childShape.setDraggable(true);
         wires_manager.getMagnetManager().createMagnets(childShape);
         addHandlers( "Child", childShape );
 

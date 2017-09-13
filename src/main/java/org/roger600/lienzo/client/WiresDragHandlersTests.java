@@ -2,8 +2,18 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
+import com.ait.lienzo.client.core.shape.wires.WiresContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresDragStartHandler;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -33,13 +43,13 @@ public class WiresDragHandlersTests extends FlowPanel implements MyLienzoTest, H
 
         wires_manager.setContainmentAcceptor( new IContainmentAcceptor() {
             @Override
-            public boolean containmentAllowed( WiresContainer wiresContainer, WiresShape wiresShape ) {
+            public boolean containmentAllowed( WiresContainer wiresContainer, WiresShape[] children ) {
                 GWT.log( "ALLOW" );
                 return true;
             }
 
             @Override
-            public boolean acceptContainment( WiresContainer wiresContainer, WiresShape wiresShape ) {
+            public boolean acceptContainment( WiresContainer wiresContainer, WiresShape[] children ) {
                 GWT.log( "ACCEPT" );
                 return true;
             }
@@ -53,7 +63,7 @@ public class WiresDragHandlersTests extends FlowPanel implements MyLienzoTest, H
         final WiresShape parentShape = new WiresShape(parentMultiPath);
         parentShape.getContainer().setUserData( "parent" );
         wires_manager.register( parentShape );
-        parentShape.setDraggable(true).setX(500).setY(200);
+        parentShape.setDraggable(true).setLocation(new Point2D(500, 200));
         wires_manager.getMagnetManager().createMagnets(parentShape);
 
         MultiPath childMultiPath = new MultiPath().rect(0, 0, 100, 100)
@@ -62,7 +72,7 @@ public class WiresDragHandlersTests extends FlowPanel implements MyLienzoTest, H
         final WiresShape childShape = new WiresShape(childMultiPath);
         childShape.getContainer().setUserData( "child" );
         wires_manager.register( childShape );
-        childShape.setDraggable(true).setX(50).setY(200);
+        childShape.setDraggable(true).setLocation(new Point2D(50, 200));
         wires_manager.getMagnetManager().createMagnets(childShape);
 
        childShape.addWiresDragStartHandler( new WiresDragStartHandler() {

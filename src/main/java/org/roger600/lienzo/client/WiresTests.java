@@ -2,9 +2,31 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.Circle;
+import com.ait.lienzo.client.core.shape.IContainer;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
+import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.wires.IConnectionAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
+import com.ait.lienzo.client.core.shape.wires.MagnetManager;
+import com.ait.lienzo.client.core.shape.wires.WiresConnection;
+import com.ait.lienzo.client.core.shape.wires.WiresContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
@@ -107,19 +129,19 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
         wires_manager.setContainmentAcceptor(new IContainmentAcceptor()
         {
             @Override
-            public boolean containmentAllowed(WiresContainer parent, WiresShape child)
+            public boolean containmentAllowed(WiresContainer parent, WiresShape[] children)
             {
-                return acceptContainment(parent, child);
+                return acceptContainment(parent, children);
             }
 
             @Override
-            public boolean acceptContainment(WiresContainer parent, WiresShape child)
+            public boolean acceptContainment(WiresContainer parent, WiresShape[] children)
             {
                 if (parent.getParent() == null)
                 {
                     return true;
                 }
-                return !parent.getContainer().getUserData().equals(child.getContainer().getUserData());
+                return !parent.getContainer().getUserData().equals(children[0].getContainer().getUserData());
             }
         });
 
@@ -134,7 +156,8 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
         startEventShape = new WiresShape( startEventMultiPath );
         wires_manager.register(startEventShape);
         startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
-        startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
+        startEventShape.setLocation(new Point2D(startX, startY));
+        startEventShape.getContainer().setUserData("event");
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
         // startEventShape.addChild(new Rectangle(50, 50).setX(0).setY(0).setFillColor(ColorName.BLACK), WiresPrimitivesContainer.Layout.LEFT);
@@ -143,19 +166,21 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
         // Green task node.
         WiresShape taskNodeShape = new WiresShape( new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00") );
         wires_manager.register(taskNodeShape);
-        taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
+        taskNodeShape.setLocation(new Point2D(startX + 200, startY));
+        taskNodeShape.getContainer().setUserData("task");
         wires_manager.getMagnetManager().createMagnets( taskNodeShape );
 
         // Yellow task node.
         WiresShape task2NodeShape = new WiresShape( new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52") );
         wires_manager.register(task2NodeShape);
-        task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
+        task2NodeShape.setLocation(new Point2D(startX + 200, startY + 300));
+        task2NodeShape.getContainer().setUserData("task");
         wires_manager.getMagnetManager().createMagnets( task2NodeShape );
 
         // Red end event.
         WiresShape endEventShape = new WiresShape( new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF") );
         wires_manager.register(endEventShape);
-        endEventShape.setX(startX + 400).setY(startY);
+        endEventShape.setLocation(new Point2D(startX + 400, startY));
         endEventShape.getContainer().setUserData("event");
         wires_manager.getMagnetManager().createMagnets( endEventShape );
 

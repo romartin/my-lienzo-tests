@@ -2,15 +2,15 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
-import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
+import com.ait.lienzo.client.core.shape.wires.WiresContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
@@ -28,18 +28,18 @@ public class LayoutContainerChildrenTests2 extends FlowPanel implements MyLienzo
         wires_manager.setContainmentAcceptor(new IContainmentAcceptor() {
             
             @Override
-            public boolean containmentAllowed(WiresContainer parent, WiresShape child) {
+            public boolean containmentAllowed(WiresContainer parent, WiresShape[] children) {
                 return true;
             }
 
             @Override
-            public boolean acceptContainment(WiresContainer parent, WiresShape child) {
+            public boolean acceptContainment(WiresContainer parent, WiresShape[] children) {
                 return true;
             }
         });
         
         final MultiPath parentMultiPath = new MultiPath().rect(0, 0, 100, 100).setStrokeColor("#000000");
-        parentShape = new WiresShape(parentMultiPath).setDraggable(true).setX(0).setY(0);
+        parentShape = new WiresShape(parentMultiPath).setDraggable(true);
         wires_manager.register( parentShape );
         TestsUtils.addResizeHandlers( parentShape );
         wires_manager.getMagnetManager().createMagnets(parentShape);

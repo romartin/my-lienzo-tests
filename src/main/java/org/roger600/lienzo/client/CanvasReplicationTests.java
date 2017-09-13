@@ -13,6 +13,7 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.Viewport;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Transform;
 import com.ait.lienzo.client.widget.LienzoPanel;
 import com.ait.lienzo.shared.core.types.ColorName;
@@ -95,8 +96,8 @@ public class CanvasReplicationTests implements EntryPoint {
             @Override
             public void onClick(ClickEvent clickEvent) {
                 rectangle.setX(300).setY(300);
-                wiresShape1.setX(400).setY(400);
-                wiresShape2.setX(400).setY(400);
+                wiresShape1.setLocation(new Point2D(400, 400));
+                wiresShape2.setLocation(new Point2D(400, 400));
                 draw();
             }
         });
@@ -134,10 +135,12 @@ public class CanvasReplicationTests implements EntryPoint {
 
     private void drawWires( ) {
         wiresShape1 = new WiresShape( new MultiPath().rect(0, 0, 100, 100).setFillColor("#00CC00") );
-        wiresShape1.setX(200).setY(200).getContainer().setUserData("task");
+        wiresShape1.setLocation(new Point2D(200, 200));
+        wiresShape1.getContainer().setUserData("task");
         register(wiresManager1, wiresShape1);
         wiresShape2 = new WiresShape( new MultiPath().rect(0, 0, 100, 100).setFillColor("#00CC00") );
-        wiresShape2.setX(200).setY(200).getContainer().setUserData("task");
+        wiresShape2.setLocation(new Point2D(200, 200));
+        wiresShape2.getContainer().setUserData("task");
         register(wiresManager2, wiresShape2);
     }
 

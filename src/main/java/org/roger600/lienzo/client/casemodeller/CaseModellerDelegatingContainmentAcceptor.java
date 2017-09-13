@@ -17,10 +17,10 @@ public class CaseModellerDelegatingContainmentAcceptor implements IContainmentAc
 
     @Override
     public boolean containmentAllowed( final WiresContainer parent,
-                                       final WiresShape child ) {
+                                       final WiresShape[] children ) {
         for ( IContainmentAcceptor delegate : delegates ) {
             if ( delegate.containmentAllowed( parent,
-                                              child ) ) {
+                                              children ) ) {
                 return true;
             }
         }
@@ -29,10 +29,10 @@ public class CaseModellerDelegatingContainmentAcceptor implements IContainmentAc
 
     @Override
     public boolean acceptContainment( final WiresContainer parent,
-                                      final WiresShape child ) {
+                                      final WiresShape[] children ) {
         for ( IContainmentAcceptor delegate : delegates ) {
             if ( delegate.acceptContainment( parent,
-                                             child ) ) {
+                                             children ) ) {
                 return true;
             }
         }

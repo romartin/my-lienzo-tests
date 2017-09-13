@@ -1,8 +1,25 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.mediator.*;
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.mediator.EventFilter;
+import com.ait.lienzo.client.core.mediator.IEventFilter;
+import com.ait.lienzo.client.core.mediator.Mediators;
+import com.ait.lienzo.client.core.mediator.MousePanMediator;
+import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
+import com.ait.lienzo.client.core.shape.Circle;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.MultiPathDecorator;
+import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
+import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
+import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
+import com.ait.lienzo.client.core.shape.wires.MagnetManager;
+import com.ait.lienzo.client.core.shape.wires.WiresConnector;
+import com.ait.lienzo.client.core.shape.wires.WiresContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -38,7 +55,7 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
         wires_manager.register( parentShape );
         parentShape.setDraggable( true );
         TestsUtils.addResizeHandlers( parentShape );
-        parentShape.setX(50).setY(50);
+        parentShape.setLocation(new Point2D(50, 50));
         parentShape.getContainer().setUserData(ColorName.YELLOW.getColorString());
         wires_manager.getMagnetManager().createMagnets(parentShape);
 
@@ -47,7 +64,8 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
         WiresShape startEventShape = new WiresShape(startEventMultiPath);
         wires_manager.register( startEventShape );
         Circle startEventCircle = new Circle(radius).setFillColor(ColorName.BLUE).setDraggable(false);
-        startEventShape.setX(startX).setY(startY).getContainer().setUserData(ColorName.BLUE.getColorString());
+        startEventShape.setLocation(new Point2D(startX, startY));
+        startEventShape.getContainer().setUserData(ColorName.BLUE.getColorString());
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.CENTER);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
         startEventShape.setDraggable( true );
@@ -60,7 +78,8 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
         wires_manager.register( taskNodeShape );
         taskNodeShape.setDraggable( true );
         TestsUtils.addResizeHandlers( taskNodeShape );
-        taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData(ColorName.GREEN.getColorString());
+        taskNodeShape.setLocation(new Point2D(startX + 200, startY));
+        taskNodeShape.getContainer().setUserData(ColorName.GREEN.getColorString());
         wires_manager.getMagnetManager().createMagnets(taskNodeShape);
 
         parentShape.add( taskNodeShape );
@@ -70,7 +89,8 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
         wires_manager.register( task2NodeShape );
         task2NodeShape.setDraggable( true );
         TestsUtils.addResizeHandlers( task2NodeShape );
-        task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData(ColorName.YELLOW.getColorString());
+        startEventShape.setLocation(new Point2D(startX + 200, startY + 300));
+        task2NodeShape.getContainer().setUserData(ColorName.YELLOW.getColorString());
         wires_manager.getMagnetManager().createMagnets(task2NodeShape);
 
         // Red end event.
@@ -78,7 +98,7 @@ public class ConnectorsAndParentsTests2 extends FlowPanel implements MyLienzoTes
         wires_manager.register( endEventShape );
         endEventShape.setDraggable( true );
         TestsUtils.addResizeHandlers( endEventShape );
-        endEventShape.setX(startX + 700).setY(startY);
+        startEventShape.setLocation(new Point2D(startX + 700, startY));
         endEventShape.getContainer().setUserData(ColorName.RED.getColorString());
         wires_manager.getMagnetManager().createMagnets(endEventShape);
 

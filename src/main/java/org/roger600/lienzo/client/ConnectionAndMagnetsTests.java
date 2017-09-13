@@ -194,7 +194,9 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
         redShape = new WiresShape(new MultiPath().rect(0,
                                                        0,
                                                        100,
-                                                       100).setStrokeColor("#CC0000")).setX(300).setY(100).setDraggable(true);
+                                                       100).setStrokeColor("#CC0000")).setDraggable(true);
+        redShape.setLocation(new Point2D(300, 100));
+
         wiresManager.register(redShape);
         redShape.getContainer().setUserData("A");
         redShape.addChild(new Circle(30),
@@ -203,7 +205,9 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
         greenShape = new WiresShape(new MultiPath().rect(0,
                                                          0,
                                                          100,
-                                                         100).setStrokeColor("#00CC00")).setX(50).setY(50).setDraggable(true);
+                                                         100).setStrokeColor("#00CC00")).setDraggable(true);
+        greenShape.setLocation(new Point2D(50, 50));
+
         wiresManager.register(greenShape);
         greenShape.getContainer().setUserData("A");
         greenShape.addChild(new Star(5,
@@ -214,7 +218,9 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
         parentShape = new WiresShape(new MultiPath().rect(0,
                                                           0,
                                                           500,
-                                                          400).setStrokeColor("#000000")).setX(200).setY(250).setDraggable(true);
+                                                          400).setStrokeColor("#000000")).setDraggable(true);
+        parentShape.setLocation(new Point2D(200, 250));
+
         wiresManager.register(parentShape);
         parentShape.getContainer().setUserData("A");
 
@@ -270,7 +276,8 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
 
                 connectorControl[0].showControlPoints();
 
-                connectorControl[0].getTailConnectionControl().dragStart(dragContext);
+                connectorControl[0].getTailConnectionControl().onMoveStart(dragContext.getDragStartX(),
+                                                                           dragContext.getDragStartY());
 
                 newButton.setAlpha(0);
             }
@@ -278,9 +285,16 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
             @Override
             public boolean adjust(Point2D dxy) {
                 if (null != connectorControl[0]) {
-                    boolean adjusted = connectorControl[0].getTailConnectionControl().dragAdjust(dxy);
-                    GWT.log("ADJUST [" + adjusted + "] TAIL TO [" + dxy.getX() + ", " + dxy.getY() + "]");
-                    return adjusted;
+                    boolean adjusted = connectorControl[0].getTailConnectionControl().onMove(dxy.getX(),
+                                                                                             dxy.getY());
+                    if (adjusted) {
+                        final Point2D p = connectorControl[0].getTailConnectionControl().getAdjust();
+                        GWT.log("ADJUST [" + true + "] TAIL TO [" + p.getX() + ", " + p.getY() + "]");
+                        dxy.set(p);
+                        return true;
+                    } else {
+                        GWT.log("ADJUST [" + false + "]" );
+                    }
                 }
                 return false;
             }
@@ -296,7 +310,8 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
             @Override
             public void onNodeDragMove(NodeDragMoveEvent event) {
                 GWT.log("MOVE TO [" + event.getX() + ", " + event.getY() + "]");
-                connectorControl[0].getTailConnectionControl().dragMove(event.getDragContext());
+                connectorControl[0].getTailConnectionControl().onMove(event.getDragContext().getDragStartX(),
+                                                                           event.getDragContext().getDragStartY());
                 connector2.getTailConnection().move(event.getX(), event.getY());
             }
         });
@@ -307,7 +322,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
                 GWT.log("DESTROYING NEW CONNECTOR");
                 connector2.getTailConnection().move(event.getX(), event.getY());
                 boolean accepts =
-                        connectorControl[0].getTailConnectionControl().dragEnd(event.getDragContext());
+                        connectorControl[0].getTailConnectionControl().onMoveComplete();
                 if (accepts) {
                     connectorControl[0].hideControlPoints();
                 } else {

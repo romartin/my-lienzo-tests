@@ -1,7 +1,17 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.Circle;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.MultiPathDecorator;
+import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
+import com.ait.lienzo.client.core.shape.wires.MagnetManager;
+import com.ait.lienzo.client.core.shape.wires.WiresConnector;
+import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -24,7 +34,8 @@ public class MarkConnectorTests extends FlowPanel implements MyLienzoTest, HasMe
         WiresShape startEventShape = new WiresShape(startEventMultiPath);
         wires_manager.register( startEventShape );
         Circle startEventCircle = new Circle(radius).setFillColor("#0000CC").setDraggable(false);
-        startEventShape.setX(startX).setY(startY).getContainer().setUserData("event");
+        startEventShape.setLocation(new Point2D(startX, startY));
+        startEventShape.getContainer().setUserData("event");
         startEventShape.addChild(startEventCircle, WiresLayoutContainer.Layout.TOP);
         wires_manager.getMagnetManager().createMagnets( startEventShape );
         startEventShape.setDraggable( true );
@@ -33,19 +44,21 @@ public class MarkConnectorTests extends FlowPanel implements MyLienzoTest, HasMe
         // Green task node.
         WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
         wires_manager.register( taskNodeShape );
-        taskNodeShape.setX(startX + 200).setY(startY).getContainer().setUserData("task");
+        taskNodeShape.setLocation(new Point2D(startX + 200, startY));
+        taskNodeShape.getContainer().setUserData("task");
         wires_manager.getMagnetManager().createMagnets(taskNodeShape);
 
         // Yellow task node.
         WiresShape task2NodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#FFEB52"));
         wires_manager.register( task2NodeShape );
-        task2NodeShape.setX(startX + 200).setY(startY + 300).getContainer().setUserData("task");
+        task2NodeShape.setLocation(new Point2D(startX + 200, startY + 300));
+        task2NodeShape.getContainer().setUserData("task");
         wires_manager.getMagnetManager().createMagnets(task2NodeShape);
 
         // Red end event.
         WiresShape endEventShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setStrokeColor("#FFFFFF"));
         wires_manager.register( endEventShape );
-        endEventShape.setX(startX + 400).setY(startY);
+        endEventShape.setLocation(new Point2D(startX + 400, startY));
         endEventShape.getContainer().setUserData("event");
         wires_manager.getMagnetManager().createMagnets(endEventShape);
 

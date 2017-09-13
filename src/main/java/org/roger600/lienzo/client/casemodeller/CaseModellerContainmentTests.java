@@ -5,6 +5,7 @@ import com.ait.lienzo.client.core.shape.Text;
 import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -13,7 +14,7 @@ import com.google.gwt.user.client.ui.Panel;
 import org.roger600.lienzo.client.HasButtons;
 import org.roger600.lienzo.client.MyLienzoTest;
 import org.roger600.lienzo.client.TestsUtils;
-import org.roger600.lienzo.client.casemodeller.factory.CaseModellerControlFactoryImpl;
+import org.roger600.lienzo.client.casemodeller.control.CaseModellerControlFactory;
 
 public class CaseModellerContainmentTests extends FlowPanel implements MyLienzoTest,
                                                                        HasButtons {
@@ -24,12 +25,12 @@ public class CaseModellerContainmentTests extends FlowPanel implements MyLienzoT
     public void test( Layer layer ) {
         this.layer = layer;
         this.wires_manager = WiresManager.get( layer );
-        this.wires_manager.setWiresControlFactory( new CaseModellerControlFactoryImpl() );
+        this.wires_manager.setWiresControlFactory( new CaseModellerControlFactory() );
         this.wires_manager.setContainmentAcceptor( new CaseModellerDelegatingContainmentAcceptor() );
         this.wires_manager.setDockingAcceptor( IDockingAcceptor.NONE );
 
         final CaseModellerShape caseModeller = new CaseModellerShape();
-        caseModeller.setDraggable( true ).setX( 100.0 ).setY( 100.0 );
+        caseModeller.setDraggable( true ).setLocation(new Point2D(100, 100));
         TestsUtils.addResizeHandlers( caseModeller );
 
         this.wires_manager.register( caseModeller );
@@ -63,7 +64,7 @@ public class CaseModellerContainmentTests extends FlowPanel implements MyLienzoT
 
     private CaseModellerStageShape makeStageShape() {
         final CaseModellerStageShape shape = new CaseModellerStageShape();
-        shape.setX( 10 ).setY( 10 );
+        shape.setLocation(new Point2D(10, 10));
         shape.setDraggable( true );
         shape.getGroup().add( makeLabel( shape ) );
         return shape;
@@ -71,7 +72,7 @@ public class CaseModellerContainmentTests extends FlowPanel implements MyLienzoT
 
     private CaseModellerActivityShape makeActivityShape() {
         final CaseModellerActivityShape shape = new CaseModellerActivityShape();
-        shape.setX( 10 ).setY( 10 );
+        shape.setLocation(new Point2D(10, 10));
         shape.setDraggable( true );
         shape.getGroup().add( makeLabel( shape ) );
         return shape;

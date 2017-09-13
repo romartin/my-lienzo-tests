@@ -2,14 +2,26 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
-import com.ait.lienzo.client.core.mediator.*;
+import com.ait.lienzo.client.core.mediator.EventFilter;
+import com.ait.lienzo.client.core.mediator.IEventFilter;
+import com.ait.lienzo.client.core.mediator.Mediators;
+import com.ait.lienzo.client.core.mediator.MousePanMediator;
+import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -24,8 +36,8 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMe
         WiresManager wires_manager = WiresManager.get( layer );
 
         final WiresShape parent = new WiresShape( new MultiPath().rect( 0, 0, 600, 600 )
-                .setStrokeColor( "#000000" ).setFillColor( "#FFFFFF" ) )
-                .setX( 100 ).setY( 100 );
+                .setStrokeColor( "#000000" ).setFillColor( "#FFFFFF" ) );
+        parent.setLocation(new Point2D(100 ,100));
 
         wires_manager.register( parent );
         wires_manager.getMagnetManager().createMagnets( parent );
@@ -36,8 +48,8 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMe
         addLogging( "parent", parent );
 
         final WiresShape child1 = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
-                .setStrokeColor( "#000000" ).setFillColor( "#FF0000" ) )
-                .setX( 100 ).setY( 100 );
+                .setStrokeColor( "#000000" ).setFillColor( "#FF0000" ) );
+        child1.setLocation(new Point2D(100 ,100));
         wires_manager.register( child1 );
         wires_manager.getMagnetManager().createMagnets( child1 );
 

@@ -7,8 +7,13 @@ import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresLayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.*;
-import com.ait.lienzo.shared.core.types.ColorName;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -117,8 +122,8 @@ public class ChildRectangleResizeTests extends FlowPanel implements MyLienzoTest
                                final String strokeColor) {
 
         WiresShape endEventShape = new WiresShape( new MultiPath().rect( 0, 0, w, h )
-                .setStrokeColor( strokeColor ).setFillColor( fillColor ).setFillAlpha( fillAlpha ) )
-                .setX( x ).setY( y );
+                .setStrokeColor( strokeColor ).setFillColor( fillColor ).setFillAlpha( fillAlpha ) );
+        endEventShape.setLocation(new Point2D(x , y));
         wires_manager.register( endEventShape );
         wires_manager.getMagnetManager().createMagnets( endEventShape );
 

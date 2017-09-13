@@ -1,16 +1,19 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.shape.*;
+import com.ait.lienzo.client.core.shape.Circle;
+import com.ait.lienzo.client.core.shape.Group;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.MultiPath;
+import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.Ring;
 import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.types.BoundingBox;
-import com.ait.lienzo.client.core.types.PathPartList;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
-import com.ait.lienzo.client.core.types.Transform;
 import com.ait.lienzo.client.core.util.Geometry;
 import com.ait.lienzo.shared.core.types.ColorName;
-import com.ait.tooling.nativetools.client.collection.NFastArrayList;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 public class BasicWiresShapesTests extends FlowPanel implements MyLienzoTest {
@@ -98,25 +101,25 @@ public class BasicWiresShapesTests extends FlowPanel implements MyLienzoTest {
         WiresShape rectangle = createRectangle();
         Group rectangleGlyph = createGlyph( rectangle );
         box1.add( rectangleGlyph );
-        rectangle.setX( 100 ).setY( 100 );
+        rectangle.setLocation(new Point2D(100, 100));
         setResizable( rectangle );
 
         WiresShape circle = createCircle();
         Group circleGlyph = createGlyph( circle );
         box2.add( circleGlyph );
-        circle.setX( 300 ).setY( 100 );
+        circle.setLocation(new Point2D(300, 100));
 
         WiresShape polygon =  createPolygon();
         Group polygonGlyph = createGlyph( polygon );
         box3.add( polygonGlyph );
-        polygon.setX( 500 ).setY( 100 );
+        polygon.setLocation(new Point2D(500, 100));
         setResizable( polygon );
 
         WiresShape polygonWithIcon =  createPolygon();
         polygonWithIcon.addChild( new Circle( RADIUS / 3 ), LayoutContainer.Layout.CENTER );
         Group polygonIconGlyph = createGlyph( polygonWithIcon );
         box4.add( polygonIconGlyph );
-        polygonWithIcon.setX( 700 ).setY( 100 );
+        polygonWithIcon.setLocation(new Point2D(700, 100));
         setResizable( polygonWithIcon );
 
         WiresShape ringShape =  createRing();
@@ -124,7 +127,7 @@ public class BasicWiresShapesTests extends FlowPanel implements MyLienzoTest {
         ringShape.addChild( ring, LayoutContainer.Layout.CENTER );
         Group ringGlyph = createGlyph( ringShape );
         box5.add( ringGlyph );
-        ringShape.setX( 900 ).setY( 100 );
+        ringShape.setLocation(new Point2D(900, 100));
         setResizable( ringShape );
 
     }

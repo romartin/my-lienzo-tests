@@ -9,6 +9,7 @@ import com.ait.lienzo.client.core.shape.wires.LayoutContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.types.BoundingBox;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -35,7 +36,7 @@ public class MultiPathShapesTests extends FlowPanel implements MyLienzoTest {
 
         MultiPath path =  new MultiPath().rect(0, 0, w, h).setStrokeColor(ColorName.BLACK);
         final WiresShape parentShape = new WiresShape(path);
-        parentShape.setDraggable(true).setX(200).setY(200);
+        parentShape.setDraggable(true).setLocation(new Point2D(200, 200));
         parentShape.addChild( timerIcon, LayoutContainer.Layout.CENTER );
 
         wires_manager.register( parentShape );

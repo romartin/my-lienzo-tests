@@ -6,6 +6,7 @@ import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
 import com.ait.lienzo.client.core.shape.wires.WiresContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -21,13 +22,13 @@ public class ContainerTests extends FlowPanel implements MyLienzoTest, HasMediat
         IContainmentAcceptor acceptor = new IContainmentAcceptor()
         {
             @Override
-            public boolean containmentAllowed(WiresContainer parent, WiresShape child)
+            public boolean containmentAllowed(WiresContainer parent, WiresShape[] children)
             {
-                return acceptContainment(parent, child);
+                return acceptContainment(parent, children);
             }
 
             @Override
-            public boolean acceptContainment(WiresContainer parent, WiresShape child)
+            public boolean acceptContainment(WiresContainer parent, WiresShape[] children)
             {
                 if (parent == null)
                 {
@@ -41,7 +42,6 @@ public class ContainerTests extends FlowPanel implements MyLienzoTest, HasMediat
         };
 
         wires_manager.setContainmentAcceptor( acceptor );
-        wires_manager.getLayer().setContainmentAcceptor( acceptor );
 
         final double startX = 300;
         final double startY = 300;
@@ -52,12 +52,14 @@ public class ContainerTests extends FlowPanel implements MyLienzoTest, HasMediat
         MultiPath startEventMultiPath = new MultiPath().rect(0, 0, w, h).setStrokeColor("#000000");
         WiresShape startEventShape = new WiresShape(startEventMultiPath);
         wires_manager.register( startEventShape );
-        startEventShape.setX(startX).setY(startY).setDraggable(true).getContainer().setUserData("event");
+        startEventShape.setLocation(new Point2D(startX,startY));
+        startEventShape.setDraggable(true).getContainer().setUserData("event");
 
         // Green task node.
         WiresShape taskNodeShape = new WiresShape(new MultiPath().rect(0, 0, w, h).setFillColor("#00CC00"));
         wires_manager.register( taskNodeShape );
-        taskNodeShape.setX(startX + 200).setY(startY).setDraggable(true).getContainer().setUserData("task");
+        taskNodeShape.setLocation(new Point2D(startX + 200,startY));
+        taskNodeShape.setDraggable(true).getContainer().setUserData("task");
 
     }
 

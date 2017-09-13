@@ -85,11 +85,11 @@ public abstract class AbstractCaseModellerShape extends WiresShape {
         replacement.setParent( this );
 
         if ( original.getMagnets() != null ) {
-            original.getMagnets().shapeMoved();
+            original.getControl().getMagnetsControl().shapeMoved();
         }
 
         if ( replacement.getMagnets() != null ) {
-            replacement.getMagnets().shapeMoved();
+            replacement.getControl().getMagnetsControl().shapeMoved();
         }
 
         getLayoutHandler().requestLayout( this );
@@ -118,7 +118,7 @@ public abstract class AbstractCaseModellerShape extends WiresShape {
         }
 
         if ( shape.getMagnets() != null ) {
-            shape.getMagnets().shapeMoved();
+            shape.getControl().getMagnetsControl().shapeMoved();
         }
 
     }

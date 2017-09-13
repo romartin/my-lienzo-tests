@@ -18,6 +18,7 @@ import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
 import com.ait.lienzo.client.core.types.BoundingBox;
+import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -110,11 +111,10 @@ public class TextWrapTests extends FlowPanel implements MyLienzoTest, HasButtons
                 .setFillColor( ColorName.LIGHTGREY );
         final WiresShape wiresShape0 =
                 new WiresShape( path )
-                        .setX(400)
-                        .setY(200)
                         .setDraggable(true)
                         .addChild( new Circle( size / 4 ).setFillColor( color ), layout )
                         .addChild( text, CENTER );
+        wiresShape0.setLocation(new Point2D(400, 200));
 
         wires_manager.register( wiresShape0 );
         wires_manager.getMagnetManager().createMagnets(wiresShape0);
