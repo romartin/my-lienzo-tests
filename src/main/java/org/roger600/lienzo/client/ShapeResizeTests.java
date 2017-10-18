@@ -18,6 +18,7 @@ import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
 import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
+import com.ait.lienzo.client.core.types.BoundingBox;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -74,6 +75,7 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
         // Rectangle - cornering via corner-radius attribute
         rectangle3 = new WiresShape( new MultiPath().rect(0, 0, 400, 400)
                                             // TODO .setCornerRadius(50)
+                                             .setSizeConstraints( new BoundingBox(40, 40, 500, 500) )
                                              .setStrokeColor( "#FFFFFF" ).setFillColor( "#CCBB00" ) )
                 .setX( 500 ).setY( 100 );
 
