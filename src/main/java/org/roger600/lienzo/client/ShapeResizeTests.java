@@ -59,28 +59,28 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
 
         // Rectangle - no cornering
         rectangle = new WiresShape( new MultiPath().rect( 0, 0, 100, 100 )
-                .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
+                                            .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 100 ).setY( 100 );
 
         registerNewShape("R", rectangle);
 
         // Rectangle - cornering via ARC
         rectangle2 = new WiresShape( TestsUtils.rect(new MultiPath(), 100, 100, 10)
-                                            .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
+                                             .setStrokeColor( "#FFFFFF" ).setFillColor( "#CC0000" ) )
                 .setX( 300 ).setY( 100 );
 
         registerNewShape("R2", rectangle2);
 
         // Rectangle - cornering via corner-radius attribute
         rectangle3 = new WiresShape( new MultiPath().rect(0, 0, 400, 400)
-                                            // TODO .setCornerRadius(50)
+                                             .setCornerRadius(50)
                                              .setStrokeColor( "#FFFFFF" ).setFillColor( "#CCBB00" ) )
                 .setX( 500 ).setY( 100 );
 
         registerNewShape("R3", rectangle3);
 
         circle = new WiresShape( new MultiPath().circle(50)
-                                            .setStrokeColor( "#FFFFFF" ).setFillColor( "#0000FF" ) )
+                                         .setStrokeColor( "#FFFFFF" ).setFillColor( "#0000FF" ) )
                 .setX( 700 ).setY( 100 );
 
         registerNewShape("C", circle);
