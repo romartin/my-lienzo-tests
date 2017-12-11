@@ -38,6 +38,12 @@ public class CaseModellerShapeControl implements WiresShapeControl {
     }
 
     @Override
+    public boolean isOutOfBounds(final double dx,
+                                 final double dy) {
+        return false;
+    }
+
+    @Override
     public void setAlignAndDistributeControl(AlignAndDistributeControl control) {
         shapeControl.setAlignAndDistributeControl(control);
     }
@@ -65,6 +71,11 @@ public class CaseModellerShapeControl implements WiresShapeControl {
     @Override
     public WiresParentPickerControl getParentPickerControl() {
         return shapeControl.getParentPickerControl();
+    }
+
+    @Override
+    public boolean accept() {
+        return shapeControl.accept();
     }
 
     @Override

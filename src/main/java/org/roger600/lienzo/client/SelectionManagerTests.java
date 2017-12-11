@@ -2,6 +2,7 @@ package org.roger600.lienzo.client;
 
 import java.util.Set;
 
+import com.ait.lienzo.client.core.shape.AbstractDirectionalMultiPointShape;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.MultiPathDecorator;
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
+import org.roger600.lienzo.client.dmn.DirectionalLine;
 
 public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, HasMediators, HasButtons {
 
@@ -398,20 +400,25 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
                0);
         tail.Z();
 
-        OrthogonalPolyLine line;
+        AbstractDirectionalMultiPointShape<?> line;
         x0 = m0_1.getControl().getX();
         y0 = m0_1.getControl().getY();
         x1 = m1_1.getControl().getX();
         y1 = m1_1.getControl().getY();
-        line = createLine(layer,
-                          0,
-                          0,
-                          x0,
-                          y0,
-                          (x0 + ((x1 - x0) / 2)),
-                          (y0 + ((y1 - y0) / 2)),
-                          x1,
-                          y1);
+        // Orthogonal.
+        line = createPolyLine(
+                x0,
+                y0,
+                (x0 + ((x1 - x0) / 2)),
+                (y0 + ((y1 - y0) / 2)),
+                x1,
+                y1);
+        // Directional.
+        /*line = createDirectionalLine(
+                x0,
+                y0,
+                x1,
+                y1);*/
         line.setHeadOffset(head.getBoundingBox().getHeight());
         line.setTailOffset(tail.getBoundingBox().getHeight());
         line.setSelectionStrokeOffset(25);
@@ -428,11 +435,15 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
         line.setStrokeWidth(5).setStrokeColor("#0000CC");
     }
 
-    private final OrthogonalPolyLine createLine(Layer layer,
-                                                double x,
-                                                double y,
-                                                final double... points) {
+    private OrthogonalPolyLine createPolyLine(final double... points) {
         return new OrthogonalPolyLine(Point2DArray.fromArrayOfDouble(points)).setCornerRadius(5).setDraggable(true);
+    }
+
+    private DirectionalLine createDirectionalLine(final double x1,
+                                                        final double y1,
+                                                        final double x2,
+                                                        final double y2) {
+        return new DirectionalLine(x1, y1, x2, y2).setDraggable(true);
     }
 
     private static void logOperation(String text,
