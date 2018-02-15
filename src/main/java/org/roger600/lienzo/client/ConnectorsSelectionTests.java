@@ -96,9 +96,9 @@ public class ConnectorsSelectionTests extends FlowPanel implements MyLienzoTest,
             @Override
             public void onNodeMouseClick(NodeMouseClickEvent event) {
                 GWT.log("YEAH CLICKK");
-                connector.getLine().setStrokeColor(ColorName.RED);
+                connector.getLine().asShape().setStrokeColor(ColorName.RED);
                 connector.getLine().setStrokeAlpha(1);
-                connector.getLine().setStrokeWidth(1);
+                connector.getLine().asShape().setStrokeWidth(1);
                 MultiPath head = connector.getHead();
                 if (null != head) {
                     head.setStrokeColor(ColorName.RED);

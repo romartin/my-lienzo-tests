@@ -1,11 +1,13 @@
 package org.roger600.lienzo.client.ks;
 
+import com.ait.lienzo.client.core.shape.AbstractDirectionalMultiPointShape;
 import com.ait.lienzo.client.core.shape.Circle;
 import com.ait.lienzo.client.core.shape.IContainer;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.MultiPathDecorator;
 import com.ait.lienzo.client.core.shape.OrthogonalPolyLine;
+import com.ait.lienzo.client.core.shape.PolyLine;
 import com.ait.lienzo.client.core.shape.Star;
 import com.ait.lienzo.client.core.shape.wires.IConnectionAcceptor;
 import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
@@ -169,25 +171,58 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
         wires_manager.register(wiresShape3);
         wiresShape3.getContainer().setUserData("B");
 
+        WiresShape wiresShape4 = new WiresShape(new MultiPath().rect(0,
+                                                                     0,
+                                                                     w,
+                                                                     h).setStrokeColor("#CC0000")).setDraggable(true);
+        wiresShape4.setLocation(new Point2D(600, 400));
+
+        wires_manager.register(wiresShape4);
+        wiresShape4.getContainer().setUserData("A");
+        wiresShape4.addChild(new Circle(30),
+                             CENTER);
+
+        WiresShape wiresShape5 = new WiresShape(new MultiPath().rect(0,
+                                                                     0,
+                                                                     w,
+                                                                     h).setStrokeColor("#00CC00")).setDraggable(true);
+        wiresShape5.setLocation(new Point2D(250, 50));
+
+        wires_manager.register(wiresShape5);
+        wiresShape5.getContainer().setUserData("A");
+        wiresShape5.addChild(new Star(5,
+                                      15,
+                                      40),
+                             CENTER);
+
         wires_manager.getMagnetManager().createMagnets(wiresShape0);
         wires_manager.getMagnetManager().createMagnets(wiresShape1);
         wires_manager.getMagnetManager().createMagnets(wiresShape2);
         wires_manager.getMagnetManager().createMagnets(wiresShape3);
+        wires_manager.getMagnetManager().createMagnets(wiresShape4);
+        wires_manager.getMagnetManager().createMagnets(wiresShape5);
 
-        connect(layer,
-                wiresShape1.getMagnets(),
+        connect(wiresShape1.getMagnets(),
                 3,
                 wiresShape0.getMagnets(),
                 7,
-                wires_manager);
+                wires_manager,
+                true);
+
+        connect(wiresShape5.getMagnets(),
+                3,
+                wiresShape4.getMagnets(),
+                7,
+                wires_manager,
+                false);
     }
 
-    private void connect(Layer layer,
-                         MagnetManager.Magnets magnets0,
+    private void connect(MagnetManager.Magnets magnets0,
                          int i0_1,
                          MagnetManager.Magnets magnets1,
                          int i1_1,
-                         WiresManager wiresManager) {
+                         WiresManager wiresManager,
+                         boolean orthogonalPolyline) {
         WiresMagnet m0_1 = (WiresMagnet) magnets0.getMagnet(i0_1);
         WiresMagnet m1_1 = (WiresMagnet) magnets1.getMagnet(i1_1);
 
@@ -211,20 +246,24 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
                0);
         tail.Z();
 
-        OrthogonalPolyLine line;
+        AbstractDirectionalMultiPointShape<?> line;
         x0 = m0_1.getControl().getX();
         y0 = m0_1.getControl().getY();
         x1 = m1_1.getControl().getX();
         y1 = m1_1.getControl().getY();
-        line = createLine(layer,
-                          0,
-                          0,
-                          x0,
-                          y0,
-                          (x0 + ((x1 - x0) / 2)),
-                          (y0 + ((y1 - y0) / 2)),
-                          x1,
-                          y1);
+
+        if (orthogonalPolyline) {
+            line = createOrthogonalPolyline((x0 + ((x1 - x0) / 2)),
+                                  (y0 + ((y1 - y0) / 2)),
+                                  x1,
+                                  y1);
+        } else {
+            line = createPolyline((x0 + ((x1 - x0) / 2)),
+                                  (y0 + ((y1 - y0) / 2)),
+                                  x1,
+                                  y1);
+        }
+
         line.setHeadOffset(head.getBoundingBox().getHeight());
         line.setTailOffset(tail.getBoundingBox().getHeight());
         line.setSelectionStrokeOffset(25);
@@ -241,10 +280,11 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
         line.setStrokeWidth(5).setStrokeColor("#0000CC");
     }
 
-    private final OrthogonalPolyLine createLine(Layer layer,
-                                                double x,
-                                                double y,
-                                                final double... points) {
+    private final OrthogonalPolyLine createOrthogonalPolyline(final double... points) {
         return new OrthogonalPolyLine(Point2DArray.fromArrayOfDouble(points)).setCornerRadius(5).setDraggable(true);
+    }
+
+    private final PolyLine createPolyline(final double... points) {
+        return new PolyLine(Point2DArray.fromArrayOfDouble(points)).setCornerRadius(5).setDraggable(true);
     }
 }
