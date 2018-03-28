@@ -249,4 +249,9 @@ public class TextWrapTests extends FlowPanel implements MyLienzoTest, HasButtons
     private WiresShape bottom() {
         return create( "#CCCC00", SIZE, BOTTOM );
     }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

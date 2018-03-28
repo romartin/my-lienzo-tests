@@ -246,4 +246,8 @@ public class ShapeResizeTests extends FlowPanel implements MyLienzoTest, HasMedi
         GWT.log( s );
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

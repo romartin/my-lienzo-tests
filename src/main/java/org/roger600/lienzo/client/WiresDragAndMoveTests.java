@@ -96,5 +96,9 @@ public class WiresDragAndMoveTests extends FlowPanel implements MyLienzoTest, Ha
         });
         layer.add(button);
     }
-    
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

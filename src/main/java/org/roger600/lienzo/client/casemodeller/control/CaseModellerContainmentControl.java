@@ -1,5 +1,7 @@
 package org.roger600.lienzo.client.casemodeller.control;
 
+import java.util.Collection;
+
 import com.ait.lienzo.client.core.shape.wires.WiresContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
@@ -9,6 +11,7 @@ import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresParentPickerCon
 import com.ait.lienzo.client.core.shape.wires.picker.ColorMapBackedPicker;
 import com.ait.lienzo.client.core.types.Point2D;
 import org.roger600.lienzo.client.casemodeller.AbstractCaseModellerShape;
+import org.roger600.lienzo.client.casemodeller.CaseModellerShape;
 
 public class CaseModellerContainmentControl implements WiresContainmentControl {
 
@@ -23,13 +26,7 @@ public class CaseModellerContainmentControl implements WiresContainmentControl {
     private WiresContainer m_origin_container;
     private AbstractCaseModellerShape m_ghost;
 
-    public CaseModellerContainmentControl(WiresShape shape,
-                                          ColorMapBackedPicker.PickerOptions pickerOptions) {
-        this.containmentControl = new WiresContainmentControlImpl(shape,
-                                                                  pickerOptions);
-    }
-
-    public CaseModellerContainmentControl(WiresParentPickerControlImpl parentPickerControl) {
+    CaseModellerContainmentControl(WiresParentPickerControlImpl parentPickerControl) {
         this.containmentControl = new WiresContainmentControlImpl(parentPickerControl);
     }
 
@@ -76,8 +73,18 @@ public class CaseModellerContainmentControl implements WiresContainmentControl {
         final double mouseX = containmentControl.getParentPickerControl().getShapeLocationControl().getMouseStartX() + dx;
         final double mouseY = containmentControl.getParentPickerControl().getShapeLocationControl().getMouseStartY() + dy;
 
-        //Handle moving ghost from one container to another
         if (m_ghost != null && getParent() != null) {
+
+            // expand containment shape if attempting to drag right beyond horizontal boundary
+//            double shapeX = getShape().getLocation().getX() + ((AbstractCaseModellerShape) getShape()).getWidth();
+//            CaseModellerShape containmentShape = getContainmentShape();
+//            if (containmentShape != null && shapeX > containmentShape.getWidth()) {
+//                containmentShape.setWidth(containmentShape.getWidth() + 100d);
+//                containmentControl.onMoveComplete();
+//                return false;
+//            }
+
+            //Handle moving ghost from one container to another
             if (getWiresManager().getContainmentAcceptor().acceptContainment(getParent(),
                                                                              new WiresShape[]{getShape()})) {
                 final Point2D parentAbsLoc = getParent().getGroup().getComputedLocation();
@@ -210,5 +217,19 @@ public class CaseModellerContainmentControl implements WiresContainmentControl {
 
     private ColorMapBackedPicker.PickerOptions getPickerOptions() {
         return containmentControl.getParentPickerControl().getPickerOptions();
+    }
+
+    private CaseModellerShape getContainmentShape() {
+
+        Collection<WiresShape> shapeList = getWiresManager().getShapesMap().values();
+
+        for (WiresShape shape : shapeList) {
+            if (shape instanceof CaseModellerShape
+                    && ((CaseModellerShape) shape).getMinWidth() >= 500
+                    && ((CaseModellerShape) shape).getMinHeight() >= 500) {
+                return (CaseModellerShape) shape;
+            }
+        }
+        return null;
     }
 }

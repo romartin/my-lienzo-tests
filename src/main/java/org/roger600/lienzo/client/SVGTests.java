@@ -31,5 +31,8 @@ public class SVGTests  extends FlowPanel implements MyLienzoTest {
         return picture;
     }
 
-
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

@@ -464,4 +464,8 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
         GWT.log(message);
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

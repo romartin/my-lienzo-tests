@@ -72,4 +72,8 @@ public class ImagesTests extends FlowPanel implements MyLienzoTest, HasMediators
 
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

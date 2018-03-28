@@ -218,4 +218,9 @@ public class BPMNIconsTests extends FlowPanel implements MyLienzoTest {
                 .setDraggable(false);
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
+
 }

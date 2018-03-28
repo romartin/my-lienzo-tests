@@ -58,5 +58,9 @@ public class DeleteChildTests extends FlowPanel implements MyLienzoTest {
         });
         layer.add(button);
     }
-    
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

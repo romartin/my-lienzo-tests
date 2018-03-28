@@ -66,4 +66,8 @@ public class FontTests extends FlowPanel implements MyLienzoTest, HasMediators, 
         return shape;
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

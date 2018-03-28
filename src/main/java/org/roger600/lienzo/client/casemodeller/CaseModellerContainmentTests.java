@@ -85,4 +85,8 @@ public class CaseModellerContainmentTests extends FlowPanel implements MyLienzoT
         return label;
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

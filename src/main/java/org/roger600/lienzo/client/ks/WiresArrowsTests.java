@@ -287,4 +287,9 @@ public class WiresArrowsTests extends FlowPanel implements MyLienzoTest {
     private final PolyLine createPolyline(final double... points) {
         return new PolyLine(Point2DArray.fromArrayOfDouble(points)).setCornerRadius(5).setDraggable(true);
     }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

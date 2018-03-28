@@ -152,4 +152,8 @@ public class MagnetsAndCPsTests extends FlowPanel implements MyLienzoTest, HasMe
         GWT.log( s );
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

@@ -194,4 +194,9 @@ public class WiresResizesTests extends FlowPanel implements MyLienzoTest, HasBut
     private WiresShape bottom() {
         return create( "#CCCC00", SIZE, BOTTOM );
     }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

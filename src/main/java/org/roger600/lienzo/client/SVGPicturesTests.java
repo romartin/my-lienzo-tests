@@ -224,4 +224,9 @@ public class SVGPicturesTests implements MyLienzoTest,
                 width > 0 ? targetWidth / width : 1,
                 height > 0 ? targetHeight / height : 1};
     }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

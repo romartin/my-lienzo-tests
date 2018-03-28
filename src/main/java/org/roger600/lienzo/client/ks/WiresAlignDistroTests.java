@@ -85,5 +85,9 @@ public class WiresAlignDistroTests extends FlowPanel implements MyLienzoTest {
         index.addShape(star1);
 
     }
-    
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

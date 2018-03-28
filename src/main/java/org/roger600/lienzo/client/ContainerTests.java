@@ -67,4 +67,8 @@ public class ContainerTests extends FlowPanel implements MyLienzoTest, HasMediat
         // GWT.log(message);
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

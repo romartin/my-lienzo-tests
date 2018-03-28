@@ -149,5 +149,8 @@ public class ChildCircleResizeTests extends FlowPanel implements MyLienzoTest, H
         // GWT.log( s );
     }
 
-
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

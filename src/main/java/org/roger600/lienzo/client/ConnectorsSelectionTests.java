@@ -283,5 +283,8 @@ public class ConnectorsSelectionTests extends FlowPanel implements MyLienzoTest,
         connectionAllowedButton.setTitle(t);
     }
 
-
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

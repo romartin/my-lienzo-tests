@@ -1,13 +1,19 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.core.image.ImageShapeLoadedHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Picture;
 import com.ait.lienzo.client.core.shape.SVGPath;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
-import com.ait.lienzo.client.core.shape.wires.event.*;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresMoveHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeEndHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStartHandler;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepEvent;
+import com.ait.lienzo.client.core.shape.wires.event.WiresResizeStepHandler;
 import com.ait.lienzo.client.core.types.BoundingBox;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
@@ -137,5 +143,10 @@ public class UXSVGTests extends FlowPanel implements MyLienzoTest, HasMediators,
 
     private void log( String s ) {
         GWT.log( s );
+    }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
     }
 }

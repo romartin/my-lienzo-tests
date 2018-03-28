@@ -204,5 +204,8 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButton
         lienzoPanel.setPixelSize(tw, th);
     }
 
-
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

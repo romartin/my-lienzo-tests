@@ -177,4 +177,8 @@ public class GlyphPositionsAndScaleTests extends FlowPanel implements MyLienzoTe
         return result;
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

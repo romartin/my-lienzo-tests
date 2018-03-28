@@ -360,4 +360,9 @@ public class CardinalIntersectKSTests implements MyLienzoTest {
         container.add(new Circle(3).setLocation(p).setFillColor(ColorName.RED).setStrokeColor(ColorName.RED));
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
+
 }

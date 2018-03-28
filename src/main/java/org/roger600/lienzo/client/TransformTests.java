@@ -2,10 +2,13 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeDragMoveEvent;
 import com.ait.lienzo.client.core.event.NodeDragMoveHandler;
-import com.ait.lienzo.client.core.mediator.*;
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.client.core.mediator.EventFilter;
+import com.ait.lienzo.client.core.mediator.IEventFilter;
+import com.ait.lienzo.client.core.mediator.Mediators;
+import com.ait.lienzo.client.core.mediator.MousePanMediator;
+import com.ait.lienzo.client.core.mediator.MouseWheelZoomMediator;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.types.Transform;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
@@ -139,5 +142,10 @@ public class TransformTests extends FlowPanel implements MyLienzoTest, HasButton
         } else {
             GWT.log( title + " Transform is NULL." );
         }
+    }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
     }
 }

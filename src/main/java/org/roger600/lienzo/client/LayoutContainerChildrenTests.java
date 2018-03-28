@@ -125,4 +125,8 @@ public class LayoutContainerChildrenTests extends FlowPanel implements MyLienzoT
         layer.batch();
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

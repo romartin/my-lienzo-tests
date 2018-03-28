@@ -2,15 +2,13 @@ package org.roger600.lienzo.client;
 
 import com.ait.lienzo.client.core.event.NodeDragEndEvent;
 import com.ait.lienzo.client.core.event.NodeDragEndHandler;
-import com.ait.lienzo.client.core.mediator.*;
-import com.ait.lienzo.client.core.shape.*;
-import com.ait.lienzo.client.core.shape.wires.*;
-import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.client.core.mediator.EventFilter;
+import com.ait.lienzo.client.core.mediator.IEventFilter;
+import com.ait.lienzo.client.core.shape.Layer;
+import com.ait.lienzo.client.core.shape.Rectangle;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
@@ -55,4 +53,8 @@ public class DragHandlersTests extends FlowPanel implements MyLienzoTest, HasBut
 
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

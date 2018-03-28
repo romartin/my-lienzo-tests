@@ -166,4 +166,9 @@ public class AutoMagnetsConnectorsTests extends FlowPanel implements MyLienzoTes
         layer.add(line);
         return line;
     }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

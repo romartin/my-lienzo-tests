@@ -136,4 +136,8 @@ public class CardinalIntersectSimpleTest implements MyLienzoTest {
         }
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

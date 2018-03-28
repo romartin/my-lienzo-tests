@@ -112,5 +112,9 @@ public class WiresRingTests extends FlowPanel implements MyLienzoTest, HasMediat
                 } );
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 
 }

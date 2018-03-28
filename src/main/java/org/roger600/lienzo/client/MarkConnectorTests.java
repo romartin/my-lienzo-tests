@@ -118,5 +118,9 @@ public class MarkConnectorTests extends FlowPanel implements MyLienzoTest, HasMe
         layer.add( line );
         return line;
     }
-    
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

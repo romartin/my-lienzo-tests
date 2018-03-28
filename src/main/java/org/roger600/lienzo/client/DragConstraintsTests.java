@@ -104,4 +104,8 @@ public class DragConstraintsTests extends FlowPanel implements MyLienzoTest, Has
 
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

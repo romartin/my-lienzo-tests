@@ -1,5 +1,7 @@
 package org.roger600.lienzo.client.ks;
 
+import java.util.Map;
+
 import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
 import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.Layer;
@@ -9,8 +11,6 @@ import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.google.gwt.user.client.ui.FlowPanel;
 import org.roger600.lienzo.client.HasMediators;
 import org.roger600.lienzo.client.MyLienzoTest;
-
-import java.util.Map;
 
 public class MultiPathResizeTests extends FlowPanel implements MyLienzoTest, HasMediators {
 
@@ -92,5 +92,9 @@ public class MultiPathResizeTests extends FlowPanel implements MyLienzoTest, Has
         layer.add(m_multi);
 
     }
-    
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

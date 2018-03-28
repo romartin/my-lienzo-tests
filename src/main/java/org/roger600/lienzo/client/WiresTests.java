@@ -311,4 +311,8 @@ public class WiresTests extends FlowPanel implements MyLienzoTest, HasMediators 
         // GWT.log(message);
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

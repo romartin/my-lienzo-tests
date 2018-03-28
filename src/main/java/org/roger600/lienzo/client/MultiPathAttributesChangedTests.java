@@ -1,19 +1,23 @@
 package org.roger600.lienzo.client;
 
+import java.util.Map;
+
 import com.ait.lienzo.client.core.Attribute;
-import com.ait.lienzo.client.core.event.*;
+import com.ait.lienzo.client.core.event.AnimationFrameAttributesChangedBatcher;
+import com.ait.lienzo.client.core.event.AttributesChangedEvent;
+import com.ait.lienzo.client.core.event.AttributesChangedHandler;
+import com.ait.lienzo.client.core.event.IAttributesChangedBatcher;
+import com.ait.lienzo.client.core.event.NodeMouseClickEvent;
+import com.ait.lienzo.client.core.event.NodeMouseClickHandler;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
 import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandle;
 import com.ait.lienzo.client.core.shape.wires.IControlHandleList;
 import com.ait.lienzo.client.core.types.BoundingBox;
-import com.ait.lienzo.client.core.types.PathPartList;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.ait.tooling.common.api.flow.Flows;
 import com.google.gwt.core.client.GWT;
-
-import java.util.Map;
 
 import static com.ait.lienzo.client.core.AttributeOp.any;
 
@@ -258,5 +262,10 @@ public class MultiPathAttributesChangedTests implements MyLienzoTest {
                 Attribute.TAIL_DIRECTION,
                 Attribute.EVENT_PROPAGATION_MODE
         };
+    }
+
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
     }
 }

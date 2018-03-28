@@ -287,4 +287,9 @@ public class ConnectionAcceptorsTests extends FlowPanel implements MyLienzoTest,
         mediators.push( new MousePanMediator( panFilters ) );
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
+
 }

@@ -287,4 +287,8 @@ public class BasicWiresShapesTests extends FlowPanel implements MyLienzoTest {
         TestsUtils.addResizeHandlers( shape );
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

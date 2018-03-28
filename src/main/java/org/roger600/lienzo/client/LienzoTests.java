@@ -1,5 +1,7 @@
 package org.roger600.lienzo.client;
 
+import java.util.Arrays;
+
 import com.ait.lienzo.client.core.mediator.EventFilter;
 import com.ait.lienzo.client.core.mediator.IEventFilter;
 import com.ait.lienzo.client.core.mediator.Mediators;
@@ -101,9 +103,12 @@ public class LienzoTests implements EntryPoint {
 
         RootPanel.get().add( mainPanel );
 
+        Arrays.sort(TESTS);
         for ( final MyLienzoTest test : TESTS ) {
 
             final Button button = new Button( test.getClass().getSimpleName() );
+            button.setSize("175px", "40px");
+
             button.addClickHandler( new ClickHandler() {
                 @Override
                 public void onClick( ClickEvent clickEvent ) {

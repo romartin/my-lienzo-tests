@@ -150,4 +150,8 @@ public class MediatorsTests2 extends FlowPanel implements MyLienzoTest {
         return line;
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

@@ -106,4 +106,8 @@ public class DockingTests extends FlowPanel implements MyLienzoTest, HasMediator
         
     }
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }

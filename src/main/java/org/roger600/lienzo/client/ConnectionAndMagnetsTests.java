@@ -53,6 +53,11 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
     private boolean skipCentralMagnet = false;
 
     @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
+
+    @Override
     public void setButtonsPanel(Panel panel) {
 
         labelRed = new Label(getRedLabelText());

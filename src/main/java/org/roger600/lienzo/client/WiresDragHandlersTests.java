@@ -100,6 +100,9 @@ public class WiresDragHandlersTests extends FlowPanel implements MyLienzoTest, H
         } );
 
     }
-    
 
+    @Override
+    public int compareTo(MyLienzoTest other) {
+        return this.getClass().getSimpleName().compareTo(other.getClass().getSimpleName());
+    }
 }
