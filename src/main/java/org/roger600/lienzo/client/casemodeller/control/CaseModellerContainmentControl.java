@@ -4,6 +4,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresContainer;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.handlers.WiresContainmentControl;
+import com.ait.lienzo.client.core.shape.wires.handlers.WiresParentPickerControl;
 import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresContainmentControlImpl;
 import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresParentPickerControlImpl;
 import com.ait.lienzo.client.core.shape.wires.picker.ColorMapBackedPicker;
@@ -56,9 +57,10 @@ public class CaseModellerContainmentControl implements WiresContainmentControl {
         m_origin_shape_index = getShapeIndex();
         m_ghost = ((AbstractCaseModellerShape) getShape()).getGhost();
 
-        getPickerOptions().getShapesToSkip().clear();
+        final WiresParentPickerControl.Index index = containmentControl.getParentPickerControl().getIndex();
+        index.clear();
         if (null != m_ghost) {
-            getPickerOptions().getShapesToSkip().add(m_ghost);
+            index.addShapeToSkip(m_ghost);
         }
 
         if ((getParent() instanceof AbstractCaseModellerShape)) {
@@ -208,7 +210,4 @@ public class CaseModellerContainmentControl implements WiresContainmentControl {
         m_ghost = null;
     }
 
-    private ColorMapBackedPicker.PickerOptions getPickerOptions() {
-        return containmentControl.getParentPickerControl().getPickerOptions();
-    }
 }
