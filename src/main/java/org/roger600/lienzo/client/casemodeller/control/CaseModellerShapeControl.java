@@ -94,6 +94,12 @@ public class CaseModellerShapeControl implements WiresShapeControl {
     }
 
     @Override
+    public void destroy()
+    {
+        shapeControl.destroy();
+    }
+
+    @Override
     public void onMouseClick(MouseEvent event) {
         shapeControl.onMouseClick(event);
     }

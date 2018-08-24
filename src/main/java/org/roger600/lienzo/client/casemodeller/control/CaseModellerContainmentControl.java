@@ -60,7 +60,7 @@ public class CaseModellerContainmentControl implements WiresContainmentControl {
         final WiresParentPickerControl.Index index = containmentControl.getParentPickerControl().getIndex();
         index.clear();
         if (null != m_ghost) {
-            index.addShapeToSkip(m_ghost);
+            index.exclude(m_ghost);
         }
 
         if ((getParent() instanceof AbstractCaseModellerShape)) {
@@ -150,6 +150,12 @@ public class CaseModellerContainmentControl implements WiresContainmentControl {
     @Override
     public void reset() {
         restoreDraggedShape();
+    }
+
+    @Override
+    public void destroy()
+    {
+        containmentControl.destroy();
     }
 
     private WiresContainer getParent() {
