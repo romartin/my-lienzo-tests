@@ -1,6 +1,6 @@
 package org.roger600.lienzo.client;
 
-import com.ait.lienzo.client.widget.LienzoPanel;
+import com.ait.lienzo.client.widget.panel.LienzoPanel;
 
 public interface NeedsThePanel {
 

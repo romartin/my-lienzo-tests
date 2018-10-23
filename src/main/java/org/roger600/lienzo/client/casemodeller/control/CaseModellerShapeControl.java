@@ -12,7 +12,6 @@ import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresMagnetsControlI
 import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresParentPickerCachedControl;
 import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresShapeControlImpl;
 import com.ait.lienzo.client.core.shape.wires.picker.ColorMapBackedPicker;
-import com.ait.lienzo.client.core.types.BoundingBox;
 import com.ait.lienzo.client.core.types.Point2D;
 
 public class CaseModellerShapeControl implements WiresShapeControl {
@@ -30,11 +29,6 @@ public class CaseModellerShapeControl implements WiresShapeControl {
                                                  new WiresMagnetsControlImpl(shape),
                                                  null,
                                                  new CaseModellerContainmentControl(parentPicker));
-    }
-
-    @Override
-    public void setBoundsConstraint(BoundingBox boundingBox) {
-        throw new UnsupportedOperationException("Case Modeller shapes do not support bound constraints.");
     }
 
     @Override

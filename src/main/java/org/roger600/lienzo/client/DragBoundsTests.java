@@ -14,11 +14,13 @@ import com.ait.lienzo.client.core.shape.Rectangle;
 import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
 import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
 import com.ait.lienzo.client.core.shape.wires.MagnetManager;
+import com.ait.lienzo.client.core.shape.wires.OptionalBounds;
 import com.ait.lienzo.client.core.shape.wires.SelectionManager;
 import com.ait.lienzo.client.core.shape.wires.WiresConnector;
 import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
+import com.ait.lienzo.client.core.shape.wires.handlers.WiresBoundsConstraintControl;
 import com.ait.lienzo.client.core.shape.wires.handlers.WiresShapeControl;
 import com.ait.lienzo.client.core.types.BoundingBox;
 import com.ait.lienzo.client.core.types.DragBounds;
@@ -88,13 +90,18 @@ public class DragBoundsTests extends FlowPanel implements MyLienzoTest,
         /*taskGroup.setDragConstraints(new DragBoundsConstraintEnforcer(taskNodeShape.getGroup(),
                                                                       taskGroup.getDragConstraints()));*/
 
-        final BoundingBox locBounds = new BoundingBox(0,
-                                                      0,
-                                                      LienzoTests.WIDE,
-                                                      LienzoTests.HIGH);
-        taskShapeControl.setBoundsConstraint(locBounds);
-        parentShapeControl.setBoundsConstraint(locBounds);
-        wires_manager.getSelectionManager().getControl().setBoundsConstraint(locBounds);
+        final OptionalBounds locBounds = OptionalBounds.create(0,
+                                                         0,
+                                                         LienzoTests.WIDE,
+                                                         LienzoTests.HIGH);
+
+        if (taskShapeControl instanceof WiresBoundsConstraintControl.SupportsOptionalBounds) {
+            ((WiresBoundsConstraintControl.SupportsOptionalBounds) taskShapeControl).setLocationBounds(locBounds);
+        }
+
+        if (parentShapeControl instanceof WiresBoundsConstraintControl.SupportsOptionalBounds) {
+            ((WiresBoundsConstraintControl.SupportsOptionalBounds) parentShapeControl).setLocationBounds(locBounds);
+        }
 
         wires_manager.getSelectionManager().setSelectionShapeProvider(new CustomShapeSelectionProvider());
 

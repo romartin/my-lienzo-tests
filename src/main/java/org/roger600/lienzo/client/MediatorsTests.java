@@ -18,8 +18,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.client.core.types.Transform;
-import com.ait.lienzo.client.widget.LienzoPanel;
-import com.ait.lienzo.shared.core.types.AutoScaleType;
+import com.ait.lienzo.client.widget.panel.LienzoPanel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -133,7 +132,6 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButton
     @Override
     public void setLienzoPanel(final LienzoPanel lienzoPanel) {
         this.lienzoPanel = lienzoPanel;
-        lienzoPanel.setAutoScale(AutoScaleType.WIDTH);
     }
 
     @Override
@@ -197,8 +195,8 @@ public class MediatorsTests extends FlowPanel implements MyLienzoTest, HasButton
 
         transform.scale(factor, factor);
 
-        final int w = lienzoPanel.getWidth();
-        final int h = lienzoPanel.getHeight();
+        final int w = lienzoPanel.getWidthPx();
+        final int h = lienzoPanel.getHeightPx();
         final int tw = (int) (w - ( w * factor));
         final int th = (int) (h - ( h * factor));
         lienzoPanel.setPixelSize(tw, th);

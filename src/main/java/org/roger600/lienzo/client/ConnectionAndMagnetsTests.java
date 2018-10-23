@@ -21,6 +21,7 @@ import com.ait.lienzo.client.core.shape.wires.WiresMagnet;
 import com.ait.lienzo.client.core.shape.wires.WiresManager;
 import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.shape.wires.handlers.WiresConnectorControl;
+import com.ait.lienzo.client.core.shape.wires.handlers.impl.WiresConnectorControlImpl;
 import com.ait.lienzo.client.core.types.Point2D;
 import com.ait.lienzo.client.core.types.Point2DArray;
 import com.ait.lienzo.client.widget.DragConstraintEnforcer;
@@ -276,7 +277,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
 
                 connectorControl[0].showControlPoints();
 
-                connectorControl[0].getTailConnectionControl().onMoveStart(dragContext.getDragStartX(),
+                ((WiresConnectorControlImpl)connectorControl[0]).getTailConnectionControl().onMoveStart(dragContext.getDragStartX(),
                                                                            dragContext.getDragStartY());
 
                 newButton.setAlpha(0);
@@ -285,10 +286,10 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
             @Override
             public boolean adjust(Point2D dxy) {
                 if (null != connectorControl[0]) {
-                    boolean adjusted = connectorControl[0].getTailConnectionControl().onMove(dxy.getX(),
+                    boolean adjusted = ((WiresConnectorControlImpl)connectorControl[0]).getTailConnectionControl().onMove(dxy.getX(),
                                                                                              dxy.getY());
                     if (adjusted) {
-                        final Point2D p = connectorControl[0].getTailConnectionControl().getAdjust();
+                        final Point2D p = ((WiresConnectorControlImpl)connectorControl[0]).getTailConnectionControl().getAdjust();
                         GWT.log("ADJUST [" + true + "] TAIL TO [" + p.getX() + ", " + p.getY() + "]");
                         dxy.set(p);
                         return true;
@@ -310,7 +311,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
             @Override
             public void onNodeDragMove(NodeDragMoveEvent event) {
                 GWT.log("MOVE TO [" + event.getX() + ", " + event.getY() + "]");
-                connectorControl[0].getTailConnectionControl().onMove(event.getDragContext().getDragStartX(),
+                ((WiresConnectorControlImpl)connectorControl[0]).getTailConnectionControl().onMove(event.getDragContext().getDragStartX(),
                                                                            event.getDragContext().getDragStartY());
                 connector2.getTailConnection().move(event.getX(), event.getY());
             }
@@ -322,7 +323,7 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
                 GWT.log("DESTROYING NEW CONNECTOR");
                 connector2.getTailConnection().move(event.getX(), event.getY());
                 boolean accepts =
-                        connectorControl[0].getTailConnectionControl().onMoveComplete();
+                        ((WiresConnectorControlImpl)connectorControl[0]).getTailConnectionControl().onMoveComplete();
                 if (accepts) {
                     connectorControl[0].hideControlPoints();
                 } else {
