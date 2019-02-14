@@ -1,9 +1,24 @@
 package org.roger600.lienzo.client;
 
+import java.util.Set;
+
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.MultiPath;
-import com.ait.lienzo.client.core.shape.wires.*;
+import com.ait.lienzo.client.core.shape.wires.IConnectionAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IContainmentAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IControlPointsAcceptor;
+import com.ait.lienzo.client.core.shape.wires.IDockingAcceptor;
+import com.ait.lienzo.client.core.shape.wires.ILocationAcceptor;
+import com.ait.lienzo.client.core.shape.wires.SelectionListener;
+import com.ait.lienzo.client.core.shape.wires.SelectionManager;
+import com.ait.lienzo.client.core.shape.wires.WiresConnector;
+import com.ait.lienzo.client.core.shape.wires.WiresContainer;
+import com.ait.lienzo.client.core.shape.wires.WiresLayer;
+import com.ait.lienzo.client.core.shape.wires.WiresManager;
+import com.ait.lienzo.client.core.shape.wires.WiresShape;
 import com.ait.lienzo.client.core.types.Point2D;
+import com.ait.lienzo.client.core.types.Point2DArray;
+import com.ait.lienzo.shared.core.types.ColorName;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,32 +27,33 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 
-import java.util.Set;
-
 public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, HasMediators, HasButtons
 {
+
     private WiresManager wires_manager;
+    private Layer layer;
 
-    private       boolean isDockingAccept       = true;
+    private boolean isDockingAccept = true;
 
-    private       boolean isContainmentAccept   = true;
+    private boolean isContainmentAccept = true;
 
-    private       boolean isLocationAccept      = true;
+    private boolean isLocationAccept = true;
 
-    private       int     containmentAllowCount = 0;
+    private int containmentAllowCount = 0;
 
-    private final Timer   timer                 = new Timer()
-    {
+    private WiresConnector connector;
+
+    private final Timer timer = new Timer() {
         @Override
-        public void run()
-        {
-            GWT.log("Running timer!");
+        public void run() {
+            log("Running timer!");
             wires_manager.resetContext();
         }
     };
 
     public void test(Layer layer)
     {
+        this.layer = layer;
         wires_manager = WiresManager.get(layer);
 
         //wires_manager.setContainmentAcceptor( IContainmentAcceptor.ALL );
@@ -51,7 +67,7 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
                              parent, children, isContainmentAccept);
                 if (parent instanceof WiresLayer)
                 {
-                    GWT.log("PARENT IS LAYER");
+                    log("PARENT IS LAYER");
                 }
                 return isContainmentAccept;
             }
@@ -106,7 +122,6 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
                                   Point2D[] locations)
             {
                 final boolean accepts = isLocationAccept;
-                log("ACCEPT LOCATION = " + accepts);
                 int i = 0;
                 for (WiresContainer shape : shapes)
                 {
@@ -126,6 +141,37 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
         });
 
         wires_manager.setConnectionAcceptor(IConnectionAcceptor.ALL);
+
+        IControlPointsAcceptor customControlPointsAcceptor = new IControlPointsAcceptor() {
+            IControlPointsAcceptor delegate = IControlPointsAcceptor.ALL;
+
+            @Override
+            public boolean add(WiresConnector connector, int index, Point2D location) {
+                GWT.log("ADDING CP at index [" + index + "] and location [" + location + "]");
+                return delegate.add(connector, index, location);
+            }
+
+            @Override
+            public boolean move(WiresConnector connector, Point2DArray pointsLocation) {
+                int i = 0;
+                String s = "MOVING CPs [";
+                for (Point2D point2D : pointsLocation) {
+                    s += point2D + ",";
+                    i++;
+                }
+
+                s += "]";
+                GWT.log(s);
+                return delegate.move(connector, pointsLocation);
+            }
+
+            @Override
+            public boolean delete(WiresConnector connector, int index) {
+                GWT.log("DELETING CP at index [" + index + "]");
+                return delegate.delete(connector, index);
+            }
+        };
+        wires_manager.setControlPointsAcceptor(customControlPointsAcceptor);
 
         wires_manager.enableSelectionManager();
 
@@ -177,7 +223,7 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
         blueShape.setLocation(new Point2D(startX + 400, startY));
         blueShape.setDraggable(true).getContainer().setUserData("blue");
 
-        WiresShape parentShape = new WiresShape(new MultiPath().rect(0, 0, 300, 300)
+        WiresShape parentShape = new WiresShape(new MultiPath().rect(0, 0, 250, 250)
                                                                .setFillColor("#FFFFFF")
                                                                .setStrokeColor("#000000"));
         wires_manager.register(parentShape);
@@ -194,11 +240,27 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
         TestsUtils.addResizeHandlers(blueShape);
         TestsUtils.addResizeHandlers(parentShape);
 
-        TestsUtils.connect(redShape.getMagnets(),
+
+        add2ndParent(550, 25);
+
+       connector = TestsUtils.connect(redShape.getMagnets(),
                            3,
                            greenShape.getMagnets(),
                            7,
                            wires_manager);
+        connector.getGroup().setUserData("connector1");
+    }
+
+    private void add2ndParent(final double x,
+                              final double y) {
+        WiresShape parentShape = new WiresShape(new MultiPath().rect(0, 0, 500, 300)
+                                                        .setFillColor(ColorName.GREY)
+                                                        .setStrokeColor("#000000"));
+        wires_manager.register(parentShape);
+        parentShape.setLocation(new Point2D(x, y));
+        parentShape.setDraggable(true).getContainer().setUserData("parent2");
+        wires_manager.getMagnetManager().createMagnets(parentShape);
+        TestsUtils.addResizeHandlers(parentShape);
     }
 
     @Override
@@ -291,6 +353,76 @@ public class SelectionManagerTests extends FlowPanel implements MyLienzoTest, Ha
             }
         });
         panel.add(timerButton);
+
+        final Button logConnectorCPs = new Button("Log connector CPs");
+        logConnectorCPs.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                logConnectorCPs();
+            }
+        });
+        panel.add(logConnectorCPs);
+
+        final Button up = new Button("Up");
+        up.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                connector.getGroup().moveUp();
+                layer.batch();
+            }
+        });
+        panel.add(up);
+
+        final Button down = new Button("Down");
+        down.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                connector.getGroup().moveDown();
+                layer.batch();
+            }
+        });
+        panel.add(down);
+
+        final Button bottom = new Button("Bottom");
+        bottom.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                connector.getGroup().moveToBottom();
+                layer.batch();
+            }
+        });
+        panel.add(bottom);
+
+        final Button top = new Button("Top");
+        top.addClickHandler(new ClickHandler()
+        {
+            @Override
+            public void onClick(ClickEvent event)
+            {
+                connector.getGroup().moveToTop();
+                layer.batch();
+            }
+        });
+        panel.add(top);
+
+    }
+
+    private void logConnectorCPs() {
+        Point2DArray controlPoints = connector.getControlPoints();
+        String s = "[";
+        for (Point2D controlPoint : controlPoints) {
+            s += controlPoint + ",";
+        }
+        s += "]";
+        GWT.log("Connector CPs = " + s);
     }
 
     private void logSelectedShapeLocations()

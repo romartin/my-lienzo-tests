@@ -322,14 +322,8 @@ public class ConnectionAndMagnetsTests extends FlowPanel implements MyLienzoTest
             public void onNodeDragEnd(NodeDragEndEvent event) {
                 GWT.log("DESTROYING NEW CONNECTOR");
                 connector2.getTailConnection().move(event.getX(), event.getY());
-                boolean accepts =
                         ((WiresConnectorControlImpl)connectorControl[0]).getTailConnectionControl().onMoveComplete();
-                if (accepts) {
                     connectorControl[0].hideControlPoints();
-                } else {
-                    wiresManager.deregister(connector2);
-                    connector2 = null;
-                }
                 connectorControl[0] = null;
                 newButton
                         .setAlpha(1)

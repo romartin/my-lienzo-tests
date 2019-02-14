@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.roger600.lienzo.client.casemodeller.CaseModellerContainmentTests;
 import org.roger600.lienzo.client.ks.CardinalIntersectKSTests;
 import org.roger600.lienzo.client.ks.MultiPathResizeTests;
 import org.roger600.lienzo.client.ks.WiresAlignDistroTests;
@@ -79,7 +78,6 @@ public class LienzoTests implements EntryPoint {
             new MediatorsTests2(),
             new WiresTests(),
             new MultiPathAttributesChangedTests(),
-            new CaseModellerContainmentTests(),
             // From Lienzo KS
             new WiresAlignDistroTests(),
             new CardinalIntersectKSTests(),
