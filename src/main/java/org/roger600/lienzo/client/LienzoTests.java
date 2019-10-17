@@ -12,11 +12,20 @@ import com.ait.lienzo.client.core.shape.Line;
 import com.ait.lienzo.client.core.types.BoundingBox;
 import com.ait.lienzo.client.widget.panel.LienzoBoundsPanel;
 import com.ait.lienzo.client.widget.panel.LienzoPanel;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelBoundsChangedEvent;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelBoundsChangedEventHandler;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelResizeEvent;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelResizeEventHandler;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelScaleChangedEvent;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelScaleChangedEventHandler;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelScrollEvent;
+import com.ait.lienzo.client.widget.panel.event.LienzoPanelScrollEventHandler;
 import com.ait.lienzo.client.widget.panel.impl.BoundsProviderFactory;
 import com.ait.lienzo.client.widget.panel.scrollbars.ScrollablePanel;
 import com.ait.lienzo.shared.core.types.ColorName;
 import com.ait.tooling.common.api.java.util.function.Consumer;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -54,6 +63,7 @@ public class LienzoTests implements EntryPoint {
     private final IEventFilter[] panFilters = new IEventFilter[]{EventFilter.SHIFT};
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[]{
+            new PerformanceTests(),
             new SelectionManagerTests(),
             new TextWrapTests(),
             new AutoMagnetsConnectorsTests(),
@@ -214,7 +224,31 @@ public class LienzoTests implements EntryPoint {
         testsPanel.getElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
         testsPanel.getElement().getStyle().setBorderColor("#000000");
 
-        final LienzoBoundsPanel panel = new ScrollablePanel(new BoundsProviderFactory.WiresBoundsProvider(), WIDE, HIGH);
+        final ScrollablePanel panel = new ScrollablePanel(new BoundsProviderFactory.WiresBoundsProvider(), WIDE, HIGH);
+        panel.addLienzoPanelBoundsChangedEventHandler(new LienzoPanelBoundsChangedEventHandler() {
+            @Override
+            public void onBoundsChanged(LienzoPanelBoundsChangedEvent event) {
+                GWT.log("[ScrollablePanel] ON BOUNDS CHANGED");
+            }
+        });
+        panel.addLienzoPanelResizeEventHandler(new LienzoPanelResizeEventHandler() {
+            @Override
+            public void onResize(LienzoPanelResizeEvent event) {
+                GWT.log("[ScrollablePanel] ON RESIZE");
+            }
+        });
+        panel.addLienzoPanelScaleChangedEventHandler(new LienzoPanelScaleChangedEventHandler() {
+            @Override
+            public void onScale(LienzoPanelScaleChangedEvent event) {
+                GWT.log("[ScrollablePanel] ON SCALE");
+            }
+        });
+        panel.addLienzoPanelScrollEventHandler(new LienzoPanelScrollEventHandler() {
+            @Override
+            public void onScroll(LienzoPanelScrollEvent event) {
+                GWT.log("[ScrollablePanel] ON SCROLL");
+            }
+        });
         final LienzoPanel lienzoPanel = panel.getLienzoPanel();
         applyGrid(lienzoPanel);
         final Layer layer = new Layer() {
