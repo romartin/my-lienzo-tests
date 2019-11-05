@@ -10,7 +10,6 @@ import com.ait.lienzo.client.core.shape.GridLayer;
 import com.ait.lienzo.client.core.shape.Layer;
 import com.ait.lienzo.client.core.shape.Line;
 import com.ait.lienzo.client.core.types.BoundingBox;
-import com.ait.lienzo.client.widget.panel.LienzoBoundsPanel;
 import com.ait.lienzo.client.widget.panel.LienzoPanel;
 import com.ait.lienzo.client.widget.panel.event.LienzoPanelBoundsChangedEvent;
 import com.ait.lienzo.client.widget.panel.event.LienzoPanelBoundsChangedEventHandler;
@@ -35,10 +34,14 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -63,6 +66,7 @@ public class LienzoTests implements EntryPoint {
     private final IEventFilter[] panFilters = new IEventFilter[]{EventFilter.SHIFT};
 
     private final static MyLienzoTest[] TESTS = new MyLienzoTest[]{
+            new ToolboxTests(),
             new PerformanceTests(),
             new SelectionManagerTests(),
             new TextWrapTests(),
@@ -125,21 +129,25 @@ public class LienzoTests implements EntryPoint {
     private Consumer<KeyPressEvent> keyPressEventConsumer;
 
     public void onModuleLoad() {
+        final boolean isSingleTest = TESTS.length == 1;
+
         buttonsPanel.getElement().getStyle().setMargin(10, Style.Unit.PX);
 
         RootPanel.get().add(mainPanel);
 
-        for (final MyLienzoTest test : TESTS) {
+        if (!isSingleTest) {
+            for (final MyLienzoTest test : TESTS) {
 
-            final Button button = new Button(test.getClass().getSimpleName());
-            button.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent clickEvent) {
-                    createPanelForTest(test);
-                }
-            });
+                final Button button = new Button(test.getClass().getSimpleName());
+                button.addClickHandler(new ClickHandler() {
+                    @Override
+                    public void onClick(ClickEvent clickEvent) {
+                        createPanelForTest(test);
+                    }
+                });
 
-            addButton(button);
+                addButton(button);
+            }
         }
 
         mainPanel.add(buttonsPanel);
@@ -147,6 +155,10 @@ public class LienzoTests implements EntryPoint {
         mainPanel.add(testsPanel);
 
         addKeyboardStuff();
+
+        if (isSingleTest) {
+            createPanelForTest(TESTS[0]);
+        }
     }
 
     private void addKeyboardStuff() {
@@ -228,7 +240,7 @@ public class LienzoTests implements EntryPoint {
         panel.addLienzoPanelBoundsChangedEventHandler(new LienzoPanelBoundsChangedEventHandler() {
             @Override
             public void onBoundsChanged(LienzoPanelBoundsChangedEvent event) {
-                GWT.log("[ScrollablePanel] ON BOUNDS CHANGED");
+                // GWT.log("[ScrollablePanel] ON BOUNDS CHANGED");
             }
         });
         panel.addLienzoPanelResizeEventHandler(new LienzoPanelResizeEventHandler() {
@@ -240,7 +252,7 @@ public class LienzoTests implements EntryPoint {
         panel.addLienzoPanelScaleChangedEventHandler(new LienzoPanelScaleChangedEventHandler() {
             @Override
             public void onScale(LienzoPanelScaleChangedEvent event) {
-                GWT.log("[ScrollablePanel] ON SCALE");
+                // GWT.log("[ScrollablePanel] ON SCALE");
             }
         });
         panel.addLienzoPanelScrollEventHandler(new LienzoPanelScrollEventHandler() {
@@ -251,6 +263,24 @@ public class LienzoTests implements EntryPoint {
         });
         final LienzoPanel lienzoPanel = panel.getLienzoPanel();
         applyGrid(lienzoPanel);
+
+
+
+
+        lienzoPanel.addDomHandler(new MouseDownHandler() {
+            @Override
+            public void onMouseDown(MouseDownEvent event) {
+                GWT.log("**** REQUEST STARTED");
+            }
+        }, MouseDownEvent.getType());
+
+        lienzoPanel.addDomHandler(new MouseUpHandler() {
+            @Override
+            public void onMouseUp(MouseUpEvent event) {
+                GWT.log("**** REQUEST COMPLETED");
+            }
+        }, MouseUpEvent.getType());
+
         final Layer layer = new Layer() {
             @Override
             protected void drawWithoutTransforms(Context2D context, double alpha, BoundingBox bounds) {

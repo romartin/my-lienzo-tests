@@ -120,7 +120,7 @@ public class TestsUtils
                                WiresManager wiresManager)
     {
         WiresMagnet m0_1 = magnets0.getMagnet(i0_1);
-        WiresMagnet m1_1 = magnets1.getMagnet(i1_1);
+        WiresMagnet m1_1 = null != magnets1 ? magnets1.getMagnet(i1_1) : null;
 
         double x0, x1, y0, y1;
 
@@ -145,8 +145,8 @@ public class TestsUtils
         AbstractDirectionalMultiPointShape<?> line;
         x0 = m0_1.getControl().getX();
         y0 = m0_1.getControl().getY();
-        x1 = m1_1.getControl().getX();
-        y1 = m1_1.getControl().getY();
+        x1 = null != m1_1 ? m1_1.getControl().getX() : x0 + 50;
+        y1 = null != m1_1 ? m1_1.getControl().getY() : y0 + 50;
         // Orthogonal.
         line = createPolyLine(
                 x0,
